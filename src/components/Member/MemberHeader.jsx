@@ -24,7 +24,7 @@ const Header = styled.div`
     width: 100%;
     height: 5rem;
     border-style: solid;
-    border-width: 0 0 1px 0;
+    border-width: 0 0 1.2px 0;
     border-color: #9B9B9B;
     display: flex;
     align-items: center;

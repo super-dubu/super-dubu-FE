@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
 import logo from '../../img/logo.png'
+import { useNavigate } from 'react-router-dom';
 
 function MemberLogin() {
+    const navigate = useNavigate();
   return (
     <div>
         <Header>
@@ -11,7 +13,7 @@ function MemberLogin() {
         <Container>
             <LoginText>DUBU LOGIN</LoginText>
             <KeyBox placeholder='공인중개사 Key를 입력하세요' />
-            <LoginButton>LOGIN</LoginButton>
+            <LoginButton onClick={() => navigate('/member/main')}>LOGIN</LoginButton>
         </Container>
     </div>
   )

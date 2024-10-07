@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/member/login" element={<MemberLogin />}/>
         <Route path="/member/mypage" element={<MemberMypage />} />
-        <Route path="/member/main" element={<MemberMain />} />
+        <Route path="/member" element={<MemberMain />} />
       </Routes>
     </div>
     </BrowserRouter>

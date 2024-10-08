@@ -1,8 +1,9 @@
 import React from 'react'
+import Header from '../Member/MemberHeader'
 
 function MemberMypage() {
   return (
-    <div>MemberMypage</div>
+    <Header userName='오채린' showLogout={true}/>
   )
 }
 

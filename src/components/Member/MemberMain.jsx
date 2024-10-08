@@ -8,7 +8,7 @@ function MemberMain() {
 
   return (
     <div>
-        <Header userName="오채린" />
+        <Header userName="오채린" showLogout={false}/>
         <Container>
             <SideBar>
                 <MenuBar>

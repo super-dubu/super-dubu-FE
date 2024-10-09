@@ -13,7 +13,7 @@ function MemberLogin() {
         <Container>
             <LoginText>DUBU LOGIN</LoginText>
             <KeyBox placeholder='공인중개사 Key를 입력하세요' />
-            <LoginButton onClick={() => navigate('/member/main')}>LOGIN</LoginButton>
+            <LoginButton onClick={() => navigate('/member')}>LOGIN</LoginButton>
         </Container>
     </div>
   )
@@ -26,7 +26,7 @@ const Header = styled.div`
     height: 5rem;
     /* background-color: grey; */
     border-style: solid;
-    border-width: 0 0 1px 0;
+    border-width: 0 0 1.2px 0;
     border-color: #9B9B9B;
     display: flex;
     align-items: center;

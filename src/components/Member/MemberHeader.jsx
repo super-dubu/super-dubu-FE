@@ -16,7 +16,7 @@ function MemberHeader({ userName, showLogout }) {
         {showLogout ? (
           <Logout onClick={() => navigate('/')}>Logout</Logout>
         ) : (
-          <MyPage onClick={() => navigate('/member/mypage')}>My Page</MyPage>
+          <MyPage onClick={() => navigate('/member/mypage') }>My Page</MyPage>
         )}
       </RightContainer>
     </Header>

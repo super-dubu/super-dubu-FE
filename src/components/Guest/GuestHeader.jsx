@@ -7,14 +7,10 @@ const GuestHeader = () => {
 
   return (
     <Header>
-      <Logo src={logo} />
+      <Logo src={logo} onClick={() => navigate("/")} />
       <RightContainer>
-        <StyledButton onClick={() => navigate("/guest/sell")}>
-          지도
-        </StyledButton>
-        <StyledButton onClick={() => navigate("/guest/main")}>
-          관심목록
-        </StyledButton>
+        <StyledButton onClick={() => navigate("/sell")}>지도</StyledButton>
+        <StyledButton>관심목록</StyledButton>
         <StyledLogin onClick={() => navigate("/member/login")}>
           중개사 Login
         </StyledLogin>
@@ -39,6 +35,7 @@ const Logo = styled.img`
   padding-left: 1.5rem;
   width: 130px;
   height: auto;
+  cursor: pointer;
 `;
 
 const RightContainer = styled.div`

@@ -8,7 +8,7 @@ function MemberMypage({userName}) {
     <div>
       <Header userName={'오채린'} showLogout={true}/>
       <Container>
-        <SideBar />
+        <SideBar userName={'오채린'}/>
         <Content>
           <BookingList>
             <BookingTitle>상담 예약 내역</BookingTitle>

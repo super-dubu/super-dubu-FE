@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../Member/MemberHeader';
-import Kmap from '../Member/Kmap';
+import Kmap from '../api/KakaoMap';
 import styled from 'styled-components';
 
 function MemberMain() {

@@ -2,13 +2,13 @@ import React from 'react'
 import styled from 'styled-components';
 import Image from '../../img/image.png';
 
-function MemberSide() {
+function MemberSide({userName}) {
   return (
     <div>
         <SideInfo>
         <IDPhoto src={Image}/>
         <NameBox>
-          <Name> 오채린 <Position>공인 중개사</Position></Name>
+          <Name> {userName} <Position>공인 중개사</Position></Name>
           <ShopInfo>두부 공인 중개사<br /> (동작구 상도로 369)</ShopInfo>
         </NameBox>
         <Divider />
@@ -29,7 +29,7 @@ const SideInfo = styled.div`
   border-style: solid;
   border-width: 0 1.2px 0 0;
   border-color: #9b9b9b;
-  width: 30rem;
+  width: 25rem;
   height: 100vh;
   display: flex;
   flex-direction: column;

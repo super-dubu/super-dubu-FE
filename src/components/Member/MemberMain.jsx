@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import Header from '../Member/MemberHeader';
-import Kmap from '../api/KakaoMap';
-import styled from 'styled-components';
-
+import React, { useState } from "react";
+import Header from "../Member/MemberHeader";
+import Kmap from "../api/KakaoMap";
+import styled from "styled-components";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물"); // 기본 선택된 버튼

@@ -9,6 +9,8 @@ const GuestHeader = () => {
     <Header>
       <Logo src={logo} onClick={() => navigate("/")} />
       <RightContainer>
+        <StyledButton onClick={() => navigate("/QR")}>QR</StyledButton>
+        <StyledButton onClick={() => navigate("/book")}>예약</StyledButton>
         <StyledButton onClick={() => navigate("/sell")}>지도</StyledButton>
         <StyledButton>관심목록</StyledButton>
         <StyledLogin onClick={() => navigate("/member/login")}>

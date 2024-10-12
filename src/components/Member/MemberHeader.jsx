@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import logo from '../../img/logo.png';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import logo from "../../img/logo.png";
+import { useNavigate } from "react-router-dom";
 
 function MemberHeader({ userName, showLogout }) {
   const navigate = useNavigate();
@@ -14,9 +14,9 @@ function MemberHeader({ userName, showLogout }) {
           <UserName>{userName}</UserName> 님, 반갑습니다!
         </MemberText>
         {showLogout ? (
-          <Logout onClick={() => navigate('/')}>Logout</Logout>
+          <Logout onClick={() => navigate("/")}>Logout</Logout>
         ) : (
-          <MyPage onClick={() => navigate('/member/mypage') }>My Page</MyPage>
+          <MyPage onClick={() => navigate("/member/mypage")}>My Page</MyPage>
         )}
       </RightContainer>
     </Header>
@@ -70,10 +70,10 @@ const Logout = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #CACACA;
+  color: #cacaca;
   font-size: 15px;
   height: 25px;
   width: 80px;
-  border: 1px solid #CACACA;
+  border: 1px solid #cacaca;
   cursor: pointer; /* 마우스 오버 시 포인터 변경 */
 `;

@@ -1,15 +1,21 @@
-import React from 'react'
-import styled from 'styled-components';
-import Image from '../../img/image.png';
+import React from "react";
+import styled from "styled-components";
+import Image from "../../img/image.png";
 
 function MemberSide() {
   return (
     <div>
-        <SideInfo>
-        <IDPhoto src={Image}/>
+      <SideInfo>
+        <IDPhoto src={Image} />
         <NameBox>
-          <Name> 오채린 <Position>공인 중개사</Position></Name>
-          <ShopInfo>두부 공인 중개사<br /> (동작구 상도로 369)</ShopInfo>
+          <Name>
+            {" "}
+            오채린 <Position>공인 중개사</Position>
+          </Name>
+          <ShopInfo>
+            두부 공인 중개사
+            <br /> (동작구 상도로 369)
+          </ShopInfo>
         </NameBox>
         <Divider />
         <SideMenu>
@@ -20,10 +26,10 @@ function MemberSide() {
         </SideMenu>
       </SideInfo>
     </div>
-  )
+  );
 }
 
-export default MemberSide
+export default MemberSide;
 
 const SideInfo = styled.div`
   border-style: solid;
@@ -52,7 +58,6 @@ const NameBox = styled.div`
   border-radius: 20px;
   text-align: center;
   gap: 1rem;
-  
 `;
 
 const Name = styled.div`
@@ -64,7 +69,7 @@ const Name = styled.div`
 
 const Position = styled.span`
   font-size: 18px;
-  color: #ADADAD;
+  color: #adadad;
 `;
 
 const ShopInfo = styled.div`
@@ -73,7 +78,7 @@ const ShopInfo = styled.div`
 `;
 
 const Divider = styled.hr`
-  color : #9B9B9B;
+  color: #9b9b9b;
   width: 85%;
   margin-top: 2rem;
 `;

@@ -144,7 +144,10 @@ const Item = styled.div`
 `;
 
 const ItemImg = styled.img`
+  width: 100px;
+  height: 100px;
   border-radius: 5px;
+  object-fit: cover;
 `;
 
 const ItemDetails = styled.div`

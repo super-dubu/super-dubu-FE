@@ -12,7 +12,6 @@ const GuestHeader = () => {
         <StyledButton onClick={() => navigate("/QR")}>QR</StyledButton>
         <StyledButton onClick={() => navigate("/book")}>예약</StyledButton>
         <StyledButton onClick={() => navigate("/sell")}>지도</StyledButton>
-        <StyledButton>관심목록</StyledButton>
         <StyledLogin onClick={() => navigate("/member/login")}>
           중개사 Login
         </StyledLogin>
@@ -64,6 +63,8 @@ const StyledLogin = styled.div`
   border: 1px solid #cacaca;
   border-radius: 10px;
   height: 40px;
+  width: 100px; /* 버튼의 너비를 설정하여 일관된 크기를 유지 */
+  display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center; /* 텍스트를 중앙에 배치 */
 `;

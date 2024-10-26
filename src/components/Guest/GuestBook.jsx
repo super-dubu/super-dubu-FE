@@ -1,8 +1,20 @@
+import React, { useState } from "react";
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
 
 const GuestBook = () => {
+  const [isDateModalOpen, setDateModalOpen] = useState(false);
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
   const navigate = useNavigate();
+
+  const handleReservationClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSuccessModalOpen(true);
+  };
 
   return (
     <>
@@ -19,20 +31,55 @@ const GuestBook = () => {
 
           <FormGroup>
             <Label>연락처</Label>
-            <Input type="text" placeholder="010 - xxxx - xxxx" />
+            <Input
+              type="tel"
+              placeholder="010 - xxxx - xxxx"
+              pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+              maxLength="17"
+              onInput={(e) => {
+                let value = e.target.value.replace(/[^0-9]/g, ""); // 숫자만 남기기
+                if (value.length > 3 && value.length <= 7) {
+                  value = `${value.slice(0, 3)} - ${value.slice(3)}`;
+                } else if (value.length > 7) {
+                  value = `${value.slice(0, 3)} - ${value.slice(
+                    3,
+                    7
+                  )} - ${value.slice(7)}`;
+                }
+                e.target.value = value;
+              }}
+            />
           </FormGroup>
 
           <FormGroup>
             <Label>예약 날짜</Label>
             <InputWrapper>
-              <Input type="text" placeholder="YY. MM. DD" />
-              <IconWrapper onClick={() => navigate("date")}>📅</IconWrapper>
+              <Input
+                type="text"
+                value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+                placeholder="YY. MM. DD"
+                readOnly
+              />
+              <IconWrapper onClick={() => setDateModalOpen(true)}>
+                📅
+              </IconWrapper>
             </InputWrapper>
           </FormGroup>
 
           <FormGroup>
             <Label>예약 시간</Label>
-            <Input type="text" placeholder="00 : 00" />
+            <Input
+              type="text"
+              placeholder="00 : 00"
+              maxLength="7"
+              onInput={(e) => {
+                let value = e.target.value.replace(/[^0-9:]/g, " ");
+                if (value.length === 2 && !value.includes(" : ")) {
+                  value += " : ";
+                }
+                e.target.value = value;
+              }}
+            />
           </FormGroup>
 
           <FormGroup>
@@ -40,9 +87,42 @@ const GuestBook = () => {
             <TextArea placeholder="원하는 매물의 조건 등을 남겨주세요!" />
           </FormGroup>
 
-          <Button onClick={() => navigate("/success")}>예약 신청하기</Button>
+          <Button onClick={handleReservationClick}>예약 신청하기</Button>
         </Form>
       </FormContainer>
+
+      {isDateModalOpen && (
+        <ModalOverlay onClick={() => setDateModalOpen(false)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <h3>날짜 선택</h3>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
+                setDateModalOpen(false);
+              }}
+              inline
+            />
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {isSuccessModalOpen && (
+        <ModalOverlay onClick={() => setSuccessModalOpen(false)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <h3>예약 성공</h3>
+            <p>예약이 성공적으로 신청되었습니다!</p>
+            <button
+              onClick={() => {
+                setSuccessModalOpen(false);
+                navigate("/sell");
+              }}
+            >
+              확인
+            </button>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </>
   );
 };
@@ -114,6 +194,7 @@ const IconWrapper = styled.span`
   position: absolute;
   right: 1rem;
   font-size: 18px;
+  cursor: pointer;
 `;
 
 const TextArea = styled.textarea`
@@ -136,5 +217,43 @@ const Button = styled.button`
 
   &:hover {
     background-color: #999999;
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #6e7d9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #999999;
+    }
   }
 `;

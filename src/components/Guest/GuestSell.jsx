@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import Kmap from "../api/KakaoMap";
 
+import room from "../../img/room.png";
+import office from "../../img/officetel.png";
+import apart from "../../img/apartment.png";
+import house from "../../img/house.png";
+import shop from "../../img/shop.png";
+
 const GuestSell = () => {
   return (
     <Container>
@@ -12,26 +18,45 @@ const GuestSell = () => {
       </FilterBar>
       <MainSection>
         <Sidebar>
+          <ItemImg src={room} />
           <Category>원/투룸</Category>
+          <ItemImg src={office} />
           <Category>오피스텔</Category>
+          <ItemImg src={apart} />
           <Category>아파트</Category>
+          <ItemImg src={house} />
           <Category>주택/빌라</Category>
+          <ItemImg src={shop} />
           <Category>상가/사무실</Category>
         </Sidebar>
         <Content>
           <ItemList>
             <Item>
-              <img src="https://via.placeholder.com/150" alt="item" />
+              <ItemImg src="https://via.placeholder.com/150" alt="item" />
               <ItemDetails>
                 <ItemInfo>월세 2000/60 원룸</ItemInfo>
                 <ItemLocation>서울대입구역 근처</ItemLocation>
               </ItemDetails>
             </Item>
             <Item>
-              <img src="https://via.placeholder.com/150" alt="item" />
+              <ItemImg src="https://via.placeholder.com/150" alt="item" />
               <ItemDetails>
                 <ItemInfo>전세 1억 5천 오피스텔</ItemInfo>
                 <ItemLocation>숭실대입구역 근처</ItemLocation>
+              </ItemDetails>
+            </Item>
+            <Item>
+              <ItemImg src="https://via.placeholder.com/150" alt="item" />
+              <ItemDetails>
+                <ItemInfo>월세 2000/60 원룸</ItemInfo>
+                <ItemLocation>서울대입구역 근처</ItemLocation>
+              </ItemDetails>
+            </Item>
+            <Item>
+              <ItemImg src="https://via.placeholder.com/150" alt="item" />
+              <ItemDetails>
+                <ItemInfo>월세 2000/60 원룸</ItemInfo>
+                <ItemLocation>서울대입구역 근처</ItemLocation>
               </ItemDetails>
             </Item>
           </ItemList>
@@ -89,37 +114,37 @@ const Sidebar = styled.div`
 `;
 
 const Category = styled.div`
-  margin-bottom: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  &:hover {
-    color: #0073e6;
-  }
+  margin-bottom: 3px;
+  font-size: 14px;
 `;
 
 const Content = styled.div`
   display: flex;
   width: 92%;
   height: 100%;
-  padding: 1rem;
 `;
 
 const ItemList = styled.div`
   width: 45%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   height: 100%;
   overflow-y: auto;
+  padding: 1rem;
 `;
 
 const Item = styled.div`
   display: flex;
   background-color: #fff;
-  padding: 1rem;
+  padding: 0.6rem;
   border: 1px solid #ddd;
   border-radius: 5px;
   margin-right: 1rem;
+`;
+
+const ItemImg = styled.img`
+  border-radius: 5px;
 `;
 
 const ItemDetails = styled.div`
@@ -142,6 +167,5 @@ const MapArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #eaeef5;
   border-radius: 5px;
 `;

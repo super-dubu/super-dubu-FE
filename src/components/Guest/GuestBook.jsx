@@ -7,13 +7,19 @@ import "react-datepicker/dist/react-datepicker.css";
 const GuestBook = () => {
   const [isDateModalOpen, setDateModalOpen] = useState(false);
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+  const [isTimeModalOpen, setTimeModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
   const navigate = useNavigate();
 
   const handleReservationClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setSuccessModalOpen(true);
+  };
+
+  const handleTimeClick = (time) => {
+    setSelectedTime(time);
   };
 
   return (
@@ -37,7 +43,7 @@ const GuestBook = () => {
               pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
               maxLength="17"
               onInput={(e) => {
-                let value = e.target.value.replace(/[^0-9]/g, ""); // 숫자만 남기기
+                let value = e.target.value.replace(/[^0-9]/g, "");
                 if (value.length > 3 && value.length <= 7) {
                   value = `${value.slice(0, 3)} - ${value.slice(3)}`;
                 } else if (value.length > 7) {
@@ -68,18 +74,15 @@ const GuestBook = () => {
 
           <FormGroup>
             <Label>예약 시간</Label>
-            <Input
-              type="text"
-              placeholder="00 : 00"
-              maxLength="7"
-              onInput={(e) => {
-                let value = e.target.value.replace(/[^0-9:]/g, " ");
-                if (value.length === 2 && !value.includes(" : ")) {
-                  value += " : ";
-                }
-                e.target.value = value;
-              }}
-            />
+            <InputWrapper>
+              <Input
+                type="text"
+                value={selectedTime}
+                placeholder="00 : 00"
+                readOnly
+                onClick={() => setTimeModalOpen(true)}
+              />
+            </InputWrapper>
           </FormGroup>
 
           <FormGroup>
@@ -103,6 +106,64 @@ const GuestBook = () => {
               }}
               inline
             />
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {isTimeModalOpen && (
+        <ModalOverlay onClick={() => setTimeModalOpen(false)}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <h3>시간 선택</h3>
+            <TimeContainer>
+              <TimeSection>
+                <TimeTitle>오전</TimeTitle>
+                <TimeButtonRow>
+                  <TimeButton onClick={() => handleTimeClick("09 : 00")}>
+                    09 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("10 : 00")}>
+                    10 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("11 : 00")}>
+                    11 : 00
+                  </TimeButton>
+                </TimeButtonRow>
+              </TimeSection>
+              <TimeSection>
+                <TimeTitle>오후</TimeTitle>
+                <TimeButtonRow>
+                  <TimeButton onClick={() => handleTimeClick("13 : 00")}>
+                    13 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("14 : 00")}>
+                    14 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("15 : 00")}>
+                    15 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("16 : 00")}>
+                    16 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("17 : 00")}>
+                    17 : 00
+                  </TimeButton>
+                </TimeButtonRow>
+                <TimeButtonRow>
+                  <TimeButton onClick={() => handleTimeClick("18 : 00")}>
+                    18 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("19 : 00")}>
+                    19 : 00
+                  </TimeButton>
+                  <TimeButton onClick={() => handleTimeClick("20 : 00")}>
+                    20 : 00
+                  </TimeButton>
+                </TimeButtonRow>
+              </TimeSection>
+            </TimeContainer>
+            <ConfirmButton onClick={() => setTimeModalOpen(false)}>
+              선택 완료
+            </ConfirmButton>
           </ModalContent>
         </ModalOverlay>
       )}
@@ -136,7 +197,6 @@ const FormContainer = styled.div`
   width: 100%;
   height: 100vh;
   background-color: #f9f9f9;
-  background-color: white;
 `;
 
 const Header = styled.div`
@@ -237,23 +297,71 @@ const ModalContent = styled.div`
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
-  width: 300px;
+  width: 400px;
 
   h3 {
     margin-bottom: 1rem;
   }
+`;
 
-  button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
+const TimeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const TimeSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TimeTitle = styled.h4`
+  margin-bottom: 0.5rem;
+  color: #333;
+`;
+
+const TimeButtonRow = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+`;
+
+const TimeButton = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &:active {
     background-color: #6e7d9c;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  }
 
-    &:hover {
-      background-color: #999999;
-    }
+  &:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+  }
+`;
+
+const ConfirmButton = styled.button`
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #6e7d9c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #999999;
   }
 `;

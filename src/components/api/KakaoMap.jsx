@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 
 function Kmap() {
+
+  const apikey = import.meta.env.VITE_KMAP_API_KEY;
   useEffect(() => {
     const loadKakaoMap = () => {
       return new Promise((resolve) => {
         const script = document.createElement("script");
-        console.log(process.env.REACT_APP_KMAP_API_KEY)
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KMAP_API_KEY}&autoload=false`;
+        console.log(apikey)
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&autoload=false`;
         script.onload = () => resolve(window.kakao);
         document.head.appendChild(script);
       });

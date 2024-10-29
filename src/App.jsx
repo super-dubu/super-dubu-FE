@@ -1,13 +1,13 @@
 import "./App.css";
-import MemberLogin from "../src/components/Member/MemberLogin.jsx";
-import MemberMain from "../src/components/Member/MemberMain.jsx";
-import MemberMypage from "../src/components/Member/MemberMypage.jsx";
-import QRPage from "../src/api/QR.jsx";
+import MemberLogin from "./components/Member/MemberLogin.jsx";
+import MemberMain from "./components/Member/MemberMain.jsx";
+import MemberMypage from "./components/Member/MemberMypage.jsx";
+import QRPage from "./api/QR.jsx";
 
-import GuestLayout from "../src/components/Guest/GuestLayout.jsx";
-import GuestMain from "../src/components/Guest/GuestMain.jsx";
-import GuestSell from "../src/components/Guest/GuestSell.jsx";
-import GuestBook from "../src/components/Guest/GuestBook.jsx";
+import GuestLayout from "./components/Guest/GuestLayout.jsx";
+import GuestMain from "./components/Guest/GuestMain.jsx";
+import GuestSell from "./components/Guest/GuestSell.jsx";
+import GuestBook from "./components/Guest/GuestBook.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {

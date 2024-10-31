@@ -78,7 +78,9 @@ const MenuBar = styled.div`
   height: 5rem;
 `;
 
-const MenuButton = styled.div`
+const MenuButton = styled.div.attrs((props) => ({
+  isActive: props.isActive, // 스타일에서만 사용할 prop으로 정의
+}))`
   display: flex;
   align-items: center;
   justify-content: center;

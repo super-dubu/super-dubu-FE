@@ -2,6 +2,7 @@ import "./App.css";
 import MemberLogin from "./components/Member/MemberLogin.jsx";
 import MemberMain from "./components/Member/MemberMain.jsx";
 import MemberMypage from "./components/Member/MemberMypage.jsx";
+import MemberJoin from "./components/Member/MemberJoin.jsx"
 import QRPage from "./api/QR.jsx";
 
 import GuestLayout from "./components/Guest/GuestLayout.jsx";
@@ -23,6 +24,7 @@ function App() {
           </Route>
           <Route path="/member/login" element={<MemberLogin />} />
           <Route path="/member/mypage" element={<MemberMypage />} />
+          <Route path="/member/join" element ={<MemberJoin />} />
           <Route path="/member" element={<MemberMain />} />
         </Routes>
       </div>

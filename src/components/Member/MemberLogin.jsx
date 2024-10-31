@@ -12,8 +12,14 @@ function MemberLogin() {
         </Header>
         <Container>
             <LoginText>DUBU LOGIN</LoginText>
-            <KeyBox placeholder='공인중개사 Key를 입력하세요' />
-            <LoginButton onClick={() => navigate('/member')}>LOGIN</LoginButton>
+            <Login>
+                <Box placeholder='ID' ></Box>
+                <Box placeholder='Password'></Box>
+            </Login>
+            <Buttons>
+                <LoginButton onClick={() => navigate('/member')}>LOGIN</LoginButton>
+                <JoinButton>JOIN</JoinButton>
+            </Buttons>
         </Container>
     </div>
   )
@@ -51,8 +57,18 @@ const LoginText = styled.div`
     margin-top: 180px;
 `;
 
-const KeyBox = styled.input`
-    margin-top: 140px;
+const Login = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    width: 500px;
+    height: 50px;
+    gap: 2.5rem;
+`;
+
+const Box = styled.input`
+    margin-top: 2rem;
     width: 500px;
     height: 50px;
     border-style: solid;
@@ -67,14 +83,32 @@ const KeyBox = styled.input`
     }
 `;
 
+const Buttons = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 10rem;
+    /* border-radius: 20px; */
+    gap: 1rem;
+`;
+
 const LoginButton = styled.button`
-    margin-top: 70px;
-    width: 505px;
-    height: 80px;
-    border-radius: 20px;
     background-color: #6E7D9C;
     color: white;
     border: none;
     font-size: 24px;
     font-weight: 900;
+    border-radius: 15px;
+    width: 505px;
+    height: 70px;
+`;
+
+const JoinButton = styled.button`
+    background-color: white;
+    border-color: #6E7D9C;
+    color: #6E7D9C;
+    font-size: 24px;
+    font-weight: 900;
+    border-radius: 15px;
+    width: 505px;
+    height: 70px;
 `;

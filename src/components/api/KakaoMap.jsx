@@ -7,8 +7,8 @@ function Kmap() {
     const loadKakaoMap = () => {
       return new Promise((resolve) => {
         const script = document.createElement("script");
-        console.log(apikey)
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&autoload=false`;
+        // console.log(apikey)
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&autoload=false`;
         script.onload = () => resolve(window.kakao);
         document.head.appendChild(script);
       });

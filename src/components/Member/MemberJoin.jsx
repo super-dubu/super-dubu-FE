@@ -61,7 +61,7 @@ function MemberJoin() {
                     handleSignUp();
                     navigate('/member/login')
                 }
-                }>다음 단계</NextButton>
+                }>가입하기</NextButton>
         </SignUpContainer>
         
     </div>

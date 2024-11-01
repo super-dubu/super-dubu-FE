@@ -18,7 +18,7 @@ function MemberLogin() {
             </Login>
             <Buttons>
                 <LoginButton onClick={() => navigate('/member')}>LOGIN</LoginButton>
-                <JoinButton>JOIN</JoinButton>
+                <JoinButton onClick={() => navigate('/member/join')}>JOIN</JoinButton>
             </Buttons>
         </Container>
     </div>
@@ -79,7 +79,7 @@ const Box = styled.input`
     &::placeholder {
         color: #ADADAD;
         font-size: 22px;
-        margin-bottom: 3px;
+        transform: translateY(-5px);
     }
 `;
 

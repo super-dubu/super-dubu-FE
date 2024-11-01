@@ -46,11 +46,17 @@ function MemberJoin() {
                 <Label>이메일</Label>
                 <Input type="text" />
             </FieldContainer>
-
+            
             <FieldContainer>
-                <Label>사무소 주소</Label>
+                <Label>사업자 상호</Label>
                 <Input type="text" />
             </FieldContainer>
+
+            <FieldContainer>
+                <Label>사무소 주소(도로명 주소)</Label>
+                <Input type="text" />
+            </FieldContainer>
+
 
             <FieldContainer>
                 <Label>공인중개사 등록번호</Label>
@@ -96,7 +102,7 @@ const JoinText = styled.div`
     color: #6a6a6a;
     font-weight: 700;
     font-size: 50px;
-    margin-top: 5rem;
+    margin-top: 3rem;
 `;
 
 const SignUpContainer = styled.div`
@@ -104,7 +110,7 @@ const SignUpContainer = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-top: 4rem;
+    margin-top: 3rem;
 `;
 
 const FieldContainer = styled.div`

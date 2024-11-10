@@ -1,29 +1,40 @@
 import React, { useEffect } from "react";
 
 function Kmap() {
-
   const apikey = import.meta.env.VITE_KMAP_API_KEY;
+
   useEffect(() => {
     const loadKakaoMap = () => {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
+        if (window.kakao && window.kakao.maps) {
+          resolve(window.kakao);
+          return;
+        }
+
         const script = document.createElement("script");
-        // console.log(apikey)
         script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&autoload=false`;
         script.onload = () => resolve(window.kakao);
+        script.onerror = () => reject(new Error("Failed to load Kakao Maps API"));
         document.head.appendChild(script);
       });
     };
 
     const initMap = async () => {
-      const kakao = await loadKakaoMap();
-      kakao.maps.load(() => {
-        const container = document.getElementById("map");
-        const options = {
-          center: new kakao.maps.LatLng(37.494640041856755, 126.95972035671491),
-          level: 2,
-        };
-        const map = new kakao.maps.Map(container, options); // eslint-disable-line no-unused-vars
-      });
+      try {
+        const kakao = await loadKakaoMap();
+        kakao.maps.load(() => {
+          const container = document.getElementById("map");
+          if (!container) return;
+
+          const options = {
+            center: new kakao.maps.LatLng(37.494640041856755, 126.95972035671491),
+            level: 2,
+          };
+          new kakao.maps.Map(container, options);
+        });
+      } catch (error) {
+        console.error("Error loading Kakao Maps API:", error);
+      }
     };
 
     initMap();

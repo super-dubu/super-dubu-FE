@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import Kmap from '../api/KakaoMap';
 import room from '../../img/room.png';
@@ -7,12 +7,16 @@ import apart from '../../img/apartment.png';
 import house from '../../img/house.png';
 import shop from '../../img/shop.png';
 
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+// import GetData from "../../hooks/GetData"
 
 const GuestInfo = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { items: it } = location.state;
-    console.log(it)
+    
+    // const {data: mem, isLoading, isError} = GetData(`/memeberLogin/memberInfo/:${it.agentId}`);
+    // console.log(mem)
 
   return (
     <Container>
@@ -39,7 +43,7 @@ const GuestInfo = () => {
           <ItemContainer>
             <Header>
               <span>매물 {it._id}</span>
-              <span>✕</span>
+              <ExitButton onClick={()=> navigate('/sell')}>✕</ExitButton>
             </Header>
             <ImageContainer>
               <Image src={it.images[0].url} alt="Room" />
@@ -50,17 +54,41 @@ const GuestInfo = () => {
             </InfoSection>
             <InfoSection>
               <h3>가격 정보</h3>
-              <p>월세: {it.price_info.monthly_rent}</p>
-              <p>보증금: {it.price_info.deposit}</p>
-              <p>관리비: 매월 {it.price_info.management_fee}만원 (수도, 가스 포함)</p>
+              <InfoRow>
+                <Label>월세:</Label>
+                <Value>{it.price_info.monthly_rent}</Value>
+              </InfoRow>
+              <InfoRow>
+                <Label>보증금:</Label>
+                <Value>{it.price_info.deposit}</Value>
+              </InfoRow>
+              <InfoRow>
+                <Label>관리비:</Label>
+                <Value>매월 {it.price_info.management_fee}만원 (수도, 가스 포함)</Value>
+              </InfoRow>
             </InfoSection>
             <InfoSection>
               <h3>상세 정보</h3>
-              <p>방 종류: {it.details.room_type}</p>
-              <p>해당 층/건물 층: {it.details.building_floors}층 / {it.details.total_floors}층 </p>
-              <p>전용/공급면적: 7평/8.5평</p>
-              <p>방 수/욕실 수: 1개/1개</p>
-              <p>최초 등록일: 2023.6.30</p>
+              <InfoRow>
+                <Label>방 종류:</Label>
+                <Value>{it.details.room_type}</Value>
+              </InfoRow>
+              <InfoRow>
+                <Label>해당 층 / 건물 층:</Label>
+                <Value>{it.details.building_floors}층 / {it.details.total_floors}층</Value>
+              </InfoRow>
+              <InfoRow>
+                <Label>전용 / 공급면적:</Label>
+                <Value>{Math.round(parseFloat(it.details.area.exclusive) * 0.3025)}평 / {Math.round(parseFloat(it.details.area.supply) * 0.3025)}평</Value>
+              </InfoRow>
+              <InfoRow>
+                <Label>방 수 / 욕실 수:</Label>
+                <Value>{it.details.bathrooms}개 / {it.details.rooms}개</Value>
+              </InfoRow>
+              <InfoRow>
+                <Label>최초 등록일:</Label>
+                <Value>{it.details.listed_date}</Value>
+              </InfoRow>
             </InfoSection>
             <InfoSection>
               <h3>공인중개인 정보</h3>
@@ -70,7 +98,7 @@ const GuestInfo = () => {
               <p>대표 번호: 010-1234-5678</p>
             </InfoSection>
             <Footer>
-              <Button>공인중개사 예약하기</Button>
+              <Button onClick={()=> navigate("/book")}>공인중개사 예약하기</Button>
             </Footer>
           </ItemContainer>
           <MapArea>
@@ -88,6 +116,15 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
 `;
+
+const ExitButton = styled.div`
+  cursor: pointer;
+  padding: 0px 3px 0px 3px;
+  border-radius: 2px;
+  &:hover {
+    background-color: #767676;
+  }
+`
 
 const FilterBar = styled.div`
   display: flex;
@@ -169,6 +206,9 @@ const Image = styled.img`
 const InfoSection = styled.div`
   padding: 16px;
   border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 각 항목 간격 */
 `;
 
 const Title = styled.h2`
@@ -212,6 +252,24 @@ const MapArea = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+`;
+
+const InfoRow = styled.div`
+  display: flex;
+  justify-content: space-between; /* 분류와 데이터 값 사이를 간격으로 정렬 */
+  align-items: center; /* 수직 정렬 */
+  color: #767676; /* 분류 텍스트 색상 */
+  padding: 4px 0; /* 위아래 패딩 추가 */
+`;
+
+const Label = styled.span`
+  font-weight: bold;
+  color: #767676; /* 분류 텍스트 색상 */
+`;
+
+const Value = styled.span`
+  color: #000; /* 데이터 값 텍스트 색상 */
+  text-align: left; /* 왼쪽 정렬 */
 `;
 
 export default GuestInfo;

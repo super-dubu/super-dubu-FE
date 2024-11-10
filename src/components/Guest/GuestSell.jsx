@@ -1,13 +1,24 @@
 import styled from "styled-components";
 import Kmap from "../api/KakaoMap";
-
 import room from "../../img/room.png";
 import office from "../../img/officetel.png";
 import apart from "../../img/apartment.png";
 import house from "../../img/house.png";
 import shop from "../../img/shop.png";
 
+import GetData from "../../hooks/GetData"
+import { useNavigate } from "react-router-dom";
+
 const GuestSell = () => {
+
+  const {data:item, isLoading, isError} = GetData('/forsale/view');
+  const navigate = useNavigate();
+
+  console.log(item)
+
+  if (isLoading) return <h1>로딩중입니다</h1>
+  if (isError) return <h1>에러에요 비상비상</h1>
+
   return (
     <Container>
       <FilterBar>
@@ -31,37 +42,21 @@ const GuestSell = () => {
         </Sidebar>
         <Content>
           <ItemList>
-            <Item>
-              <ItemImg src="https://via.placeholder.com/150" alt="item" />
-              <ItemDetails>
-                <ItemInfo>월세 2000/60 원룸</ItemInfo>
-                <ItemLocation>서울대입구역 근처</ItemLocation>
-              </ItemDetails>
-            </Item>
-            <Item>
-              <ItemImg src="https://via.placeholder.com/150" alt="item" />
-              <ItemDetails>
-                <ItemInfo>전세 1억 5천 오피스텔</ItemInfo>
-                <ItemLocation>숭실대입구역 근처</ItemLocation>
-              </ItemDetails>
-            </Item>
-            <Item>
-              <ItemImg src="https://via.placeholder.com/150" alt="item" />
-              <ItemDetails>
-                <ItemInfo>월세 2000/60 원룸</ItemInfo>
-                <ItemLocation>서울대입구역 근처</ItemLocation>
-              </ItemDetails>
-            </Item>
-            <Item>
-              <ItemImg src="https://via.placeholder.com/150" alt="item" />
-              <ItemDetails>
-                <ItemInfo>월세 2000/60 원룸</ItemInfo>
-                <ItemLocation>서울대입구역 근처</ItemLocation>
-              </ItemDetails>
-            </Item>
+              {item.data?.map(it => (
+                <Item key={it._id} onClick={()=> navigate(`/sell/:${it._id}`,{
+                  replace: false,
+                  state: {items:it}
+                })}>
+                  <ItemImg src="https://via.placeholder.com/150" alt="item" />
+                  <ItemDetails>
+                    <ItemInfo>{it.price_info.deposit} / {it.price_info.monthly_rent} {it.details.room_type}</ItemInfo>
+                    <ItemLocation>{it.address}</ItemLocation>
+                  </ItemDetails>
+                </Item>
+              ))}
           </ItemList>
           <MapArea>
-            <Kmap />
+            <Kmap addresses={item.data?.map(it => it.address)} />
           </MapArea>
         </Content>
       </MainSection>
@@ -101,7 +96,7 @@ const FilterButton = styled.button`
 const MainSection = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 80%;
 `;
 
 const Sidebar = styled.div`
@@ -129,7 +124,7 @@ const ItemList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 100%;
+  height: 84%;
   overflow-y: auto;
   padding: 1rem;
 `;

@@ -56,7 +56,7 @@ const GuestSell = () => {
               ))}
           </ItemList>
           <MapArea>
-            <Kmap />
+            <Kmap addresses={item.data?.map(it => it.address)} />
           </MapArea>
         </Content>
       </MainSection>

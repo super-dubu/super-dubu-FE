@@ -1,13 +1,18 @@
 import styled from "styled-components";
 import Kmap from "../api/KakaoMap";
-
 import room from "../../img/room.png";
 import office from "../../img/officetel.png";
 import apart from "../../img/apartment.png";
 import house from "../../img/house.png";
 import shop from "../../img/shop.png";
 
+import GetData from "../../hooks/GetData"
+
 const GuestSell = () => {
+
+  const {data:item, isLoading, isError} = GetData('/forsale/view');
+  console.log(item)
+
   return (
     <Container>
       <FilterBar>

@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "../../img/image.png";
+import { useNavigate } from "react-router-dom";
 
 function MemberSide({userName}) {
+  const navigate = useNavigate();
   return (
     <div>
       <SideInfo>
@@ -14,7 +16,7 @@ function MemberSide({userName}) {
         <Divider />
         <SideMenu>
           <SideButton>예약 관리</SideButton>
-          <SideButton>매물 등록</SideButton>
+          <SideButton onClick={() => navigate("/member/property")}>매물 등록</SideButton>
           <SideButton>거래 생성</SideButton>
           <SideButton>최근 거래</SideButton>
         </SideMenu>

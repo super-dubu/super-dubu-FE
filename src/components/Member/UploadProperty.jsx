@@ -70,14 +70,6 @@ function UploadProperty() {
                         <Label>
                             <CheckBox
                                 type="checkbox"
-                                checked={selectedCheckbox === '매매'}
-                                onChange={() => handleCheckboxChange('매매')}
-                            />
-                            매매
-                        </Label>
-                        <Label>
-                            <CheckBox
-                                type="checkbox"
                                 checked={selectedCheckbox === '전세'}
                                 onChange={() => handleCheckboxChange('전세')}
                             />
@@ -110,37 +102,11 @@ function UploadProperty() {
                         />
                     </Set>
                 </Basic>
-                <InputTitle>가격 정보</InputTitle>
+                <InputTitle>가격 정보 </InputTitle>
                 <Basic>
                     <Set>
-                        <BoldText>매매가</BoldText>
-                        <StringInput />
-                        만 원
-                    </Set>
-                    <Set>
                         <BoldText>보증금</BoldText>
-                        <StringInput variant="middle" />
-                        만 원
-                    </Set>
-                    <Set>
-                        <BoldText>융자 여부 / 융자금</BoldText>
-                        <Label>
-                            <CheckBox
-                                type="checkbox"
-                                checked={selectedCheckbox === '없음'}
-                                onChange={() => handleCheckboxChange('없음')}
-                            />
-                            없음
-                        </Label>
-                        <Label>
-                            <CheckBox
-                                type="checkbox"
-                                checked={selectedCheckbox === '있음'}
-                                onChange={() => handleCheckboxChange('있음')}
-                            />
-                            있음
-                        </Label>
-                        <StringInput />
+                        <StringInput variant="short" />
                         만 원
                     </Set>
                     <Set>
@@ -161,8 +127,13 @@ function UploadProperty() {
                             />
                             있음
                         </Label>
-                        <StringInput />
-                        만 원
+                        {selectedCheckbox !== '없음' && (
+                            <>
+                                <StringInput variant="short" />
+                                만 원
+                            </>
+                        )}
+                 
                     </Set>
 
                 </Basic>
@@ -237,18 +208,23 @@ const Label = styled.label`
 `;
 
 const StringInput = styled.input`
-    background-color: #efeff4;
-    border-color: #848484;
-    border-width: 0.8px;
-    height: 1.5rem;
-    margin-right: 3px;
-    ${({ variant }) =>
+  background-color: #efeff4;
+  border-color: #848484;
+  border-width: 0.8px;
+  height: 1.5rem;
+  margin-right: 3px;
+
+  ${({ variant }) =>
     variant === 'long'
       ? css`
           width: 300px;
         `
-      : css`
+      : variant === 'medium'
+      ? css`
           width: 225px;
+        `
+      : css`
+          width: 150px;
         `}
 `;
 

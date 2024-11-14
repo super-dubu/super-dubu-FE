@@ -1,12 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+
 
 function UploadPropertyDetail() {
     const navigate = useNavigate();
     const handleUploadProperty = () => {
         alert('매물 등록이 완료되었습니다.')
     }
+
+    const [postImg, setPostImg] = useState([]);
+const [previewImg, setPreviewImg] = useState([]);
+
+function handleFileUpload(e) {
+    const fileArr = Array.from(e.target.files);
+    setPostImg(fileArr);
+
+    const fileURLs = [];
+    fileArr.forEach((file) => {
+        const fileRead = new FileReader();
+        fileRead.onload = () => {
+            fileURLs.push(fileRead.result);
+            // 모든 파일을 읽은 후에 상태 업데이트
+            if (fileURLs.length === fileArr.length) {
+                setPreviewImg(fileURLs);
+            }
+        };
+        fileRead.readAsDataURL(file);
+    });
+}
+
   return (
     <div>
         <Container>
@@ -54,7 +77,13 @@ function UploadPropertyDetail() {
                     <FullWidth>
                         <BoldText>사진 정보</BoldText>
                         <PhotoInput>
-                            <PhotoInputButton type='file'/>
+                            <PhotoInputButton type='file' multiple accept="image/*"
+                                onChange={handleFileUpload}/>
+                            <PhotoPreviewContainer>
+                                {previewImg.map((imgSrc, index) => (
+                                    <Photo key={index} src={imgSrc} alt={`preview-${index}`} />
+                                ))}
+                            </PhotoPreviewContainer>
                         </PhotoInput>
                     </FullWidth>
                 </Row>
@@ -208,6 +237,19 @@ const PhotoInput = styled.div`
 const PhotoInputButton = styled.input`
     margin-top: 5px;
     margin-bottom: 5px;
+`;
+
+const PhotoPreviewContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;  
+  margin-bottom: 10px;
+`;
+
+const Photo = styled.img`
+  width: 5rem;
+  height: auto;
+  /* margin-bottom: 10px;   */
 `;
 
 const Caution = styled.div`

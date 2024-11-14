@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../Member/MemberHeader';
 import styled, { css } from 'styled-components';
 import DaumPostModal from '../api/DaumPost';
+import Detail from './UploadPropertyDetail';
 
 function UploadProperty() {
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
@@ -109,6 +110,16 @@ function UploadProperty() {
                         <StringInput variant="short" />
                         만 원
                     </Set>
+                    {selectedCheckbox !== '전세' && (
+                            <>
+                                <Set>
+                        <BoldText>월세</BoldText>
+                        <StringInput variant="short" />
+                        만 원
+                    </Set>
+                            </>
+                        )}
+                    
                     <Set>
                         <BoldText>월 관리비</BoldText>
                         <Label>
@@ -140,6 +151,7 @@ function UploadProperty() {
                 {isPostModalOpen && (
                     <DaumPostModal onComplete={handleAddressComplete} onClose={handlePostModal} />
                 )}
+                <Detail />
             </Container>
         </div>
     );

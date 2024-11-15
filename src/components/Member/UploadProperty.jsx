@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../Member/MemberHeader';
 import styled, { css } from 'styled-components';
 import DaumPostModal from '../api/DaumPost';
+import Detail from './UploadPropertyDetail';
 
 function UploadProperty() {
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
@@ -70,14 +71,6 @@ function UploadProperty() {
                         <Label>
                             <CheckBox
                                 type="checkbox"
-                                checked={selectedCheckbox === '매매'}
-                                onChange={() => handleCheckboxChange('매매')}
-                            />
-                            매매
-                        </Label>
-                        <Label>
-                            <CheckBox
-                                type="checkbox"
                                 checked={selectedCheckbox === '전세'}
                                 onChange={() => handleCheckboxChange('전세')}
                             />
@@ -110,9 +103,55 @@ function UploadProperty() {
                         />
                     </Set>
                 </Basic>
+                <InputTitle>가격 정보 </InputTitle>
+                <Basic>
+                    <Set>
+                        <BoldText>보증금</BoldText>
+                        <StringInput variant="short" />
+                        만 원
+                    </Set>
+                    {selectedCheckbox !== '전세' && (
+                            <>
+                                <Set>
+                        <BoldText>월세</BoldText>
+                        <StringInput variant="short" />
+                        만 원
+                    </Set>
+                            </>
+                        )}
+                    
+                    <Set>
+                        <BoldText>월 관리비</BoldText>
+                        <Label>
+                            <CheckBox
+                                type="checkbox"
+                                checked={selectedCheckbox === '없음'}
+                                onChange={() => handleCheckboxChange('없음')}
+                            />
+                            없음
+                        </Label>
+                        <Label>
+                            <CheckBox
+                                type="checkbox"
+                                checked={selectedCheckbox === '있음'}
+                                onChange={() => handleCheckboxChange('있음')}
+                            />
+                            있음
+                        </Label>
+                        {selectedCheckbox !== '없음' && (
+                            <>
+                                <StringInput variant="short" />
+                                만 원
+                            </>
+                        )}
+                 
+                    </Set>
+
+                </Basic>
                 {isPostModalOpen && (
                     <DaumPostModal onComplete={handleAddressComplete} onClose={handlePostModal} />
                 )}
+                <Detail />
             </Container>
         </div>
     );
@@ -145,7 +184,7 @@ const Basic = styled.div`
     display: flex;
     margin-left: 2rem;
     margin-right: 2rem;
-    height: 5rem;
+    /* height: 5rem; */
     flex-direction: column;
     justify-content: center;
     border-style: solid;
@@ -181,17 +220,23 @@ const Label = styled.label`
 `;
 
 const StringInput = styled.input`
-    background-color: #efeff4;
-    border-color: #848484;
-    border-width: 0.8px;
-    height: 1.5rem;
-    ${({ variant }) =>
+  background-color: #efeff4;
+  border-color: #848484;
+  border-width: 0.8px;
+  height: 1.5rem;
+  margin-right: 3px;
+
+  ${({ variant }) =>
     variant === 'long'
       ? css`
           width: 300px;
         `
-      : css`
+      : variant === 'medium'
+      ? css`
           width: 225px;
+        `
+      : css`
+          width: 150px;
         `}
 `;
 

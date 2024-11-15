@@ -2,6 +2,7 @@ import React from 'react'
 import logo from '../../img/logo.png'
 import styled from 'styled-components';
 import { Form, useNavigate } from 'react-router-dom';
+import Detail from './UploadPropertyDetail';
 
 function MemberJoin() {
     const navigate = useNavigate();
@@ -44,16 +45,6 @@ function MemberJoin() {
 
             <FieldContainer>
                 <Label>이메일</Label>
-                <Input type="text" />
-            </FieldContainer>
-            
-            <FieldContainer>
-                <Label>사업자 상호</Label>
-                <Input type="text" />
-            </FieldContainer>
-
-            <FieldContainer>
-                <Label>사무소 주소(도로명 주소)</Label>
                 <Input type="text" />
             </FieldContainer>
 

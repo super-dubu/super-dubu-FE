@@ -21,6 +21,7 @@ function handleFileUpload(e) {
         const fileRead = new FileReader();
         fileRead.onload = () => {
             fileURLs.push(fileRead.result);
+            // console.log(fileRead.result);
             // 모든 파일을 읽은 후에 상태 업데이트
             if (fileURLs.length === fileArr.length) {
                 setPreviewImg(fileURLs);

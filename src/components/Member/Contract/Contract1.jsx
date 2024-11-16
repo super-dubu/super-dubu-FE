@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../MemberHeader'
 import styled, { css } from 'styled-components'
+import { useNavigate } from 'react-router-dom';
 
 function Contract1() {
 
@@ -9,6 +10,7 @@ function Contract1() {
     const handleCheckboxChange = (value) => {
         setSelectedCheckbox(value);
     };
+    const navigate = useNavigate();
   return (
     <div>
         <Header userName='오채린'/>
@@ -79,7 +81,7 @@ function Contract1() {
                             </Label>
                     </AgreeText>
                 </AgreeContainer>
-                <Button>계속 진행하기</Button>
+                <Button onClick = {() => navigate('/member/contract2')}>계속 진행하기</Button>
         </Container>
     </div>
   )

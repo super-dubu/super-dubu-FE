@@ -11,7 +11,9 @@ import GuestMain from "./components/Guest/GuestMain.jsx";
 import GuestSell from "./components/Guest/GuestSell.jsx";
 import GuestInfo from "./components/Guest/GuestInfo.jsx";
 import GuestBook from "./components/Guest/GuestBook.jsx";
+
 import Contract1 from './components/Member/Contract/Contract1.jsx'
+import Contract2 from './components/Member/Contract/Contract2.jsx'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
           <Route path="/member/join" element ={<MemberJoin />} />
           <Route path="/member" element={<MemberMain />} />
           <Route path="/member/contract1" element={< Contract1/>} />
+          <Route path="/member/contract2" element={< Contract2/>} />
         </Routes>
       </div>
     </BrowserRouter>

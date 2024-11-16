@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 
 const GuestBook = () => {
@@ -11,13 +11,27 @@ const GuestBook = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { items : it } = location.state;
 
   const handleReservationClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
+  
+    const reservationData = {
+      name: document.querySelector("input[placeholder='이름을 입력하세요']").value,
+      contact: document.querySelector("input[placeholder='010 - xxxx - xxxx']").value,
+      date: selectedDate ? selectedDate.toISOString() : null,
+      time: selectedTime,
+      requests: document.querySelector("textarea[placeholder='원하는 매물의 조건 등을 남겨주세요!']").value,
+      items: it,
+    };
+  
+    console.log("예약 정보:", reservationData);
+  
     setSuccessModalOpen(true);
-  };
-
+    };
+  
   const handleTimeClick = (time) => {
     setSelectedTime(time);
   };

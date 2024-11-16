@@ -8,15 +8,11 @@ import house from '../../img/house.png';
 import shop from '../../img/shop.png';
 
 import { useNavigate, useLocation } from "react-router-dom";
-// import GetData from "../../hooks/GetData"
 
 const GuestInfo = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { items: it } = location.state;
-    
-    // const {data: mem, isLoading, isError} = GetData(`/memeberLogin/memberInfo/:${it.agentId}`);
-    // console.log(mem)
 
   return (
     <Container>
@@ -98,7 +94,10 @@ const GuestInfo = () => {
               <p>대표 번호: 010-1234-5678</p>
             </InfoSection>
             <Footer>
-              <Button onClick={()=> navigate("/book")}>공인중개사 예약하기</Button>
+              <Button onClick={()=> navigate("/book",{
+                  replace: false,
+                  state: {items : it}
+                })}>공인중개사 예약하기</Button>
             </Footer>
           </ItemContainer>
           <MapArea>

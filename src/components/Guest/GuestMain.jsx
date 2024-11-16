@@ -10,30 +10,34 @@ import { useNavigate } from "react-router-dom";
 const GuestMain = () => {
   const navigate = useNavigate();
 
+  const handleNavigate = (category) => {
+    navigate("/sell", { state: { category } });
+  };
+
   return (
     <GuestContainer>
       <SearchBar>
         <SearchInput placeholder="검색 키워드를 입력해주세요" />
       </SearchBar>
       <CardContainer>
-        <Card>
-          <img src={room} onClick={() => navigate("/sell")} alt="원/투룸" />
+        <Card onClick={() => handleNavigate("원/투룸")}>
+          <img src={room} alt="원/투룸" />
           <CardText>원/투룸</CardText>
         </Card>
-        <Card>
-          <img src={office} onClick={() => navigate("/sell")} alt="오피스텔" />
+        <Card onClick={() => handleNavigate("오피스텔")}>
+          <img src={office} alt="오피스텔" />
           <CardText>오피스텔</CardText>
         </Card>
-        <Card>
-          <img src={apart} onClick={() => navigate("/sell")} alt="아파트" />
+        <Card onClick={() => handleNavigate("아파트")}>
+          <img src={apart} alt="아파트" />
           <CardText>아파트</CardText>
         </Card>
-        <Card>
-          <img src={house} onClick={() => navigate("/sell")} alt="주택/빌라" />
+        <Card onClick={() => handleNavigate("주택/빌라")}>
+          <img src={house} alt="주택/빌라" />
           <CardText>주택/빌라</CardText>
         </Card>
-        <Card>
-          <img src={shop} onClick={() => navigate("/sell")} alt="상가/사무실" />
+        <Card onClick={() => handleNavigate("상가/사무실")}>
+          <img src={shop} alt="상가/사무실" />
           <CardText>상가/사무실</CardText>
         </Card>
       </CardContainer>
@@ -70,7 +74,7 @@ const SearchInput = styled.input`
   border: 1px solid #ccc;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  padding-left: 30px; /* 아이콘의 공간 확보 */
+  padding-left: 30px;
 `;
 
 const CardContainer = styled.div`
@@ -88,6 +92,7 @@ const Card = styled.div`
   text-align: center;
   padding: 10px;
   margin-bottom: 20px;
+  cursor: pointer;
   img {
     width: 100%;
     height: auto;

@@ -2,18 +2,46 @@ import React, { useState } from "react";
 import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
 import styled from "styled-components";
+import axios from "axios";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물"); // 기본 선택된 버튼
   
+  const [memberInfo, setMemberInfo] = useState({});
   const location = useLocation();
-  const {items : it} = location.state;
-  console.log(it);
+  const { id } = location.state || {};
+  const token = localStorage.getItem("token")
+
+  useEffect(() => {
+    const fetchMemberInfo = async () => {
+      if (!token) {
+        console.error("Token이 없습니다");
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BACK_URL}/memberLogin/memberInfo`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            userId: id,
+          },
+        });
+        setMemberInfo(response.data.member)
+        console.log("사용자 정보:", response.data.member);
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      }
+    };
+    fetchMemberInfo();
+  }, [token, id]);
 
   return (
     <div>
-      <Header userName="오채린" showLogout={false} />
+      <Header userName={memberInfo.agentName} showLogout={false} />
       <Container>
         <SideBar>
           <MenuBar>

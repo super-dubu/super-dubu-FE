@@ -58,6 +58,8 @@ function MemberJoin() {
     mode: "onBlur", // => onBlur.. touched만으로 감지하고 유효성 검사 할 수 있게끔
   });
 
+  // 사용자가 저장을 누르면 저기 원래 받아왔던 데이터들 중에서 등록번호가 같은 애를 찾고
+  // 그리고 그 데이터들이랑 잘 스까가지고 묶어서 post를 보냄 => 회원가입
   const onSubmit = async (formData) => {
     if (isLoading) {
       alert("데이터를 불러오는 중입니다...");
@@ -87,8 +89,6 @@ function MemberJoin() {
         registerDate: matchingAgent.registerDate,
       };
 
-      console.log("전송할 데이터:", postData);
-
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_BACK_URL}/memberLogin/signup`,
@@ -105,7 +105,6 @@ function MemberJoin() {
         );
         navigate("/member/login");
       } catch (error) {
-        console.error("POST 요청 중 오류 발생:", error);
         alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
       }
     } else {

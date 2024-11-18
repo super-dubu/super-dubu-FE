@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import logo from "../../img/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../api/AuthContext";
 
 function MemberLogin() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
+  const { login, setUser } = useContext(AuthContext);
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
@@ -25,7 +27,24 @@ function MemberLogin() {
 
         const token = response.data.token;
         localStorage.setItem("token", token);
+
+        const userInfoResponse = await axios.get(
+          `${import.meta.env.VITE_BACK_URL}/memberLogin/memberInfo`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              userId: id,
+            },
+          }
+        );
+
+        setUser(userInfoResponse.data);
+
+        login();
         navigate("/member", { state: { id } });
+        
       } else {
         alert("유효하지 않은 아이디 또는 비밀번호입니다.");
       }
@@ -57,7 +76,7 @@ function MemberLogin() {
         </Login>
         <Buttons>
           <LoginButton onClick={handleLogin}>LOGIN</LoginButton>
-          <JoinButton onClick={() => navigate("/join")}>JOIN</JoinButton>
+          <JoinButton onClick={() => navigate("/member/join")}>JOIN</JoinButton>
         </Buttons>
       </Container>
     </div>

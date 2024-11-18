@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import logo from "../../img/logo.png";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../api/AuthContext";
 
 function MemberHeader({ userName, showLogout }) {
   const navigate = useNavigate();
+  const { logout, user } = useContext(AuthContext); 
+
+  const handleLogout = () => {
+    logout();
+    navigate("/member/login");
+    localStorage.removeItem("token");
+  };
 
   return (
     <Header>
-      <Logo src={logo} onClick = {() => navigate('/member')}/>
+      <Logo src={logo} onClick={() => navigate('/member')} />
       <RightContainer>
         <MemberText>
-          <UserName>{userName}</UserName> 님, 반갑습니다!
+          <UserName>{user.member.agentName}</UserName> 님, 반갑습니다!
         </MemberText>
         {showLogout ? (
-          <Logout onClick={() => navigate("/")}>Logout</Logout>
+          <Logout onClick={handleLogout}>Logout</Logout>
         ) : (
           <MyPage onClick={() => navigate("/member/mypage")}>My Page</MyPage>
         )}
@@ -39,7 +47,7 @@ const Logo = styled.img`
   padding-left: 1.5rem;
   width: 130px;
   height: auto;
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 `;
@@ -78,5 +86,5 @@ const Logout = styled.div`
   height: 25px;
   width: 80px;
   border: 1px solid #cacaca;
-  cursor: pointer; /* 마우스 오버 시 포인터 변경 */
+  cursor: pointer;
 `;

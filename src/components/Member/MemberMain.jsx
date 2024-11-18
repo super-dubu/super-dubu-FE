@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
 import styled from "styled-components";
 import axios from "axios";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../api/AuthContext";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물"); // 기본 선택된 버튼
   
+  const { login, user } = useContext(AuthContext);
+  console.log(user)
+
   const [memberInfo, setMemberInfo] = useState({});
   const location = useLocation();
   const { id } = location.state || {};

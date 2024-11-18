@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import DaumPostModal from '../../api/DaumPost'; // DaumPostModal 가져오기
+import { useNavigate } from 'react-router-dom';
 
 function Contract2() {
   const [isPostModalOpen, setPostModalOpen] = useState(false);
@@ -26,6 +27,7 @@ function Contract2() {
     setDetailAddress(value); // 실시간으로 업데이트
     // debouncedChangeHandler(value); // 필요 시 추가
   };
+  const navigate = useNavigate();
 
   return (
     <div>

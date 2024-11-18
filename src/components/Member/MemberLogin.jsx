@@ -57,7 +57,7 @@ function MemberLogin() {
         </Login>
         <Buttons>
           <LoginButton onClick={handleLogin}>LOGIN</LoginButton>
-          <JoinButton onClick={() => navigate("/member/join")}>JOIN</JoinButton>
+          <JoinButton onClick={() => navigate("/join")}>JOIN</JoinButton>
         </Buttons>
       </Container>
     </div>

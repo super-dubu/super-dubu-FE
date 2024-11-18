@@ -10,7 +10,7 @@ const GuestHeader = () => {
       <Logo src={logo} onClick={() => navigate("/")} />
       <RightContainer>
         {/* <StyledButton onClick={() => navigate("/sell")}>지도</StyledButton> */}
-        <StyledLogin onClick={() => navigate("/member/login")}>
+        <StyledLogin onClick={() => navigate("/login")}>
           중개사 Login
         </StyledLogin>
       </RightContainer>

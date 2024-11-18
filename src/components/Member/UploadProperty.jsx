@@ -99,7 +99,7 @@ function UploadProperty() {
                             variant="long"
                             value={detailAddress}
                             onChange={handleAddressChange}
-                            placeholder={detailAddress || '상세 주소'} // 실시간으로 업데이트
+                            placeholder={detailAddress || '(선택) 000동 000호 형식으로 작성해주세요.'} // 실시간으로 업데이트
                         />
                     </Set>
                 </Basic>

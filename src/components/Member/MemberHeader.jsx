@@ -8,7 +8,7 @@ function MemberHeader({ userName, showLogout }) {
 
   return (
     <Header>
-      <Logo src={logo} />
+      <Logo src={logo} onClick = {() => navigate('/member')}/>
       <RightContainer>
         <MemberText>
           <UserName>{userName}</UserName> 님, 반갑습니다!
@@ -39,6 +39,9 @@ const Logo = styled.img`
   padding-left: 1.5rem;
   width: 130px;
   height: auto;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 const RightContainer = styled.div`

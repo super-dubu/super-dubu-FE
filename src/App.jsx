@@ -14,6 +14,9 @@ import GuestBook from "./components/Guest/GuestBook.jsx";
 
 import Contract1 from './components/Member/Contract/Contract1.jsx'
 import Contract2 from './components/Member/Contract/Contract2.jsx'
+import Contract3 from './components/Member/Contract/Contract3.jsx'
+import Contract4 from './components/Member/Contract/Contract4.jsx'
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -28,13 +31,15 @@ function App() {
             <Route path="book" element={<GuestBook />} />
             <Route path="QR" element={<QRPage />} />
           </Route>
+          <Route path="/join" element ={<MemberJoin />} />
+          <Route path="/login" element={<MemberLogin />} />
           <Route path="/member/property" element = {< UploadProperty/>} />
-          <Route path="/member/login" element={<MemberLogin />} />
           <Route path="/member/mypage" element={<MemberMypage />} />
-          <Route path="/member/join" element ={<MemberJoin />} />
           <Route path="/member" element={<MemberMain />} />
           <Route path="/member/contract1" element={< Contract1/>} />
           <Route path="/member/contract2" element={< Contract2/>} />
+          <Route path="/member/contract3" element={< Contract3/>} />
+          <Route path="/member/contract4" element={< Contract4/>} />
         </Routes>
       </div>
     </BrowserRouter>

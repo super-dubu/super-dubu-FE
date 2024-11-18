@@ -8,7 +8,7 @@ function MemberHeader({ userName, showLogout }) {
 
   return (
     <Header>
-      <Logo src={logo} />
+      <Logo src={logo} onClick={() => navigate("/")} />
       <RightContainer>
         <MemberText>
           <UserName>{userName}</UserName> 님, 반갑습니다!

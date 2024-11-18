@@ -1,18 +1,18 @@
-import React, { memo } from 'react';
-import styled from 'styled-components';
-import Kmap from '../api/KakaoMap';
-import room from '../../img/room.png';
-import office from '../../img/officetel.png';
-import apart from '../../img/apartment.png';
-import house from '../../img/house.png';
-import shop from '../../img/shop.png';
+import React, { memo } from "react";
+import styled from "styled-components";
+import Kmap from "../api/KakaoMap";
+import room from "../../img/room.png";
+import office from "../../img/officetel.png";
+import apart from "../../img/apartment.png";
+import house from "../../img/house.png";
+import shop from "../../img/shop.png";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
 const GuestInfo = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { items: it } = location.state;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { items: it } = location.state;
 
   return (
     <Container>
@@ -39,13 +39,15 @@ const GuestInfo = () => {
           <ItemContainer>
             <Header>
               <span>매물 {it._id}</span>
-              <ExitButton onClick={()=> navigate('/sell')}>✕</ExitButton>
+              <ExitButton onClick={() => navigate("/sell")}>✕</ExitButton>
             </Header>
             <ImageContainer>
               <Image src={it.images[0].url} alt="Room" />
             </ImageContainer>
             <InfoSection>
-              <Title>월세 {it.price_info.deposit} / {it.price_info.monthly_rent}</Title>
+              <Title>
+                월세 {it.price_info.deposit} / {it.price_info.monthly_rent}
+              </Title>
               <Subtitle>{it.address}</Subtitle>
             </InfoSection>
             <InfoSection>
@@ -60,7 +62,9 @@ const GuestInfo = () => {
               </InfoRow>
               <InfoRow>
                 <Label>관리비:</Label>
-                <Value>매월 {it.price_info.management_fee}만원 (수도, 가스 포함)</Value>
+                <Value>
+                  매월 {it.price_info.management_fee}만원 (수도, 가스 포함)
+                </Value>
               </InfoRow>
             </InfoSection>
             <InfoSection>
@@ -71,15 +75,22 @@ const GuestInfo = () => {
               </InfoRow>
               <InfoRow>
                 <Label>해당 층 / 건물 층:</Label>
-                <Value>{it.details.building_floors}층 / {it.details.total_floors}층</Value>
+                <Value>
+                  {it.details.building_floors}층 / {it.details.total_floors}층
+                </Value>
               </InfoRow>
               <InfoRow>
                 <Label>전용 / 공급면적:</Label>
-                <Value>{Math.round(parseFloat(it.details.area.exclusive) * 0.3025)}평 / {Math.round(parseFloat(it.details.area.supply) * 0.3025)}평</Value>
+                <Value>
+                  {Math.round(parseFloat(it.details.area.exclusive) * 0.3025)}평
+                  / {Math.round(parseFloat(it.details.area.supply) * 0.3025)}평
+                </Value>
               </InfoRow>
               <InfoRow>
                 <Label>방 수 / 욕실 수:</Label>
-                <Value>{it.details.bathrooms}개 / {it.details.rooms}개</Value>
+                <Value>
+                  {it.details.bathrooms}개 / {it.details.rooms}개
+                </Value>
               </InfoRow>
               <InfoRow>
                 <Label>최초 등록일:</Label>
@@ -94,10 +105,16 @@ const GuestInfo = () => {
               <p>대표 번호: 010-1234-5678</p>
             </InfoSection>
             <Footer>
-              <Button onClick={()=> navigate("/book",{
-                  replace: false,
-                  state: {items : it}
-                })}>공인중개사 예약하기</Button>
+              <Button
+                onClick={() =>
+                  navigate("/book", {
+                    replace: false,
+                    state: { items: it },
+                  })
+                }
+              >
+                공인중개사 예약하기
+              </Button>
             </Footer>
           </ItemContainer>
           <MapArea>
@@ -123,7 +140,7 @@ const ExitButton = styled.div`
   &:hover {
     background-color: #767676;
   }
-`
+`;
 
 const FilterBar = styled.div`
   display: flex;

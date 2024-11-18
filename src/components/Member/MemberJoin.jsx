@@ -122,51 +122,66 @@ function MemberJoin() {
       </Container>
       <SignUpContainer>
         <form onSubmit={handleSubmit(onSubmit)}>
+
           <FieldContainer>
-            <Label>아이디</Label>
-            <Input type="text" {...register("id")} />
+            <Row>
+                <Label>아이디</Label>
+                <Input type="text" {...register("id")} />
+            </Row>
             {touchedFields.id && <Error>{errors.id?.message}</Error>}
           </FieldContainer>
 
           <FieldContainer>
+            <Row>
             <Label>비밀번호</Label>
             <Input type="password" {...register("password")} />
+            </Row>
             {touchedFields.password && (
               <Error>{errors.password?.message}</Error>
             )}
           </FieldContainer>
 
           <FieldContainer>
+            <Row>
             <Label>비밀번호 확인</Label>
             <Input type="password" {...register("confirmPassword")} />
+            </Row>
             {touchedFields.confirmPassword && (
               <Error>{errors.confirmPassword?.message}</Error>
             )}
           </FieldContainer>
 
           <FieldContainer>
+            <Row>
             <Label>이름</Label>
             <Input type="text" {...register("name")} />
+            </Row>
             {touchedFields.name && <Error>{errors.name?.message}</Error>}
           </FieldContainer>
 
           <FieldContainer>
+            <Row>
             <Label>전화번호</Label>
             <Input type="text" {...register("phoneNumber")} />
+            </Row>
             {touchedFields.phoneNumber && (
               <Error>{errors.phoneNumber?.message}</Error>
             )}
           </FieldContainer>
 
           <FieldContainer>
+            <Row>
             <Label>이메일</Label>
             <Input type="text" {...register("email")} />
+            </Row>
             {touchedFields.email && <Error>{errors.email?.message}</Error>}
           </FieldContainer>
 
           <FieldContainer>
+            <Row>
             <Label>공인중개사 등록번호</Label>
             <Input type="text" {...register("registrationNumber")} />
+            </Row>
             {touchedFields.registrationNumber && (
               <Error>{errors.registrationNumber?.message}</Error>
             )}
@@ -214,34 +229,49 @@ const SignUpContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 2.5rem;
+  gap: 1rem;
+`;
+
+const Row = styled.div`
+    display:flex;
+    flex-direction: row;
 `;
 
 const FieldContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: center;
   width: 100%;
   max-width: 500px;
+  margin-top: 2rem;
 `;
 
 const Label = styled.div`
   color: #adadad;
   font-size: 20px;
+  margin-bottom: 0.5rem; /* Label과 Input 사이에 여백 추가 */
+  width: 20rem;
+  text-align: center;
 `;
 
 const Input = styled.input`
   height: 1.75rem;
-  width: 100%;
+  width: 20rem;
   border-radius: 0;
   border-style: solid;
   border-width: 1px;
+  color: #595959;
+  border-color: #595959;
+  margin-bottom: 0.5rem; /* Input과 Error 메시지 사이에 여백 추가 */
 `;
 
 const Error = styled.div`
-  color: red;
+  color: #DD4A4A;
   font-size: 14px;
-  margin-top: 0.5rem;
+  width: 100%; /* 부모 컨테이너의 전체 너비 사용 */
+  text-align: left; /* 왼쪽 정렬로 Input 시작점과 맞춤 */
+  /* margin-top: 0.3rem; 약간의 여백을 추가하여 Input과 분리 */
+  margin-left: 31rem;
 `;
 
 const NextButton = styled.button`
@@ -251,10 +281,9 @@ const NextButton = styled.button`
   font-size: 24px;
   font-weight: 900;
   border-radius: 15px;
-  width: 100%;
-  max-width: 505px;
   height: 70px;
-  margin-top: 1rem;
+  width: 36rem;
+  margin-top: 5rem;
 `;
 
 export default MemberJoin;

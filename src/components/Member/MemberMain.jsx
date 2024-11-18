@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물"); // 기본 선택된 버튼
+  
+  const location = useLocation();
+  const {items : it} = location.state;
+  console.log(it);
 
   return (
     <div>

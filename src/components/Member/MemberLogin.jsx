@@ -25,7 +25,7 @@ function MemberLogin() {
 
         const token = response.data.token;
         localStorage.setItem("token", token);
-        navigate("/member");
+        navigate("/member", { state: { id } });
       } else {
         alert("유효하지 않은 아이디 또는 비밀번호입니다.");
       }

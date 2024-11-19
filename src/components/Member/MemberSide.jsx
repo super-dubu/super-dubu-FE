@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Image from "../../img/image.png";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../api/AuthContext";
 
-function MemberSide({userName}) {
+function MemberSide() {
   const navigate = useNavigate();
+
+  const { user } = useContext(AuthContext); 
+
   return (
     <div>
       <SideInfo>
         <IDPhoto src={Image} />
         <NameBox>
-          <Name> {userName} <Position>공인 중개사</Position></Name>
-          <ShopInfo>두부 공인 중개사<br /> (동작구 상도로 369)</ShopInfo>
+          <Name> {user.member.agentName} <Position>공인 중개사</Position></Name>
+          <ShopInfo>{user.member.officeName}<br /> ({user.member.agentAddress})</ShopInfo>
         </NameBox>
         <Divider />
         <SideMenu>

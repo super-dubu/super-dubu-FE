@@ -1,9 +1,12 @@
 import { debounce } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Header from '../Member/MemberHeader';
 import styled, { css } from 'styled-components';
 import DaumPostModal from '../api/DaumPost';
 import Detail from './UploadPropertyDetail';
+import { AuthContext } from "../api/AuthContext"
+import GetData from "../../hooks/GetData"
+import axios from "axios";
 
 function UploadProperty() {
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
@@ -11,6 +14,35 @@ function UploadProperty() {
     const [address, setAddress] = useState('');
     const [detailAddress, setDetailAddress] = useState('');
     const [debouncedDetailAddress, setDebouncedDetailAddress] = useState('');
+
+    const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
+    const { user } = useContext(AuthContext);
+
+    const Property = {
+        tokenID: "",
+        buildingName: "",
+        hosu: "",
+        buildingAddress: "",
+        area: "",
+        priceRental: "",
+        priceMonthly: "",
+        buildingType: "",
+        itemType: "",
+        floorInfo: "",
+        availabeDate: "",
+        roomCount: "",
+        bathroom: "",
+        confirmDate: "",
+        parking: "",
+        manageFee: "",
+        body: "",
+        image: "https://via.placeholder.com/150",
+        owner: "이상현",
+        member: user.member.agentName,
+        memberRegister: user.member.registerID,
+        memberOffice: user.member.officeName,
+        memberNumber: user.member.agentPhone
+    }
 
     // Debounced change handler
     const debouncedChangeHandler = debounce((value) => {
@@ -28,6 +60,7 @@ function UploadProperty() {
     const handleAddressComplete = (data) => {
         setAddress(data.address);
         setPostModalOpen(false);
+        console.log(data.address)
     };
 
     const handleAddressChange = (e) => {

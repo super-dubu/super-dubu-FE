@@ -4,7 +4,7 @@ import logo from "../../img/logo.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../api/AuthContext";
 
-function MemberHeader({ userName, showLogout }) {
+function MemberHeader({ showLogout }) {
   const navigate = useNavigate();
   const { logout, user } = useContext(AuthContext); 
 

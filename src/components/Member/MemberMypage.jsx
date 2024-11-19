@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../Member/MemberHeader'
 import styled from 'styled-components'
 import SideBar from './MemberSide';
+import { AuthContext } from "../api/AuthContext";
 
-function MemberMypage({userName}) {
+function MemberMypage() {
+  const { user } = useContext(AuthContext);
+
   return (
     <div>
-      <Header userName={'오채린'} showLogout={true}/>
+      <Header showLogout={true}/>
       <Container>
-        <SideBar userName={'오채린'}/>
+        <SideBar/>
         <Content>
           <BookingList>
             <BookingTitle>상담 예약 내역</BookingTitle>

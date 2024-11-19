@@ -43,7 +43,7 @@ function MemberLogin() {
         setUser(userInfoResponse.data);
 
         login();
-        navigate("/member", { state: { id } });
+        navigate("/member");
         
       } else {
         alert("유효하지 않은 아이디 또는 비밀번호입니다.");

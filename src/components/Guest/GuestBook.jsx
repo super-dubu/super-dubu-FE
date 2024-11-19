@@ -26,7 +26,7 @@ const GuestBook = () => {
       requests: document.querySelector("textarea[placeholder='원하는 매물의 조건 등을 남겨주세요!']").value,
       items: it,
     };
-  
+  ㅌ
     console.log("예약 정보:", reservationData);
   
     setSuccessModalOpen(true);

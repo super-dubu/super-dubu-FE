@@ -1,12 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
+import Header from '../MemberHeader';
 
 function Contract3() {
 
     const navigate = useNavigate();
   return (
     <div>
+        <Header />
         <Container>
              <Title>계약 내용</Title>
              <Text><Bold>제1조(보증금과 차임 및 관리비)</Bold> 위 부동산의 임대차에 관하여 임대인과 임차인은 합의에 의하여 보증금과 차임 및 관리비를 아래와 같이 지불하기로 한다.</Text>

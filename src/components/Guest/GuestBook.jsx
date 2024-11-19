@@ -40,7 +40,7 @@ const GuestBook = () => {
     <>
       <FormContainer>
         <Header>
-          <Title>공인중개인 오채린(두부공인중개사사무소)</Title>
+          <Title>공인중개인 {it.member}  ( {it.memberOffice} )</Title>
         </Header>
         <Separator />
         <Form>

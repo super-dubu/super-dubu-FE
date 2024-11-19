@@ -59,7 +59,7 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>토지</BoldText>
-                지목 &nbsp;<StringInput variant="medium"/> ㎡
+                지목 &nbsp;<StringInput variant="medium"/>
               </Row>
               <Row>
                 <BoldText></BoldText>
@@ -69,7 +69,7 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>건물</BoldText>
-                지목 &nbsp;<StringInput variant="medium"/> ㎡
+                지목 &nbsp;<StringInput variant="medium"/>
               </Row>
               <Row>
                 <BoldText />

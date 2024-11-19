@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import Header from '../MemberHeader';
 import styled from 'styled-components';
 import { AuthContext } from '../../api/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Contract4() {
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
@@ -12,10 +13,12 @@ function Contract4() {
 
     const {user} = useContext(AuthContext);
     console.log(user);
+
+    const navigate = useNavigate();
  
   return (
     <div>
-        {/* <Header userName={user.member.agentName}/> */}
+        <Header userName={user.member.agentName}/>
         <Container>
             <SectionTitle><Bold>제 3조(입주 전 수리)</Bold>  임대인과 임차인은 임차주택의 수리가 필요한 시설물 및 비용부담에 관하여 다음과 같이 합의한다.</SectionTitle>
             <RepairOptions>
@@ -110,7 +113,7 @@ function Contract4() {
 
                 <Bold>제13조(중개대상물확인․설명서 교부)</Bold> 개업공인중개사는 중개대상물 확인․설명서를 작성하고 업무보증관계증서(공제증서등) 사본을 첨부하여           <InputString /> 년         <InputString /> 월         <InputString /> 일 임대인과 임차인에게 각각 교부한다.
             </Note2>
-            <Button>다음</Button>
+            <Button onClick = {() => navigate('/member/contract5')}>다음</Button>
         </Container>
     </div>
   )

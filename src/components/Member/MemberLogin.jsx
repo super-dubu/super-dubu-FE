@@ -128,16 +128,21 @@ const Login = styled.div`
 const Box = styled.input`
   margin-top: 2rem;
   width: 500px;
-  height: 50px;
+  height: 70px;
+  line-height: auto;
   border-style: solid;
   border-width: 0 0 1px 0;
   border-color: #9b9b9b;
   font-size: 22px;
+  outline: none;
+  padding-bottom: 5px;
+
   &::placeholder {
     color: #adadad;
     font-size: 22px;
     transform: translateY(-5px);
   }
+  
 `;
 
 const Buttons = styled.div`

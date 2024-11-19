@@ -15,39 +15,45 @@ const GuestMain = () => {
   };
 
   return (
+    <Container>
     <GuestContainer>
       <SearchBar>
-        <SearchInput placeholder="검색 키워드를 입력해주세요" />
+        <SearchInput placeholder="🔍 검색 키워드를 입력해주세요" />
       </SearchBar>
       <CardContainer>
         <Card onClick={() => handleNavigate("원/투룸")}>
-          <img src={room} alt="원/투룸" />
           <CardText>원/투룸</CardText>
+          <img src={room} alt="원/투룸" />
         </Card>
         <Card onClick={() => handleNavigate("오피스텔")}>
-          <img src={office} alt="오피스텔" />
           <CardText>오피스텔</CardText>
+          <img src={office} alt="오피스텔" />
         </Card>
         <Card onClick={() => handleNavigate("아파트")}>
-          <img src={apart} alt="아파트" />
           <CardText>아파트</CardText>
+          <img src={apart} alt="아파트" />
         </Card>
         <Card onClick={() => handleNavigate("주택/빌라")}>
-          <img src={house} alt="주택/빌라" />
           <CardText>주택/빌라</CardText>
+          <img src={house} alt="주택/빌라" />
         </Card>
         <Card onClick={() => handleNavigate("상가/사무실")}>
-          <img src={shop} alt="상가/사무실" />
           <CardText>상가/사무실</CardText>
+          <img src={shop} alt="상가/사무실" />
         </Card>
       </CardContainer>
       <FooterSpacer />
       <Footer />
     </GuestContainer>
+    </Container>
   );
 };
 
 export default GuestMain;
+
+const Container = styled.div`
+`;
+
 
 const GuestContainer = styled.div`
   display: flex;
@@ -81,28 +87,35 @@ const CardContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80%;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const Card = styled.div`
   width: 18%;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 30px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
   padding: 10px;
   margin-bottom: 20px;
+  
   cursor: pointer;
   img {
-    width: 100%;
+    width: 65%;
     height: auto;
     margin-bottom: 10px;
+    margin-top: 15px;
   }
 `;
 
 const CardText = styled.p`
-  font-size: 16px;
-  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  color: #545454;
+  margin-top: 20px;
 `;
 
 const FooterSpacer = styled.div`
@@ -112,5 +125,5 @@ const FooterSpacer = styled.div`
 const Footer = styled.div`
   width: 100%;
   background-color: #797878;
-  height: 22rem;
+  height: 25rem;
 `;

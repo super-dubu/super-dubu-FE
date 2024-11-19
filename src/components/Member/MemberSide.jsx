@@ -17,7 +17,7 @@ function MemberSide({userName}) {
         <SideMenu>
           <SideButton>예약 관리</SideButton>
           <SideButton onClick={() => navigate("/member/property")}>매물 등록</SideButton>
-          <SideButton>거래 생성</SideButton>
+          <SideButton onClick={() => navigate("/member/contract1")}>거래 생성</SideButton>
           <SideButton>최근 거래</SideButton>
         </SideMenu>
       </SideInfo>

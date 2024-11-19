@@ -13,7 +13,7 @@ function Contract1() {
     const navigate = useNavigate();
   return (
     <div>
-        <Header userName='오채린'/>
+        <Header/>
         <Container>
             <Title>주택 임대차 표준 계약</Title>
                 <CertContainer>

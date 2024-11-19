@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import DaumPostModal from '../../api/DaumPost'; // DaumPostModal 가져오기
 import { useNavigate } from 'react-router-dom';
+import Header from '../MemberHeader';
 
 function Contract2() {
   const [isPostModalOpen, setPostModalOpen] = useState(false);
@@ -31,6 +32,7 @@ function Contract2() {
 
   return (
     <div>
+      <Header />
       <Container>
         <Title>임차 주택의 표시</Title>
         <InputContainer>

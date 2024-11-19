@@ -5,6 +5,7 @@ import styled from 'styled-components';
 function Contract5() {
   return (
     <div>
+        <Header />
         <Container>
             <Title>특약 사항</Title>
             <Note>- 주택을 인도받은 임차인은 2024년 10월 16일까지 주민등록(전입신고)과 주택임대차계약서상 확정일자를 받기로 하고, 임대인은 위 약정일자의 다음날까지 임차주택에 저당권 등 담보권을 설정할 수 없다.<br /><br />

@@ -11,14 +11,14 @@ function Contract4() {
         setSelectedCheckbox(value);
     };
 
-    const {user} = useContext(AuthContext);
-    console.log(user);
+    // const {user} = useContext(AuthContext);
+    // console.log(user);
 
     const navigate = useNavigate();
  
   return (
     <div>
-        <Header userName={user.member.agentName}/>
+        <Header />
         <Container>
             <SectionTitle><Bold>제 3조(입주 전 수리)</Bold>  임대인과 임차인은 임차주택의 수리가 필요한 시설물 및 비용부담에 관하여 다음과 같이 합의한다.</SectionTitle>
             <RepairOptions>

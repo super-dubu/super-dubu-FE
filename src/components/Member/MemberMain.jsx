@@ -87,7 +87,7 @@ function MemberMain() {
                   <Address>{data.buildingAddress || "주소 없음"} {data.hosu}</Address>
                   <p>가격: {data.buildingPrice || "정보 없음"}</p>
                   <p>소유주: {data.owner || "정보 없음"}</p>
-                  <p>승인일자: {data.confirmDate || "정보 없음"}</p>
+                  <p>승인일자: {data.comfirmDate || "정보 없음"}</p>
                 </ItemInfo>
               </Item>
             ))}
@@ -239,6 +239,7 @@ const EndMessage = styled.div`
 
 const ItemInfo = styled.div`
   padding: 1rem;
+  margin-top: 1rem;
 `;
 
 const Address = styled.div`

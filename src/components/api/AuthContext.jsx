@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         // storedUser가 null 또는 undefined인지 확인
         const parsedUser = storedUser ? JSON.parse(storedUser) : null;
         if (parsedUser) {
-          console.log(parsedUser);
+          // console.log(parsedUser);
           setIsLoggedIn(true);
           setUser(parsedUser);
         }

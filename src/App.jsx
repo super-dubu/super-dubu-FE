@@ -17,6 +17,7 @@ import Contract2 from './components/Member/Contract/Contract2.jsx';
 import Contract3 from './components/Member/Contract/Contract3.jsx';
 import Contract4 from './components/Member/Contract/Contract4.jsx';
 import Contract5 from './components/Member/Contract/Contract5.jsx'
+import Contract6 from './components/Member/Contract/Contract6.jsx'
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import { AuthProvider } from "./components/api/AuthContext"; 
@@ -46,6 +47,7 @@ function App() {
               <Route path="contract3" element={<Contract3 />} />
               <Route path="contract4" element={<Contract4 />} />
               <Route path="contract5" element={<Contract5 />} />
+              <Route path="contract6" element={<Contract6 />} />
             </Route>
           </Routes>
         </div>

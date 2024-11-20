@@ -33,6 +33,8 @@ function UploadProperty() {
     const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
     const { user } = useContext(AuthContext);
 
+    console.log("items" ,item);
+
     const Property = {
         tokenID: match.tokenID,
         buildingName: match.buildingName,

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Header from '../Member/MemberHeader'
 import styled from 'styled-components'
 import SideBar from './MemberSide';
+import Photo from '../../img/image.png'
 import { AuthContext } from "../api/AuthContext";
 
 function MemberMypage() {
@@ -14,21 +15,30 @@ function MemberMypage() {
         <SideBar/>
         <Content>
           <BookingList>
-            <BookingTitle>상담 예약 내역</BookingTitle>
+            <Title>상담 예약 내역</Title>
             <BookBox>
               <BookContent />
               <BookContent />
               <BookContent />
             </BookBox>
           </BookingList>
-          <SellList>
+          <SellContainer>
+              <Title>나의 매물</Title>
             <SellBox>
-              <SellContent />
+              <SellContent>
+                <Image src = {Photo}/>
+                <SellInfo>
+                  <InfoDetail>월세 2000 / 50</InfoDetail>
+                  <InfoDetail>주소 어디어디</InfoDetail>
+                  <InfoDetail>여기는 뭐 넣을까</InfoDetail>
+                </SellInfo>
+              </SellContent>
               <SellContent />
               <SellContent />
             </SellBox>
-          </SellList>
+          </SellContainer>
         </Content>
+
       </Container>
     </div>
   )
@@ -59,7 +69,7 @@ const BookingList = styled.div`
 
 `;
 
-const BookingTitle = styled.div`
+const Title = styled.div`
   margin: 1.5rem 0 0 1.5rem;
   font-size: 18px;
   font-weight: bold;
@@ -81,15 +91,44 @@ const BookContent = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 `;
 
-const SellList = styled.div`
-  
+const SellContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const SellBox = styled.div`
-  
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin: 4rem 0 0 3rem;
 `;
 
 const SellContent = styled.div`
-  
+  width: 30rem;
+  height: 20rem;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap:1rem;
 `;
 
+const Image = styled.img`
+  width: 8rem;
+  height: 10rem;
+`;
+
+const SellInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem;
+  gap: 1rem;
+`;
+
+const InfoDetail = styled.div`
+`;

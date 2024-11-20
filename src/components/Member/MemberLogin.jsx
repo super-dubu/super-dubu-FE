@@ -161,6 +161,7 @@ const LoginButton = styled.button`
   border-radius: 15px;
   width: 505px;
   height: 70px;
+  cursor: pointer;
 `;
 
 const JoinButton = styled.button`
@@ -172,4 +173,5 @@ const JoinButton = styled.button`
   border-radius: 15px;
   width: 505px;
   height: 70px;
+  cursor: pointer;
 `;

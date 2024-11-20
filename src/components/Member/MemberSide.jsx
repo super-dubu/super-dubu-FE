@@ -21,8 +21,8 @@ function MemberSide() {
         <SideMenu>
           <SideButton>예약 관리</SideButton>
           <SideButton onClick={() => navigate("/member/property")}>매물 등록</SideButton>
-          <SideButton onClick={() => navigate("/member/contract1")}>거래 생성</SideButton>
-          <SideButton>최근 거래</SideButton>
+          <SideButton onClick={() => navigate("/member/contract1")}>계약서 작성</SideButton>
+          <SideButton>최근 계약</SideButton>
         </SideMenu>
       </SideInfo>
     </div>
@@ -52,12 +52,13 @@ const NameBox = styled.div`
   flex-direction: column;
   align-items: center;
   width: 13rem;
-  height: 7rem;
+  height: auto;
   margin-top: 1rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   text-align: center;
   gap: 1rem;
+  padding-bottom: 10px;
 `;
 
 const Name = styled.div`
@@ -75,6 +76,7 @@ const Position = styled.span`
 const ShopInfo = styled.div`
   color: #545454;
   font-weight: 500;
+  padding: 0 1rem 1rem 1rem;
 `;
 
 const Divider = styled.hr`

@@ -31,6 +31,7 @@ console.log("Processed userData:", userData);
                     <Row>등록번호 : {userData.member.registerID}</Row>
                 </Column>
             </AgentBox>
+            <Button>계약 완료하기</Button>
         </Container>
     </div>
   )
@@ -84,4 +85,17 @@ const Column = styled.div`
 
 const Row = styled.div`
     font-weight: bold;
+`;
+
+const Button = styled.button`
+    width: 40%;
+    height: 4rem;
+    margin: 3rem;
+    border-radius: 15px;
+    border-style: none;
+    background-color: #6E7D9C;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 `;

@@ -5,6 +5,7 @@ import MemberMypage from "./components/Member/MemberMypage.jsx";
 import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
+import MobileAuth from "./components/api/MobileAuth.jsx"
 
 import GuestLayout from "./components/Guest/GuestLayout.jsx";
 import GuestMain from "./components/Guest/GuestMain.jsx";
@@ -35,6 +36,7 @@ function App() {
               <Route path="book" element={<GuestBook />} />
               <Route path="QR" element={<QRPage />} />
             </Route>
+              <Route path="auth" element={<MobileAuth />} />
 
             <Route path="/member" element={<AuthProvider><Outlet /></AuthProvider>}>
               <Route path="join" element={<MemberJoin />} />

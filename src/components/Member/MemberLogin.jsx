@@ -4,19 +4,22 @@ import logo from "../../img/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../api/AuthContext";
+import CryptoJS from "crypto-js";
 
 function MemberLogin() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const { login, setUser } = useContext(AuthContext);
   const [password, setPassword] = useState("");
+  const ENC_KEY = import.meta.env.VITE_ENC_KEY;
 
   const handleLogin = async () => {
     try {
+      const hashedPassword = CryptoJS.SHA256(password + ENC_KEY).toString();
       const response = await axios.get(
         `${import.meta.env.VITE_BACK_URL}/memberLogin/isValid`,
         {
-          params: { id, pw: password },
+          params: { id, pw: hashedPassword },
         }
       );
 
@@ -44,7 +47,6 @@ function MemberLogin() {
 
         login(userInfoResponse.data);
         navigate("/member");
-        
       } else {
         alert("유효하지 않은 아이디 또는 비밀번호입니다.");
       }
@@ -142,7 +144,6 @@ const Box = styled.input`
     font-size: 22px;
     transform: translateY(-5px);
   }
-  
 `;
 
 const Buttons = styled.div`

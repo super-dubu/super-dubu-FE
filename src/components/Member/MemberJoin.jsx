@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import CryptoJS from "crypto-js";
 
 // 얘네가 schema, 어떤 식으로 데이터를 받아와야 하는지 입력 받을 때 바로바로 유효성 검사 해줄겨
 // 하고 id, pw, verify, name, phoneNumber, email, registerNumber.. 여기에 다 들어가
@@ -48,6 +49,7 @@ const validationSchema = yup.object().shape({
 function MemberJoin() {
   const navigate = useNavigate();
   const { data: agents, isLoading, isError } = GetData("/HLF/getAgents");
+  const ENC_KEY = import.meta.env.VITE_ENC_KEY;
 
   const {
     register,
@@ -76,10 +78,16 @@ function MemberJoin() {
       (agent) => agent.registerID === formData.registrationNumber
     );
 
+    const hashedPassword = CryptoJS.SHA256(
+      formData.password + ENC_KEY
+    ).toString();
+
+    console.log(hashedPassword);
+
     if (matchingAgent) {
       const postData = {
         id: formData.id,
-        pw: formData.password,
+        pw: hashedPassword,
         agentName: matchingAgent.agentName,
         agentPhone: matchingAgent.agentPhone,
         agentEmail: formData.email,
@@ -89,6 +97,7 @@ function MemberJoin() {
         registerDate: matchingAgent.registerDate,
       };
 
+      console.log(postData);
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_BACK_URL}/memberLogin/signup`,
@@ -122,19 +131,18 @@ function MemberJoin() {
       </Container>
       <SignUpContainer>
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <FieldContainer>
             <Row>
-                <Label>아이디</Label>
-                <Input type="text" {...register("id")} />
+              <Label>아이디</Label>
+              <Input type="text" {...register("id")} />
             </Row>
             {touchedFields.id && <Error>{errors.id?.message}</Error>}
           </FieldContainer>
 
           <FieldContainer>
             <Row>
-            <Label>비밀번호</Label>
-            <Input type="password" {...register("password")} />
+              <Label>비밀번호</Label>
+              <Input type="password" {...register("password")} />
             </Row>
             {touchedFields.password && (
               <Error>{errors.password?.message}</Error>
@@ -143,8 +151,8 @@ function MemberJoin() {
 
           <FieldContainer>
             <Row>
-            <Label>비밀번호 확인</Label>
-            <Input type="password" {...register("confirmPassword")} />
+              <Label>비밀번호 확인</Label>
+              <Input type="password" {...register("confirmPassword")} />
             </Row>
             {touchedFields.confirmPassword && (
               <Error>{errors.confirmPassword?.message}</Error>
@@ -153,16 +161,16 @@ function MemberJoin() {
 
           <FieldContainer>
             <Row>
-            <Label>이름</Label>
-            <Input type="text" {...register("name")} />
+              <Label>이름</Label>
+              <Input type="text" {...register("name")} />
             </Row>
             {touchedFields.name && <Error>{errors.name?.message}</Error>}
           </FieldContainer>
 
           <FieldContainer>
             <Row>
-            <Label>전화번호</Label>
-            <Input type="text" {...register("phoneNumber")} />
+              <Label>전화번호</Label>
+              <Input type="text" {...register("phoneNumber")} />
             </Row>
             {touchedFields.phoneNumber && (
               <Error>{errors.phoneNumber?.message}</Error>
@@ -171,16 +179,16 @@ function MemberJoin() {
 
           <FieldContainer>
             <Row>
-            <Label>이메일</Label>
-            <Input type="text" {...register("email")} />
+              <Label>이메일</Label>
+              <Input type="text" {...register("email")} />
             </Row>
             {touchedFields.email && <Error>{errors.email?.message}</Error>}
           </FieldContainer>
 
           <FieldContainer>
             <Row>
-            <Label>공인중개사 등록번호</Label>
-            <Input type="text" {...register("registrationNumber")} />
+              <Label>공인중개사 등록번호</Label>
+              <Input type="text" {...register("registrationNumber")} />
             </Row>
             {touchedFields.registrationNumber && (
               <Error>{errors.registrationNumber?.message}</Error>
@@ -233,8 +241,8 @@ const SignUpContainer = styled.div`
 `;
 
 const Row = styled.div`
-    display:flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 `;
 
 const FieldContainer = styled.div`
@@ -266,7 +274,7 @@ const Input = styled.input`
 `;
 
 const Error = styled.div`
-  color: #DD4A4A;
+  color: #dd4a4a;
   font-size: 14px;
   width: 100%; /* 부모 컨테이너의 전체 너비 사용 */
   text-align: left; /* 왼쪽 정렬로 Input 시작점과 맞춤 */

@@ -17,6 +17,7 @@ function MemberMain() {
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 로딩 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
 
+  console.log(initialData);
   // 초기 데이터 설정
   useEffect(() => {
     if (initialData?.data) {
@@ -55,8 +56,8 @@ function MemberMain() {
   };
 
   return (
-    <div>
-      <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />
+    <div> 
+      {user ? <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />:""}
       <Container>
         <SideBar onScroll={handleScroll}>
           <MenuBar>

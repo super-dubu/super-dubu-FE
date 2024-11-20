@@ -141,7 +141,7 @@ function UploadProperty() {
 
     return (
         <div>
-            <Header userName={'오채린'} showLogout={true} />
+            {user ? <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />:""}
             <Container>
                 <Title>매물 등록</Title>
                 <InputTitle>기본 정보</InputTitle>

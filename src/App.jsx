@@ -35,7 +35,7 @@ function App() {
               <Route path="QR" element={<QRPage />} />
             </Route>
 
-            <Route path="/member" element={<Outlet />}>
+            <Route path="/member" element={<AuthProvider><Outlet /></AuthProvider>}>
               <Route path="join" element={<MemberJoin />} />
               <Route path="login" element={<MemberLogin />} />
               <Route path="property" element={<UploadProperty />} />

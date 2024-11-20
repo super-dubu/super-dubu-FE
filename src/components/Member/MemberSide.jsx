@@ -14,8 +14,8 @@ function MemberSide() {
       <SideInfo>
         <IDPhoto src={Image} />
         <NameBox>
-          <Name> {user.member.agentName} <Position>공인 중개사</Position></Name>
-          <ShopInfo>{user.member.officeName}<br /> ({user.member.agentAddress})</ShopInfo>
+          {user ? <Name> {user.member.agentName} <Position>공인 중개사</Position></Name> : ""}
+          {user ? <ShopInfo>{user.member.officeName}<br /> ({user.member.agentAddress})</ShopInfo> : ""}
         </NameBox>
         <Divider />
         <SideMenu>

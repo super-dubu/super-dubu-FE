@@ -1,8 +1,10 @@
 import React from 'react'
 import Header from '../MemberHeader'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 function Contract5() {
+    const navigate = useNavigate();
   return (
     <div>
         <Header />
@@ -23,7 +25,7 @@ function Contract5() {
                     상세주소가 없는 경우 임차인의 상세주소부여 신청에 대한 소유자 동의여부  (<Checkbox type="checkbox" name="c"/>동의 <Checkbox type="checkbox" name="c"/>미동의)</Note>
              <Label>기타 특약 사항 작성</Label>
             <SpecialInput />
-            <Button>다음</Button>
+            <Button onClick={() => navigate('/member/contract6')}>다음</Button>
         </Container>
     </div>
   )
@@ -76,6 +78,7 @@ const Button = styled.button`
     font-size: 20px;
     color: white;
     font-weight: bold;
+    cursor: pointer;
 `;
 
 const Input = styled.input`

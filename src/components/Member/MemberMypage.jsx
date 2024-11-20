@@ -10,7 +10,7 @@ function MemberMypage() {
 
   return (
     <div>
-      <Header showLogout={true}/>
+      {user ? <Header userName={user?.member?.agentName || "사용자"} showLogout={true} />:""}
       <Container>
         <SideBar/>
         <Content>

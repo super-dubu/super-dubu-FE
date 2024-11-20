@@ -5,6 +5,7 @@ import MemberMypage from "./components/Member/MemberMypage.jsx";
 import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
+import MobileAuth from "./components/api/MobileAuth.jsx"
 
 import GuestLayout from "./components/Guest/GuestLayout.jsx";
 import GuestMain from "./components/Guest/GuestMain.jsx";
@@ -17,6 +18,7 @@ import Contract2 from './components/Member/Contract/Contract2.jsx';
 import Contract3 from './components/Member/Contract/Contract3.jsx';
 import Contract4 from './components/Member/Contract/Contract4.jsx';
 import Contract5 from './components/Member/Contract/Contract5.jsx'
+import Contract6 from './components/Member/Contract/Contract6.jsx'
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import { AuthProvider } from "./components/api/AuthContext"; 
@@ -24,7 +26,7 @@ import { AuthProvider } from "./components/api/AuthContext";
 function App() {
   return (
     <BrowserRouter>
-      
+      <AuthProvider>
         <div className="App">
           <Routes>
             <Route path="/" element={<GuestLayout />}>
@@ -34,6 +36,7 @@ function App() {
               <Route path="book" element={<GuestBook />} />
               <Route path="QR" element={<QRPage />} />
             </Route>
+              <Route path="auth" element={<MobileAuth />} />
 
             <Route path="/member" element={<AuthProvider><Outlet /></AuthProvider>}>
               <Route path="join" element={<MemberJoin />} />
@@ -46,9 +49,11 @@ function App() {
               <Route path="contract3" element={<Contract3 />} />
               <Route path="contract4" element={<Contract4 />} />
               <Route path="contract5" element={<Contract5 />} />
+              <Route path="contract6" element={<Contract6 />} />
             </Route>
           </Routes>
         </div>
+       </AuthProvider>
     </BrowserRouter>
   );
 }

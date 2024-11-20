@@ -24,7 +24,7 @@ import { AuthProvider } from "./components/api/AuthContext";
 function App() {
   return (
     <BrowserRouter>
-      
+      <AuthProvider>
         <div className="App">
           <Routes>
             <Route path="/" element={<GuestLayout />}>
@@ -35,7 +35,7 @@ function App() {
               <Route path="QR" element={<QRPage />} />
             </Route>
 
-            <Route path="/member" element={<AuthProvider><Outlet /></AuthProvider>}>
+            <Route path="/member" element={<Outlet />}>
               <Route path="join" element={<MemberJoin />} />
               <Route path="login" element={<MemberLogin />} />
               <Route path="property" element={<UploadProperty />} />
@@ -49,6 +49,7 @@ function App() {
             </Route>
           </Routes>
         </div>
+       </AuthProvider>
     </BrowserRouter>
   );
 }

@@ -5,6 +5,22 @@ import { useNavigate } from 'react-router-dom';
 
 function Contract1() {
 
+    const handleAuth = async () => {
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_BACK_URL}/HLF/verify`, // URL 수정: params 부분 삭제
+            {
+              params: { name, id }, // name과 id를 params에 포함
+            }
+          );
+          console.log(response);
+          // 성공적인 응답 처리 (필요에 따라 추가)
+        } catch (error) {
+          alert('신원 인증 실패');
+          console.error(error); // 오류 로그 출력
+        }
+      };
+
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
 
     const handleCheckboxChange = (value) => {
@@ -29,7 +45,7 @@ function Contract1() {
                             <StringInput />
                         </Row>
                     </InputContainer>
-                    <AuthButton>인증하기</AuthButton>
+                    <AuthButton onClick={() => {handleAuth()}}>인증하기</AuthButton>
                     </CertBox>
                     <CertBox>
                         <InputContainer>        

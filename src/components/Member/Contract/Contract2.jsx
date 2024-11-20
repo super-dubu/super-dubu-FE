@@ -103,7 +103,7 @@ function Contract2() {
                                 checked={selectedCheckbox === '갱신 계약'}
                                 onChange={() => handleCheckboxChange('갱신 계약')}
                             />
-                            [주택입대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신 계약
+                            [주택임대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신 계약
                         </Label>
           </Address>
         </InputContainer>

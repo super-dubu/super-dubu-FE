@@ -42,7 +42,7 @@ function MemberLogin() {
 
         setUser(userInfoResponse.data);
 
-        login();
+        login(userInfoResponse.data);
         navigate("/member");
         
       } else {

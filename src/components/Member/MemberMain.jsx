@@ -17,7 +17,6 @@ function MemberMain() {
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 로딩 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
 
-  console.log(initialData);
   // 초기 데이터 설정
   useEffect(() => {
     if (initialData?.data) {
@@ -55,30 +54,23 @@ function MemberMain() {
     }
   };
 
+  console.log("items", items);
+
   return (
     <div> 
       {user ? <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />:""}
       <Container>
         <SideBar onScroll={handleScroll}>
           <MenuBar>
-            <MenuButton
-              isActive={activeButton === "전체 매물"}
-              onClick={() => setActiveButton("전체 매물")}
-            >
-              전체 매물
-            </MenuButton>
-            <MenuButton
-              isActive={activeButton === "예약 대기"}
-              onClick={() => setActiveButton("예약 대기")}
-            >
-              예약 대기
-            </MenuButton>
-            <MenuButton
-              isActive={activeButton === "거래 진행중"}
-              onClick={() => setActiveButton("거래 진행중")}
-            >
-              거래 진행중
-            </MenuButton>
+          <MenuButton $isActive={activeButton === "전체 매물"} onClick={() => setActiveButton("전체 매물")}>
+            전체 매물
+          </MenuButton>
+          <MenuButton $isActive={activeButton === "예약 대기"} onClick={() => setActiveButton("예약 대기")}>
+            예약 대기
+          </MenuButton>
+          <MenuButton $isActive={activeButton === "거래 진행중"} onClick={() => setActiveButton("거래 진행중")}>
+            거래 진행중
+          </MenuButton>
           </MenuBar>
           <SearchBar>
             <SearchInput placeholder="검색 키워드를 입력해주세요" />
@@ -91,9 +83,12 @@ function MemberMain() {
           <ItemContainer onScroll={handleScroll}>
             {items.map((data, index) => (
               <Item key={index}>
-                <p>{data.buildingAddress || "주소 없음"}</p>
-                <p>가격: {data.buildingPrice || "정보 없음"}</p>
-                <p>소유주: {data.owner || "정보 없음"}</p>
+                <ItemInfo>
+                  <Address>{data.buildingAddress || "주소 없음"} {data.hosu}</Address>
+                  <p>가격: {data.buildingPrice || "정보 없음"}</p>
+                  <p>소유주: {data.owner || "정보 없음"}</p>
+                  <p>승인일자: {data.confirmDate || "정보 없음"}</p>
+                </ItemInfo>
               </Item>
             ))}
             {isLoadingMore && <Loading>로딩 중...</Loading>}
@@ -140,9 +135,7 @@ const MenuBar = styled.div`
   height: 5rem;
 `;
 
-const MenuButton = styled.div.attrs((props) => ({
-  isActive: props.isActive, // 스타일에서만 사용할 prop으로 정의
-}))`
+const MenuButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,8 +143,8 @@ const MenuButton = styled.div.attrs((props) => ({
   width: 33.3%;
   font-weight: 700;
   border-right: 1.2px solid #9b9b9b;
-  color: ${(props) => (props.isActive ? "white" : "#545454")};
-  background-color: ${(props) => (props.isActive ? "#B2B0B0" : "white")};
+  color: ${({ $isActive }) => ($isActive ? "white" : "#545454")}; /* $로 시작 */
+  background-color: ${({ $isActive }) => ($isActive ? "#B2B0B0" : "white")}; /* $로 시작 */
   cursor: pointer;
 
   &:last-child {
@@ -242,4 +235,12 @@ const EndMessage = styled.div`
   color: #888;
   margin: 1rem 0;
   text-align: center;
+`;
+
+const ItemInfo = styled.div`
+  padding: 1rem;
+`;
+
+const Address = styled.div`
+  font-weight: bold;
 `;

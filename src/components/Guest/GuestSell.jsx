@@ -11,7 +11,7 @@ import GetData from "../../hooks/GetData";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const GuestSell = () => {
-  const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
+  const { data: item, isLoading, isError } = GetData("/forsale/view");
   const [filteredItems, setFilteredItems] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,13 +27,7 @@ const GuestSell = () => {
     if (!item || !item.data) return;
 
     let filtered;
-    if (category === "원/투룸") {
-      filtered = item.data.filter(
-        (it) => it.buildingType === 1 || it.buildingType === 2
-      );
-    } else {
-      filtered = item.data.filter((it) => it.buildingType === category);
-    }
+    filtered = item.data.filter((it) => it.buildingType === category);
     setFilteredItems(filtered.length > 0 ? filtered : []);
   };
 
@@ -53,15 +47,15 @@ const GuestSell = () => {
       </FilterBar>
       <MainSection>
         <Sidebar>
-          <ItemImg src={room} onClick={() => handleFilterClick(1)} />
+          <ItemImg src={room} onClick={() => handleFilterClick("0")} />
           <Category>원/투룸</Category>
-          <ItemImg src={office} onClick={() => handleFilterClick(2)} />
+          <ItemImg src={office} onClick={() => handleFilterClick("1")} />
           <Category>오피스텔</Category>
-          <ItemImg src={apart} onClick={() => handleFilterClick(3)} />
-          <Category>아파트</Category>
-          <ItemImg src={house} onClick={() => handleFilterClick(4)} />
-          <Category>주택/빌라</Category>
-          <ItemImg src={shop} onClick={() => handleFilterClick(5)} />
+          <ItemImg src={apart} onClick={() => handleFilterClick("2")} />
+          <Category>아파트/빌라</Category>
+          <ItemImg src={house} onClick={() => handleFilterClick("3")} />
+          <Category>주택</Category>
+          <ItemImg src={shop} onClick={() => handleFilterClick("4")} />
           <Category>상가/사무실</Category>
         </Sidebar>
         <Content>
@@ -80,7 +74,7 @@ const GuestSell = () => {
                   <ItemImg src="https://via.placeholder.com/150" alt="item" />
                   <ItemDetails>
                     <ItemInfo>
-                      {it.buildingPrice} / {it.floorInfo}층
+                      {it.priceRental} / {it.priceMonthly}
                     </ItemInfo>
                     <ItemLocation>{it.buildingAddress}</ItemLocation>
                   </ItemDetails>
@@ -187,6 +181,7 @@ const ItemDetails = styled.div`
 const ItemInfo = styled.div`
   font-size: 18px;
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const ItemLocation = styled.div`

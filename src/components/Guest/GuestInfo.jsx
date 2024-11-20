@@ -42,28 +42,28 @@ const GuestInfo = () => {
               <ExitButton onClick={() => navigate("/sell")}>✕</ExitButton>
             </Header>
             <ImageContainer>
-              <Image src={it.images[0].url} alt="Room" />
+              <Image src={it.image} alt="Room" />
             </ImageContainer>
             <InfoSection>
               <Title>
-                월세 {it.price_info.deposit} / {it.price_info.monthly_rent}
+                월세 {it.priceRental} / {it.priceMonthly}
               </Title>
-              <Subtitle>{it.address}</Subtitle>
+              <Subtitle>{it.buildingAddress}</Subtitle>
             </InfoSection>
             <InfoSection>
               <h3>가격 정보</h3>
               <InfoRow>
                 <Label>월세:</Label>
-                <Value>{it.price_info.monthly_rent}</Value>
+                <Value>{it.priceMonthly}</Value>
               </InfoRow>
               <InfoRow>
                 <Label>보증금:</Label>
-                <Value>{it.price_info.deposit}</Value>
+                <Value>{it.priceRental}</Value>
               </InfoRow>
               <InfoRow>
                 <Label>관리비:</Label>
                 <Value>
-                  매월 {it.price_info.management_fee}만원 (수도, 가스 포함)
+                  매월 {it.manageFee}만원 (수도, 가스 포함)
                 </Value>
               </InfoRow>
             </InfoSection>
@@ -71,38 +71,37 @@ const GuestInfo = () => {
               <h3>상세 정보</h3>
               <InfoRow>
                 <Label>방 종류:</Label>
-                <Value>{it.details.room_type}</Value>
+                <Value>{it.buildingType}</Value>
               </InfoRow>
               <InfoRow>
-                <Label>해당 층 / 건물 층:</Label>
+                <Label> 동 / 호수 </Label>
                 <Value>
-                  {it.details.building_floors}층 / {it.details.total_floors}층
+                  {it.hosu}
                 </Value>
               </InfoRow>
               <InfoRow>
-                <Label>전용 / 공급면적:</Label>
+                <Label>면적:</Label>
                 <Value>
-                  {Math.round(parseFloat(it.details.area.exclusive) * 0.3025)}평
-                  / {Math.round(parseFloat(it.details.area.supply) * 0.3025)}평
+                  {Math.round(parseFloat(it.area) * 0.3025)/100}평
                 </Value>
               </InfoRow>
               <InfoRow>
                 <Label>방 수 / 욕실 수:</Label>
                 <Value>
-                  {it.details.bathrooms}개 / {it.details.rooms}개
+                  {it.roomCount}개 / {it.bathroom}개
                 </Value>
               </InfoRow>
               <InfoRow>
-                <Label>최초 등록일:</Label>
-                <Value>{it.details.listed_date}</Value>
+                <Label>입주 가능일:</Label>
+                <Value>{it.availableDate}</Value>
               </InfoRow>
             </InfoSection>
             <InfoSection>
               <h3>공인중개인 정보</h3>
-              <p>중개 사무소 정보: 두부공인중개사사무소</p>
-              <p>중개인: 오채린</p>
-              <p>중개 등록 번호: 123456-789123</p>
-              <p>대표 번호: 010-1234-5678</p>
+              <p>중개 사무소 정보: {it.memberOffice}</p>
+              <p>중개인: {it.member}</p>
+              <p>중개 등록 번호: {it.memberRegister}</p>
+              <p>대표 번호: {it.memberNumber}</p>
             </InfoSection>
             <Footer>
               <Button

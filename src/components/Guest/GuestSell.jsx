@@ -11,7 +11,7 @@ import GetData from "../../hooks/GetData";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const GuestSell = () => {
-  const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
+  const { data: item, isLoading, isError } = GetData("/forsale/view");
   const [filteredItems, setFilteredItems] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
@@ -30,13 +30,7 @@ const GuestSell = () => {
     setSelectedCategory(category); // Set the selected category
 
     let filtered;
-    if (category === "원/투룸") {
-      filtered = item.data.filter(
-        (it) => it.buildingType === 1 || it.buildingType === 2
-      );
-    } else {
-      filtered = item.data.filter((it) => it.buildingType === category);
-    }
+    filtered = item.data.filter((it) => it.buildingType === category);
     setFilteredItems(filtered.length > 0 ? filtered : []);
   };
 
@@ -108,7 +102,7 @@ const GuestSell = () => {
                   <ItemImg src="https://via.placeholder.com/150" alt="item" />
                   <ItemDetails>
                     <ItemInfo>
-                      {it.buildingPrice} / {it.floorInfo}층
+                      {it.priceRental} / {it.priceMonthly}
                     </ItemInfo>
                     <ItemLocation>{it.buildingAddress}</ItemLocation>
                   </ItemDetails>
@@ -239,6 +233,7 @@ const ItemDetails = styled.div`
 const ItemInfo = styled.div`
   font-size: 18px;
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const ItemLocation = styled.div`

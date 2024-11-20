@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Kmap from "../api/KakaoMap";
 import room from "../../img/room.png";
 import office from "../../img/officetel.png";
@@ -13,6 +13,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const GuestSell = () => {
   const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
   const [filteredItems, setFilteredItems] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { category } = location.state || {};
@@ -25,6 +26,8 @@ const GuestSell = () => {
 
   const handleFilterClick = (category) => {
     if (!item || !item.data) return;
+
+    setSelectedCategory(category); // Set the selected category
 
     let filtered;
     if (category === "원/투룸") {
@@ -53,16 +56,41 @@ const GuestSell = () => {
       </FilterBar>
       <MainSection>
         <Sidebar>
-          <ItemImg src={room} onClick={() => handleFilterClick(1)} />
-          <Category>원/투룸</Category>
-          <ItemImg src={office} onClick={() => handleFilterClick(2)} />
-          <Category>오피스텔</Category>
-          <ItemImg src={apart} onClick={() => handleFilterClick(3)} />
-          <Category>아파트</Category>
-          <ItemImg src={house} onClick={() => handleFilterClick(4)} />
-          <Category>주택/빌라</Category>
-          <ItemImg src={shop} onClick={() => handleFilterClick(5)} />
-          <Category>상가/사무실</Category>
+          <CategoryContainer
+            isSelected={selectedCategory === 1}
+            onClick={() => handleFilterClick(1)}
+          >
+            <ItemImg src={room} />
+            <Category>원/투룸</Category>
+          </CategoryContainer>
+          <CategoryContainer
+            isSelected={selectedCategory === 2}
+            onClick={() => handleFilterClick(2)}
+          >
+            <ItemImg src={office} />
+            <Category>오피스텔</Category>
+          </CategoryContainer>
+          <CategoryContainer
+            isSelected={selectedCategory === 3}
+            onClick={() => handleFilterClick(3)}
+          >
+            <ItemImg src={apart} />
+            <Category>아파트</Category>
+          </CategoryContainer>
+          <CategoryContainer
+            isSelected={selectedCategory === 4}
+            onClick={() => handleFilterClick(4)}
+          >
+            <ItemImg src={house} />
+            <Category>주택/빌라</Category>
+          </CategoryContainer>
+          <CategoryContainer
+            isSelected={selectedCategory === 5}
+            onClick={() => handleFilterClick(5)}
+          >
+            <ItemImg src={shop} />
+            <Category>상가/사무실</Category>
+          </CategoryContainer>
         </Sidebar>
         <Content>
           {itemsToDisplay.length > 0 ? (
@@ -139,13 +167,37 @@ const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f7f7f7;
+  border-style: solid;
+  border-width: 0 1px 0 0;
+  border-color: #9b9b9b;
   padding: 1rem;
+  height: 100vh;
+  gap: 1rem;
+  text-align: center;
+`;
+
+const CategoryContainer = styled.div`
+  width: 110px;
+  height: 110px;
+  padding: 5px;
+  cursor: pointer;
+  ${(props) =>
+    props.isSelected &&
+    css`
+      border: 2px solid blue;
+      border-color: #6C76A8;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+      border-radius: 30px;
+      color:#6C76A8;
+      font-weight: bold;
+    `}
 `;
 
 const Category = styled.div`
   margin-bottom: 3px;
+  margin-top: 3px;
   font-size: 14px;
+  /* font-weight: bold; */
 `;
 
 const Content = styled.div`
@@ -174,8 +226,8 @@ const Item = styled.div`
 `;
 
 const ItemImg = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 5px;
   object-fit: cover;
 `;

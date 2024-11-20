@@ -180,6 +180,7 @@ const Sidebar = styled.div`
 const Category = styled.div`
   margin-bottom: 3px;
   font-size: 14px;
+  font-weight: bold;
 `;
 
 const Content = styled.div`
@@ -255,10 +256,10 @@ const Button = styled.button`
 `;
 
 const ItemImg = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 5px;
-  object-fit: cover;
+  /* object-fit: cover; */
 `;
 
 const MapArea = styled.div`

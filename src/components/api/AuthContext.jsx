@@ -1,18 +1,17 @@
-import { createContext, useState } from 'react';
+import { createContext, useState } from "react";
 import { useEffect } from "react";
 
 export const AuthContext = createContext();
-
 
 // AuthContext.jsx
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   // console.log("여기있다");
-  
+
   useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    const storedUser = localStorage.getItem('user');
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedUser = localStorage.getItem("user");
     // console.log("context", storedIsLoggedIn, storedUser);
     // console.log("여기있다 use effect");
     if (storedIsLoggedIn && storedUser) {

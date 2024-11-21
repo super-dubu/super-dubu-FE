@@ -24,7 +24,7 @@ function MemberMain() {
   // 초기 데이터 설정
   useEffect(() => {
     if (initialData?.data) {
-      setItems(initialData.data);
+      setItems(initialData.data.result);
     }
   }, [initialData]);
 
@@ -37,7 +37,7 @@ function MemberMain() {
       const response = await axiosInstance.get(
         `/HLF/getBuildings?page=${page}`
       );
-      const newItems = response.data;
+      const newItems = response.data.result;
 
       if (newItems.length === 0) {
         setHasMore(false); // 더 이상 데이터가 없음을 설정

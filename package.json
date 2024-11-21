@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
     "crypto-js": "^4.2.0",
     "lodash": "^4.17.21",
     "qrcode.react": "^4.0.1",
@@ -46,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-datepicker": "^7.0.0",
     "@vitejs/plugin-react": "^4.3.3",
     "prettier": "3.3.3",
     "vite": "^5.4.10"

@@ -4,19 +4,24 @@ import logo from "../../img/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../api/AuthContext";
+import CryptoJS from "crypto-js";
 
 function MemberLogin() {
   const navigate = useNavigate();
   const [id, setId] = useState("");
-  const { login, setUser } = useContext(AuthContext);
+  const { login, user, setUser } = useContext(AuthContext);
   const [password, setPassword] = useState("");
+  const ENC_KEY = import.meta.env.VITE_ENC_KEY;
 
   const handleLogin = async () => {
     try {
+      const hashedPassword = CryptoJS.SHA256(password + ENC_KEY).toString();
+      console.log(id, hashedPassword);
+
       const response = await axios.get(
         `${import.meta.env.VITE_BACK_URL}/memberLogin/isValid`,
         {
-          params: { id, pw: password },
+          params: { id, pw: hashedPassword },
         }
       );
 
@@ -40,11 +45,10 @@ function MemberLogin() {
           }
         );
 
-        setUser(userInfoResponse.data);
-
-        login(userInfoResponse.data);
+        console.log(userInfoResponse.data);
+        login(userInfoResponse.data.user);
+        console.log(user);
         navigate("/member");
-        
       } else {
         alert("유효하지 않은 아이디 또는 비밀번호입니다.");
       }
@@ -142,7 +146,6 @@ const Box = styled.input`
     font-size: 22px;
     transform: translateY(-5px);
   }
-  
 `;
 
 const Buttons = styled.div`
@@ -175,3 +178,18 @@ const JoinButton = styled.button`
   height: 70px;
   cursor: pointer;
 `;
+
+// HLF/Auth
+
+// const te1 = "유태석";
+// const te2 = "931014-15380017";
+// const hashedCode = CryptoJS.SHA256(te1 + te2 + ENC_KEY).toString();
+// console.log(decodeURI(te1));
+// const resdata = await axios.get(
+//   `${import.meta.env.VITE_BACK_URL}/HLF/Auth`,
+//   {
+//     params: { name: decodeURI(te1), code: hashedCode },
+//   }
+// );
+
+// console.log(resdata);

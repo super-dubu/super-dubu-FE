@@ -19,7 +19,7 @@ function UploadProperty() {
   const [postImg, setPostImg] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
 
-  const [buildingType, setBuildingType] = useState("");
+  const [buildingType, setBuildingType] = useState("0");
   const [itemType, setItemType] = useState("");
   const [priceRental, setPriceRental] = useState("");
   const [priceMonthly, setPriceMonthly] = useState("");
@@ -32,8 +32,6 @@ function UploadProperty() {
   const navigate = useNavigate();
   const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
   const { user } = useContext(AuthContext);
-
-  console.log("items", item);
 
   const Property = {
     tokenID: match.tokenID,
@@ -55,10 +53,10 @@ function UploadProperty() {
     body: body,
     image: "https://via.placeholder.com/150",
     owner: match.owner,
-    member: user.agentName,
-    memberRegister: user.registerID,
-    memberOffice: user.officeName,
-    memberNumber: user.agentPhone,
+    member: user?.agentName,
+    memberRegister: user?.registerID,
+    memberOffice: user?.officeName,
+    memberNumber: user?.agentPhone,
     status: "PENDING",
   };
 
@@ -96,7 +94,7 @@ function UploadProperty() {
 
     if (isLoading || isError || !item) return;
 
-    const matched = item.data.find((building) => {
+    const matched = item.data.result.find((building) => {
       const tokenIDPrefix = building.tokenID.slice(0, 17);
       const buildingCodePrefix = data.buildingCode.slice(0, 17);
       return tokenIDPrefix === buildingCodePrefix;
@@ -156,14 +154,7 @@ function UploadProperty() {
 
   return (
     <div>
-      {user ? (
-        <Header
-          userName={user?.member?.agentName || "사용자"}
-          showLogout={false}
-        />
-      ) : (
-        ""
-      )}
+      {user ? <Header showLogout={false} /> : ""}
       <Container>
         <Title>매물 등록</Title>
         <InputTitle>기본 정보</InputTitle>

@@ -30,7 +30,9 @@ const GuestSell = () => {
     setSelectedCategory(category); // Set the selected category
 
     let filtered;
-    filtered = item.data.filter((it) => it.buildingType === category);
+    filtered = item.data.properties.filter(
+      (it) => it.buildingType === category
+    );
     setFilteredItems(filtered.length > 0 ? filtered : []);
   };
 
@@ -113,7 +115,9 @@ const GuestSell = () => {
             <NoItemsMessage>해당하는 매물이 없습니다</NoItemsMessage>
           )}
           <MapArea>
-            <Kmap addresses={item.data?.map((it) => it.buildingAddress)} />
+            <Kmap
+              addresses={item.data?.properties.map((it) => it.buildingAddress)}
+            />
           </MapArea>
         </Content>
       </MainSection>

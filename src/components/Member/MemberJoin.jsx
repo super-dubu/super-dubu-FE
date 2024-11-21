@@ -73,7 +73,7 @@ function MemberJoin() {
       return;
     }
 
-    const agentList = agents.data;
+    const agentList = agents.data.result;
     const matchingAgent = agentList.find(
       (agent) => agent.registerID === formData.registrationNumber
     );

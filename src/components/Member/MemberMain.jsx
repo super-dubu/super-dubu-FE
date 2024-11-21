@@ -1,68 +1,40 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
-import { AuthContext } from "../api/AuthContext";
-import GetData from "../../hooks/GetData";
-import { axiosInstance } from "../api/axios-instance.js";
-
+import getData from "../../hooks/GetData.js";
+import { AuthContext } from "../api/AuthContext.jsx";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물");
   const { user } = useContext(AuthContext);
 
-  // 초기 데이터 로드
-  const { data: initialData, isLoading, isError } = GetData(`/HLF/getBuildings?page=1`);
-  const [items, setItems] = useState([]); // 전체 데이터
-  const [page, setPage] = useState(2); // 다음 페이지 번호
-  const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 로딩 상태
-  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
+  const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
 
-  useEffect(() => {
-    console.log("초기 데이터 (GetData):", initialData);
+  // 로딩 중일 때 화면 표시
+  if (isLoading || !items || !items.data || !items.data.result) {
+    return (
+      <LoadingContainer>
+        <LoadingMessage>데이터를 로딩 중입니다. 잠시만 기다려주세요...</LoadingMessage>
+      </LoadingContainer>
+    );
+  }
 
-    // `result`를 올바르게 가져오기
-    if (initialData && Array.isArray(initialData.result)) {
-      setItems(initialData.result); // 초기 데이터를 설정
-    } else {
-      console.error("초기 데이터가 올바른 형식이 아닙니다:", initialData);
-    }
-  }, [initialData]);
+  // 에러 발생 시 화면 표시
+  if (isError) {
+    return (
+      <ErrorContainer>
+        <ErrorMessage>데이터를 불러오는 중 오류가 발생했습니다.</ErrorMessage>
+      </ErrorContainer>
+    );
+  }
 
-  const loadMoreItems = async () => {
-    if (isLoadingMore || !hasMore) return;
-
-    setIsLoadingMore(true);
-    try {
-      const response = await axiosInstance.get(`/HLF/getBuildings?page=${page}`);
-      console.log("추가 데이터:", response.data);
-
-      const newItems = response.data?.result || [];
-      if (newItems.length === 0) {
-        setHasMore(false);
-      } else {
-        setItems((prevItems) => [...prevItems, ...newItems]);
-        setPage((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      console.error("추가 데이터 로드 실패:", error);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  };
-
-  const handleScroll = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target;
-    if (scrollHeight - scrollTop <= clientHeight + 50 && hasMore) {
-      loadMoreItems();
-    }
-  };
-
+  // 데이터가 준비된 후에만 화면 렌더링
   return (
     <div>
       <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />
       <Container>
-        <SideBar onScroll={handleScroll}>
+        <SideBar>
           <MenuBar>
             {["전체 매물", "예약 대기", "거래 진행중"].map((label) => (
               <MenuButton
@@ -82,17 +54,14 @@ function MemberMain() {
               ))}
             </SearchOption>
           </SearchBar>
-          <ItemContainer onScroll={handleScroll}>
-            {Array.isArray(items) &&
-              items.map((data, index) => (
-                <Item key={index}>
-                  <p>{data.buildingAddress || "주소 없음"}</p>
-                  <p>가격: {data.buildingPrice || "정보 없음"}</p>
-                  <p>소유주: {data.owner || "정보 없음"}</p>
-                </Item>
-              ))}
-            {isLoadingMore && <Loading>로딩 중...</Loading>}
-            {!hasMore && <EndMessage>더 이상 불러올 데이터가 없습니다.</EndMessage>}
+          <ItemContainer>
+            {items.data.result.map((it, index) => (
+              <Item key={index}>
+                <p>{it.buildingAddress || "주소 없음"}</p>
+                <p>가격: {it.buildingPrice || "정보 없음"}</p>
+                <p>소유주: {it.owner || "정보 없음"}</p>
+              </Item>
+            ))}
           </ItemContainer>
         </SideBar>
         <Kmap />
@@ -103,7 +72,33 @@ function MemberMain() {
 
 export default MemberMain;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+`;
 
+const LoadingMessage = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+`;
+
+const ErrorMessage = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d9534f;
+`;
 
 const Container = styled.div`
   display: flex;

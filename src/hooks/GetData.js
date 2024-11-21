@@ -12,7 +12,7 @@ const GetData = (url) => {
       try {
         const response = await axiosInstance.get(url);
         setData(response);
-        console.log(response);
+        // console.log(response);
       } catch (e) {
         setIsError(true);
         // alert(e.response.data.message);

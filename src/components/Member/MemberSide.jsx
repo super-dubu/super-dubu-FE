@@ -37,7 +37,7 @@ function MemberSide({openModal}) {
           <SideButton onClick={() => navigate("/member/property")}>
             매물 등록
           </SideButton>
-          <SideButton onClick={() => navigate("/member/contract1")}>
+          <SideButton onClick={() => navigate("/member/contract/1")}>
             계약서 작성
           </SideButton>
           <SideButton>최근 계약</SideButton>

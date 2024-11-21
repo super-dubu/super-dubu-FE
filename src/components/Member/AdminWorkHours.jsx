@@ -2,7 +2,11 @@ import React from 'react'
 
 function AdminWorkHours() {
   return (
-    <div>AdminWorkHours</div>
+    <div>
+      <Container>
+        
+      </Container>
+    </div>
   )
 }
 

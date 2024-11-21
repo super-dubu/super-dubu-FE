@@ -113,7 +113,7 @@ function Contract4() {
 
                 <Bold>제13조(중개대상물확인․설명서 교부)</Bold> 개업공인중개사는 중개대상물 확인․설명서를 작성하고 업무보증관계증서(공제증서등) 사본을 첨부하여           <InputString /> 년         <InputString /> 월         <InputString /> 일 임대인과 임차인에게 각각 교부한다.
             </Note2>
-            <Button onClick = {() => navigate('/member/contract5')}>다음</Button>
+            <Button onClick = {() => navigate('/member/contract/5')}>다음</Button>
         </Container>
     </div>
   )

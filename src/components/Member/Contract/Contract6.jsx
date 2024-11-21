@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 function Contract6() {
 
 const { user } = useContext(AuthContext);   
-// console.log("Original user", user);
+console.log("Original user", user);
 const userData = user ? user : { user: "" };
-// console.log("Processed userData:", userData);
+console.log("Processed userData:", userData);
 const navigate = useNavigate();
 
 const handleComplete = () => {
@@ -38,7 +38,7 @@ const handleComplete = () => {
                     <Row>보증금 : </Row>
                     <Row>월세 : </Row>
                     <Row>관리비 : </Row>
-                    <Row>중개업자명 : {userData.member.agentName}</Row>
+                    <Row>중개업자명 : {userData.agentName}</Row>
                 </Column>
             </AgentBox>
             <Button onClick={handleComplete}>계약 완료하기</Button>

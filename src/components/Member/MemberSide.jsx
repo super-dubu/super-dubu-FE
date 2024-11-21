@@ -4,7 +4,7 @@ import Image from "../../img/image.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../api/AuthContext";
 
-function MemberSide() {
+function MemberSide({openModal}) {
   const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
@@ -33,11 +33,11 @@ function MemberSide() {
         </NameBox>
         <Divider />
         <SideMenu>
-          <SideButton>예약 관리</SideButton>
+          <SideButton onClick={openModal}>예약 관리</SideButton>
           <SideButton onClick={() => navigate("/member/property")}>
             매물 등록
           </SideButton>
-          <SideButton onClick={() => navigate("/member/contract1")}>
+          <SideButton onClick={() => navigate("/member/contract/1")}>
             계약서 작성
           </SideButton>
           <SideButton>최근 계약</SideButton>

@@ -1,124 +1,67 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
-import { AuthContext } from "../api/AuthContext";
-import GetData from "../../hooks/GetData";
-import { axiosInstance } from "../api/axios-instance.js";
+import getData from "../../hooks/GetData.js";
+import { AuthContext } from "../api/AuthContext.jsx";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물");
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  // 초기 데이터 로드
-  const {
-    data: initialData,
-    isLoading,
-    isError,
-  } = GetData(`/HLF/getBuildings?page=1`);
-  const [items, setItems] = useState([]); // 전체 데이터
-  const [page, setPage] = useState(2); // 다음 페이지 번호
-  const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 로딩 상태
-  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
+  const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
 
-  // 초기 데이터 설정
-  useEffect(() => {
-    if (initialData?.data) {
-      setItems(initialData.data.result);
-    }
-  }, [initialData]);
+  // 로딩 중일 때 화면 표시
+  if (isLoading || !items || !items.data || !items.data.result) {
+    return (
+      <LoadingContainer>
+        <LoadingMessage>데이터를 로딩 중입니다. 잠시만 기다려주세요...</LoadingMessage>
+      </LoadingContainer>
+    );
+  }
 
-  // 추가 데이터 로드 함수
-  const loadMoreItems = async () => {
-    if (isLoadingMore || !hasMore) return;
+  // 에러 발생 시 화면 표시
+  if (isError) {
+    return (
+      <ErrorContainer>
+        <ErrorMessage>데이터를 불러오는 중 오류가 발생했습니다.</ErrorMessage>
+      </ErrorContainer>
+    );
+  }
 
-    setIsLoadingMore(true);
-    try {
-      const response = await axiosInstance.get(
-        `/HLF/getBuildings?page=${page}`
-      );
-      const newItems = response.data.result;
-
-      if (newItems.length === 0) {
-        setHasMore(false); // 더 이상 데이터가 없음을 설정
-      } else {
-        setItems((prevItems) => [...prevItems, ...newItems]);
-        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
-      }
-    } catch (error) {
-      console.error("추가 데이터 로드 실패:", error);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  };
-
-  // 스크롤 이벤트 핸들러
-  const handleScroll = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target;
-    if (scrollHeight - scrollTop <= clientHeight + 50 && hasMore) {
-      loadMoreItems(); // 스크롤이 끝에 도달하면 추가 데이터 로드
-    }
-  };
-
-  console.log("items", items);
-
+  // 데이터가 준비된 후에만 화면 렌더링
   return (
     <div>
-      {user ? (
-        <Header
-          userName={user?.member?.agentName || "사용자"}
-          showLogout={false}
-        />
-      ) : (
-        ""
-      )}
+      <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />
       <Container>
-        <SideBar onScroll={handleScroll}>
+        <SideBar>
           <MenuBar>
-            <MenuButton
-              $isActive={activeButton === "전체 매물"}
-              onClick={() => setActiveButton("전체 매물")}
-            >
-              전체 매물
-            </MenuButton>
-            <MenuButton
-              $isActive={activeButton === "예약 대기"}
-              onClick={() => setActiveButton("예약 대기")}
-            >
-              예약 대기
-            </MenuButton>
-            <MenuButton
-              $isActive={activeButton === "거래 진행중"}
-              onClick={() => setActiveButton("거래 진행중")}
-            >
-              거래 진행중
-            </MenuButton>
+            {["전체 매물", "예약 대기", "거래 진행중"].map((label) => (
+              <MenuButton
+                key={label}
+                isActive={activeButton === label}
+                onClick={() => setActiveButton(label)}
+              >
+                {label}
+              </MenuButton>
+            ))}
           </MenuBar>
           <SearchBar>
             <SearchInput placeholder="검색 키워드를 입력해주세요" />
             <SearchOption>
-              <Options>인기순</Options>
-              <Options>가격순</Options>
-              <Options>최신순</Options>
+              {["인기순", "가격순", "최신순"].map((option) => (
+                <Options key={option}>{option}</Options>
+              ))}
             </SearchOption>
           </SearchBar>
-          <ItemContainer onScroll={handleScroll}>
-            {items.map((data, index) => (
+          <ItemContainer>
+            {items.data.result.map((it, index) => (
               <Item key={index}>
-                <ItemInfo>
-                  <Address>
-                    {data.buildingAddress || "주소 없음"} {data.hosu}
-                  </Address>
-                  <p>가격: {data.buildingPrice || "정보 없음"}</p>
-                  <p>소유주: {data.owner || "정보 없음"}</p>
-                  <p>승인일자: {data.comfirmDate || "정보 없음"}</p>
-                </ItemInfo>
+                <p>{it.buildingAddress || "주소 없음"}</p>
+                <p>가격: {it.buildingPrice || "정보 없음"}</p>
+                <p>소유주: {it.owner || "정보 없음"}</p>
               </Item>
             ))}
-            {isLoadingMore && <Loading>로딩 중...</Loading>}
-            {!hasMore && (
-              <EndMessage>더 이상 불러올 데이터가 없습니다.</EndMessage>
-            )}
           </ItemContainer>
         </SideBar>
         <Kmap />
@@ -128,6 +71,34 @@ function MemberMain() {
 }
 
 export default MemberMain;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+`;
+
+const LoadingMessage = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+`;
+
+const ErrorMessage = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d9534f;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -159,7 +130,9 @@ const MenuBar = styled.div`
   height: 5rem;
 `;
 
-const MenuButton = styled.div`
+const MenuButton = styled.div.attrs((props) => ({
+  isActive: props.isActive, // 스타일에서만 사용할 prop으로 정의
+}))`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,9 +140,8 @@ const MenuButton = styled.div`
   width: 33.3%;
   font-weight: 700;
   border-right: 1.2px solid #9b9b9b;
-  color: ${({ $isActive }) => ($isActive ? "white" : "#545454")}; /* $로 시작 */
-  background-color: ${({ $isActive }) =>
-    $isActive ? "#B2B0B0" : "white"}; /* $로 시작 */
+  color: ${(props) => (props.isActive ? "white" : "#545454")};
+  background-color: ${(props) => (props.isActive ? "#B2B0B0" : "white")};
   cursor: pointer;
 
   &:last-child {
@@ -260,13 +232,4 @@ const EndMessage = styled.div`
   color: #888;
   margin: 1rem 0;
   text-align: center;
-`;
-
-const ItemInfo = styled.div`
-  padding: 1rem;
-  margin-top: 1rem;
-`;
-
-const Address = styled.div`
-  font-weight: bold;
 `;

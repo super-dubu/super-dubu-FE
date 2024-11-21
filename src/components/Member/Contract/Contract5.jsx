@@ -25,7 +25,7 @@ function Contract5() {
                     상세주소가 없는 경우 임차인의 상세주소부여 신청에 대한 소유자 동의여부  (<Checkbox type="checkbox" name="c"/>동의 <Checkbox type="checkbox" name="c"/>미동의)</Note>
              <Label>기타 특약 사항 작성</Label>
             <SpecialInput />
-            <Button onClick={() => navigate('/member/contract6')}>다음</Button>
+            <Button onClick={() => navigate('/member/contract/6')}>다음</Button>
         </Container>
     </div>
   )

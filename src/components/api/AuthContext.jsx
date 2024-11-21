@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
-
 export const AuthContext = createContext();
 
 // AuthContext.jsx
@@ -29,9 +28,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (userData) => {
+  const login = async (userData) => {
     setIsLoggedIn(true);
     setUser(userData);
+    
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("isLoggedIn", "true");
   };

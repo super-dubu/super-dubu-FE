@@ -151,7 +151,7 @@ function Contract2() {
             </Label>
           </Box>
         </CheckContainer>
-        <Button onClick = {() => navigate('/member/contract3')}>다음</Button>
+        <Button onClick = {() => navigate('/member/contract/3')}>다음</Button>
       </Container>
 
       {/* 모달을 조건부로 렌더링 */}

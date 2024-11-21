@@ -6,6 +6,7 @@ import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
 import MobileAuth from "./components/api/MobileAuth.jsx"
+import BookAdmin from "./components/Member/BookingAdmin.jsx"
 
 import GuestLayout from "./components/Guest/GuestLayout.jsx";
 import GuestMain from "./components/Guest/GuestMain.jsx";
@@ -44,6 +45,7 @@ function App() {
               <Route path="property" element={<UploadProperty />} />
               <Route path="mypage" element={<MemberMypage />} />
               <Route path="" element={<MemberMain />} />
+              <Route path="bookadmin" element={<BookAdmin />} />
               <Route path="contract1" element={<Contract1 />} />
               <Route path="contract2" element={<Contract2 />} />
               <Route path="contract3" element={<Contract3 />} />

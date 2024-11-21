@@ -82,8 +82,6 @@ function MemberJoin() {
       formData.password + ENC_KEY
     ).toString();
 
-    console.log(hashedPassword);
-
     if (matchingAgent) {
       const postData = {
         id: formData.id,

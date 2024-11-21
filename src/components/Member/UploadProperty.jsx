@@ -55,10 +55,10 @@ function UploadProperty() {
     body: body,
     image: "https://via.placeholder.com/150",
     owner: match.owner,
-    member: user.member.agentName,
-    memberRegister: user.member.registerID,
-    memberOffice: user.member.officeName,
-    memberNumber: user.member.agentPhone,
+    member: user.agentName,
+    memberRegister: user.registerID,
+    memberOffice: user.officeName,
+    memberNumber: user.agentPhone,
     status: "PENDING",
   };
 

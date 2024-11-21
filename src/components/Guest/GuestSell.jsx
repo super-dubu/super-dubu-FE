@@ -51,36 +51,36 @@ const GuestSell = () => {
       <MainSection>
         <Sidebar>
           <CategoryContainer
-            isSelected={selectedCategory === 1}
-            onClick={() => handleFilterClick(1)}
+            isSelected={selectedCategory === 0}
+            onClick={() => handleFilterClick("0")}
           >
             <ItemImg src={room} />
             <Category>원/투룸</Category>
           </CategoryContainer>
           <CategoryContainer
-            isSelected={selectedCategory === 2}
-            onClick={() => handleFilterClick(2)}
+            isSelected={selectedCategory === 1}
+            onClick={() => handleFilterClick("1")}
           >
             <ItemImg src={office} />
             <Category>오피스텔</Category>
           </CategoryContainer>
           <CategoryContainer
-            isSelected={selectedCategory === 3}
-            onClick={() => handleFilterClick(3)}
+            isSelected={selectedCategory === 2}
+            onClick={() => handleFilterClick("2")}
           >
             <ItemImg src={apart} />
-            <Category>아파트</Category>
+            <Category>아파트/빌라</Category>
+          </CategoryContainer>
+          <CategoryContainer
+            isSelected={selectedCategory === 3}
+            onClick={() => handleFilterClick("3")}
+          >
+            <ItemImg src={house} />
+            <Category>주택</Category>
           </CategoryContainer>
           <CategoryContainer
             isSelected={selectedCategory === 4}
-            onClick={() => handleFilterClick(4)}
-          >
-            <ItemImg src={house} />
-            <Category>주택/빌라</Category>
-          </CategoryContainer>
-          <CategoryContainer
-            isSelected={selectedCategory === 5}
-            onClick={() => handleFilterClick(5)}
+            onClick={() => handleFilterClick("4")}
           >
             <ItemImg src={shop} />
             <Category>상가/사무실</Category>
@@ -179,10 +179,10 @@ const CategoryContainer = styled.div`
     props.isSelected &&
     css`
       border: 2px solid blue;
-      border-color: #6C76A8;
+      border-color: #6c76a8;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
       border-radius: 30px;
-      color:#6C76A8;
+      color: #6c76a8;
       font-weight: bold;
     `}
 `;

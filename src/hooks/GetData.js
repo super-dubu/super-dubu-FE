@@ -15,6 +15,7 @@ const GetData = (url) => {
         console.log(response);
       } catch (e) {
         setIsError(true);
+        // alert(e.response.data.message);
       } finally {
         setIsLoading(false);
       }

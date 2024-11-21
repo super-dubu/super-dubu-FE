@@ -4,14 +4,18 @@ import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
 import { AuthContext } from "../api/AuthContext";
 import GetData from "../../hooks/GetData";
-import { axiosInstance } from "../api/axios-instance.js"
+import { axiosInstance } from "../api/axios-instance.js";
 
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물");
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   // 초기 데이터 로드
-  const { data: initialData, isLoading, isError } = GetData(`/HLF/getBuildings?page=1`);
+  const {
+    data: initialData,
+    isLoading,
+    isError,
+  } = GetData(`/HLF/getBuildings?page=1`);
   const [items, setItems] = useState([]); // 전체 데이터
   const [page, setPage] = useState(2); // 다음 페이지 번호
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 로딩 상태
@@ -30,7 +34,9 @@ function MemberMain() {
 
     setIsLoadingMore(true);
     try {
-      const response = await axiosInstance.get(`/HLF/getBuildings?page=${page}`);
+      const response = await axiosInstance.get(
+        `/HLF/getBuildings?page=${page}`
+      );
       const newItems = response.data;
 
       if (newItems.length === 0) {
@@ -57,20 +63,36 @@ function MemberMain() {
   console.log("items", items);
 
   return (
-    <div> 
-      {user ? <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />:""}
+    <div>
+      {user ? (
+        <Header
+          userName={user?.member?.agentName || "사용자"}
+          showLogout={false}
+        />
+      ) : (
+        ""
+      )}
       <Container>
         <SideBar onScroll={handleScroll}>
           <MenuBar>
-          <MenuButton $isActive={activeButton === "전체 매물"} onClick={() => setActiveButton("전체 매물")}>
-            전체 매물
-          </MenuButton>
-          <MenuButton $isActive={activeButton === "예약 대기"} onClick={() => setActiveButton("예약 대기")}>
-            예약 대기
-          </MenuButton>
-          <MenuButton $isActive={activeButton === "거래 진행중"} onClick={() => setActiveButton("거래 진행중")}>
-            거래 진행중
-          </MenuButton>
+            <MenuButton
+              $isActive={activeButton === "전체 매물"}
+              onClick={() => setActiveButton("전체 매물")}
+            >
+              전체 매물
+            </MenuButton>
+            <MenuButton
+              $isActive={activeButton === "예약 대기"}
+              onClick={() => setActiveButton("예약 대기")}
+            >
+              예약 대기
+            </MenuButton>
+            <MenuButton
+              $isActive={activeButton === "거래 진행중"}
+              onClick={() => setActiveButton("거래 진행중")}
+            >
+              거래 진행중
+            </MenuButton>
           </MenuBar>
           <SearchBar>
             <SearchInput placeholder="검색 키워드를 입력해주세요" />
@@ -84,7 +106,9 @@ function MemberMain() {
             {items.map((data, index) => (
               <Item key={index}>
                 <ItemInfo>
-                  <Address>{data.buildingAddress || "주소 없음"} {data.hosu}</Address>
+                  <Address>
+                    {data.buildingAddress || "주소 없음"} {data.hosu}
+                  </Address>
                   <p>가격: {data.buildingPrice || "정보 없음"}</p>
                   <p>소유주: {data.owner || "정보 없음"}</p>
                   <p>승인일자: {data.comfirmDate || "정보 없음"}</p>
@@ -92,7 +116,9 @@ function MemberMain() {
               </Item>
             ))}
             {isLoadingMore && <Loading>로딩 중...</Loading>}
-            {!hasMore && <EndMessage>더 이상 불러올 데이터가 없습니다.</EndMessage>}
+            {!hasMore && (
+              <EndMessage>더 이상 불러올 데이터가 없습니다.</EndMessage>
+            )}
           </ItemContainer>
         </SideBar>
         <Kmap />
@@ -102,8 +128,6 @@ function MemberMain() {
 }
 
 export default MemberMain;
-
-
 
 const Container = styled.div`
   display: flex;
@@ -144,7 +168,8 @@ const MenuButton = styled.div`
   font-weight: 700;
   border-right: 1.2px solid #9b9b9b;
   color: ${({ $isActive }) => ($isActive ? "white" : "#545454")}; /* $로 시작 */
-  background-color: ${({ $isActive }) => ($isActive ? "#B2B0B0" : "white")}; /* $로 시작 */
+  background-color: ${({ $isActive }) =>
+    $isActive ? "#B2B0B0" : "white"}; /* $로 시작 */
   cursor: pointer;
 
   &:last-child {

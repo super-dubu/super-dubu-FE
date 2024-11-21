@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
-import Header from '../Member/MemberHeader'
-import styled from 'styled-components'
-import SideBar from './MemberSide';
-import Photo from '../../img/image.png'
+import React, { useContext } from "react";
+import Header from "../Member/MemberHeader";
+import styled from "styled-components";
+import SideBar from "./MemberSide";
+import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
 
 function MemberMypage() {
@@ -10,9 +10,9 @@ function MemberMypage() {
 
   return (
     <div>
-      {user ? <Header userName={user?.member?.agentName || "사용자"} showLogout={true} />:""}
+      {user ? <Header showLogout={true} /> : ""}
       <Container>
-        <SideBar/>
+        <SideBar />
         <Content>
           <BookingList>
             <Title>상담 예약 내역</Title>
@@ -23,10 +23,10 @@ function MemberMypage() {
             </BookBox>
           </BookingList>
           <SellContainer>
-              <Title>나의 매물</Title>
+            <Title>나의 매물</Title>
             <SellBox>
               <SellContent>
-                <Image src = {Photo}/>
+                <Image src={Photo} />
                 <SellInfo>
                   <InfoDetail>월세 2000 / 50</InfoDetail>
                   <InfoDetail>주소 어디어디</InfoDetail>
@@ -38,13 +38,12 @@ function MemberMypage() {
             </SellBox>
           </SellContainer>
         </Content>
-
       </Container>
     </div>
-  )
+  );
 }
 
-export default MemberMypage
+export default MemberMypage;
 
 const Container = styled.div`
   display: flex;
@@ -60,13 +59,12 @@ const Content = styled.div`
 `;
 
 const BookingList = styled.div`
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   width: 100%;
   height: 22rem;
   border-style: solid;
   border-width: 0 0 1px 0;
-  border-color: #9B9B9B;
-
+  border-color: #9b9b9b;
 `;
 
 const Title = styled.div`
@@ -113,7 +111,7 @@ const SellContent = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap:1rem;
+  gap: 1rem;
 `;
 
 const Image = styled.img`
@@ -130,5 +128,4 @@ const SellInfo = styled.div`
   gap: 1rem;
 `;
 
-const InfoDetail = styled.div`
-`;
+const InfoDetail = styled.div``;

@@ -6,44 +6,43 @@ import { AuthContext } from "../api/AuthContext";
 import GetData from "../../hooks/GetData";
 import { axiosInstance } from "../api/axios-instance.js";
 
+
 function MemberMain() {
   const [activeButton, setActiveButton] = useState("전체 매물");
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   // 초기 데이터 로드
-  const {
-    data: initialData,
-    isLoading,
-    isError,
-  } = GetData(`/HLF/getBuildings?page=1`);
+  const { data: initialData, isLoading, isError } = GetData(`/HLF/getBuildings?page=1`);
   const [items, setItems] = useState([]); // 전체 데이터
   const [page, setPage] = useState(2); // 다음 페이지 번호
   const [isLoadingMore, setIsLoadingMore] = useState(false); // 추가 로딩 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터 여부
 
-  // 초기 데이터 설정
   useEffect(() => {
-    if (initialData?.data) {
-      setItems(initialData.data);
+    console.log("초기 데이터 (GetData):", initialData);
+
+    // `result`를 올바르게 가져오기
+    if (initialData && Array.isArray(initialData.result)) {
+      setItems(initialData.result); // 초기 데이터를 설정
+    } else {
+      console.error("초기 데이터가 올바른 형식이 아닙니다:", initialData);
     }
   }, [initialData]);
 
-  // 추가 데이터 로드 함수
   const loadMoreItems = async () => {
     if (isLoadingMore || !hasMore) return;
 
     setIsLoadingMore(true);
     try {
-      const response = await axiosInstance.get(
-        `/HLF/getBuildings?page=${page}`
-      );
-      const newItems = response.data;
+      const response = await axiosInstance.get(`/HLF/getBuildings?page=${page}`);
+      console.log("추가 데이터:", response.data);
 
+      const newItems = response.data?.result || [];
       if (newItems.length === 0) {
-        setHasMore(false); // 더 이상 데이터가 없음을 설정
+        setHasMore(false);
       } else {
         setItems((prevItems) => [...prevItems, ...newItems]);
-        setPage((prevPage) => prevPage + 1); // 페이지 번호 증가
+        setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
       console.error("추가 데이터 로드 실패:", error);
@@ -52,73 +51,48 @@ function MemberMain() {
     }
   };
 
-  // 스크롤 이벤트 핸들러
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target;
     if (scrollHeight - scrollTop <= clientHeight + 50 && hasMore) {
-      loadMoreItems(); // 스크롤이 끝에 도달하면 추가 데이터 로드
+      loadMoreItems();
     }
   };
 
-  console.log("items", items);
-
   return (
     <div>
-      {user ? (
-        <Header
-          userName={user?.member?.agentName || "사용자"}
-          showLogout={false}
-        />
-      ) : (
-        ""
-      )}
+      <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />
       <Container>
         <SideBar onScroll={handleScroll}>
           <MenuBar>
-            <MenuButton
-              $isActive={activeButton === "전체 매물"}
-              onClick={() => setActiveButton("전체 매물")}
-            >
-              전체 매물
-            </MenuButton>
-            <MenuButton
-              $isActive={activeButton === "예약 대기"}
-              onClick={() => setActiveButton("예약 대기")}
-            >
-              예약 대기
-            </MenuButton>
-            <MenuButton
-              $isActive={activeButton === "거래 진행중"}
-              onClick={() => setActiveButton("거래 진행중")}
-            >
-              거래 진행중
-            </MenuButton>
+            {["전체 매물", "예약 대기", "거래 진행중"].map((label) => (
+              <MenuButton
+                key={label}
+                isActive={activeButton === label}
+                onClick={() => setActiveButton(label)}
+              >
+                {label}
+              </MenuButton>
+            ))}
           </MenuBar>
           <SearchBar>
             <SearchInput placeholder="검색 키워드를 입력해주세요" />
             <SearchOption>
-              <Options>인기순</Options>
-              <Options>가격순</Options>
-              <Options>최신순</Options>
+              {["인기순", "가격순", "최신순"].map((option) => (
+                <Options key={option}>{option}</Options>
+              ))}
             </SearchOption>
           </SearchBar>
           <ItemContainer onScroll={handleScroll}>
-            {items.map((data, index) => (
-              <Item key={index}>
-                <ItemInfo>
-                  <Address>
-                    {data.buildingAddress || "주소 없음"} {data.hosu}
-                  </Address>
+            {Array.isArray(items) &&
+              items.map((data, index) => (
+                <Item key={index}>
+                  <p>{data.buildingAddress || "주소 없음"}</p>
                   <p>가격: {data.buildingPrice || "정보 없음"}</p>
                   <p>소유주: {data.owner || "정보 없음"}</p>
-                  <p>승인일자: {data.comfirmDate || "정보 없음"}</p>
-                </ItemInfo>
-              </Item>
-            ))}
+                </Item>
+              ))}
             {isLoadingMore && <Loading>로딩 중...</Loading>}
-            {!hasMore && (
-              <EndMessage>더 이상 불러올 데이터가 없습니다.</EndMessage>
-            )}
+            {!hasMore && <EndMessage>더 이상 불러올 데이터가 없습니다.</EndMessage>}
           </ItemContainer>
         </SideBar>
         <Kmap />
@@ -128,6 +102,8 @@ function MemberMain() {
 }
 
 export default MemberMain;
+
+
 
 const Container = styled.div`
   display: flex;
@@ -159,7 +135,9 @@ const MenuBar = styled.div`
   height: 5rem;
 `;
 
-const MenuButton = styled.div`
+const MenuButton = styled.div.attrs((props) => ({
+  isActive: props.isActive, // 스타일에서만 사용할 prop으로 정의
+}))`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,9 +145,8 @@ const MenuButton = styled.div`
   width: 33.3%;
   font-weight: 700;
   border-right: 1.2px solid #9b9b9b;
-  color: ${({ $isActive }) => ($isActive ? "white" : "#545454")}; /* $로 시작 */
-  background-color: ${({ $isActive }) =>
-    $isActive ? "#B2B0B0" : "white"}; /* $로 시작 */
+  color: ${(props) => (props.isActive ? "white" : "#545454")};
+  background-color: ${(props) => (props.isActive ? "#B2B0B0" : "white")};
   cursor: pointer;
 
   &:last-child {
@@ -260,13 +237,4 @@ const EndMessage = styled.div`
   color: #888;
   margin: 1rem 0;
   text-align: center;
-`;
-
-const ItemInfo = styled.div`
-  padding: 1rem;
-  margin-top: 1rem;
-`;
-
-const Address = styled.div`
-  font-weight: bold;
 `;

@@ -1,18 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../Member/MemberHeader";
 import styled from "styled-components";
 import SideBar from "./MemberSide";
 import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
+import Modal from "./BookAdmin";
 
 function MemberMypage() {
   const { user } = useContext(AuthContext);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
 
   return (
     <div>
       {user ? <Header showLogout={true} /> : ""}
       <Container>
-        <SideBar />
+        <SideBar openModal = {openModal}/>
         <Content>
           <BookingList>
             <Title>상담 예약 내역</Title>
@@ -39,6 +46,7 @@ function MemberMypage() {
           </SellContainer>
         </Content>
       </Container>
+      {isModalOpen && <Modal onClose={closeModal} />}
     </div>
   );
 }
@@ -85,8 +93,9 @@ const BookContent = styled.div`
   width: 17rem;
   height: 15rem;
   background-color: white;
-  border-radius: 20px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  /* border-radius: 20px; */
+  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15); */
+  /* border: solid 1px #595959; */
 `;
 
 const SellContainer = styled.div`
@@ -129,3 +138,4 @@ const SellInfo = styled.div`
 `;
 
 const InfoDetail = styled.div``;
+

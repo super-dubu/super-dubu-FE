@@ -6,7 +6,7 @@ import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
 import MobileAuth from "./components/api/MobileAuth.jsx"
-import BookAdmin from "./components/Member/BookingAdmin.jsx"
+import BookAdmin from "./components/Member/BookAdmin.jsx"
 
 import GuestLayout from "./components/Guest/GuestLayout.jsx";
 import GuestMain from "./components/Guest/GuestMain.jsx";

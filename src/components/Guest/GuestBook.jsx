@@ -30,8 +30,7 @@ const GuestBook = () => {
         "textarea[placeholder='원하는 매물의 조건 등을 남겨주세요!']"
       ).value,
       memberRegister: it.memberRegister,
-      status: "PENDING",
-      items: it.itemID,
+      itemID: it.itemID,
     };
     console.log("예약 정보:", reservationData);
 

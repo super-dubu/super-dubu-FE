@@ -20,6 +20,7 @@ import Contract3 from './components/Member/Contract/Contract3.jsx';
 import Contract4 from './components/Member/Contract/Contract4.jsx';
 import Contract5 from './components/Member/Contract/Contract5.jsx'
 import Contract6 from './components/Member/Contract/Contract6.jsx'
+// import ContractContext from './components/api/ContractContext.jsx'
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import { AuthProvider } from "./components/api/AuthContext"; 
@@ -27,7 +28,7 @@ import { AuthProvider } from "./components/api/AuthContext";
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <div className="App">
           <Routes>
             <Route path="/" element={<GuestLayout />}>
@@ -39,23 +40,29 @@ function App() {
             </Route>
               <Route path="auth" element={<MobileAuth />} />
 
-            <Route path="/member" element={<AuthProvider><Outlet /></AuthProvider>}>
+            <AuthProvider>
+            <Route path="/member" element={<Outlet />}>
               <Route path="join" element={<MemberJoin />} />
               <Route path="login" element={<MemberLogin />} />
               <Route path="property" element={<UploadProperty />} />
               <Route path="mypage" element={<MemberMypage />} />
               <Route path="" element={<MemberMain />} />
               <Route path="bookadmin" element={<BookAdmin />} />
-              <Route path="contract1" element={<Contract1 />} />
-              <Route path="contract2" element={<Contract2 />} />
-              <Route path="contract3" element={<Contract3 />} />
-              <Route path="contract4" element={<Contract4 />} />
-              <Route path="contract5" element={<Contract5 />} />
-              <Route path="contract6" element={<Contract6 />} />
             </Route>
+
+            <Route path="/member/contract" element={<Outlet />}>
+              <Route path="1" element={<Contract1 />} />
+              <Route path="2" element={<Contract2 />} />
+              <Route path="3" element={<Contract3 />} />
+              <Route path="4" element={<Contract4 />} />
+              <Route path="5" element={<Contract5 />} />
+              <Route path="6" element={<Contract6 />} />
+            </Route>
+            </AuthProvider>
+
           </Routes>
         </div>
-       </AuthProvider>
+       {/* </AuthProvider>  */}
     </BrowserRouter>
   );
 }

@@ -2,71 +2,120 @@ import React, { useState } from 'react'
 import Header from '../MemberHeader'
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import cryptoJs from 'crypto-js';
 
 function Contract1() {
-
-    const handleAuth = async () => {
-        try {
-          const response = await axios.get(
-            `${import.meta.env.VITE_BACK_URL}/HLF/verify`, // URL 수정: params 부분 삭제
-            {
-              params: { name, id }, // name과 id를 params에 포함
-            }
-          );
-          console.log(response);
-          // 성공적인 응답 처리 (필요에 따라 추가)
-        } catch (error) {
-          alert('신원 인증 실패');
-          console.error(error); // 오류 로그 출력
-        }
-      };
-
-    const [selectedCheckbox, setSelectedCheckbox] = useState('');
-
-    const handleCheckboxChange = (value) => {
-        setSelectedCheckbox(value);
-    };
+    const ENC_KEY = import.meta.env.VITE_ENC_KEY;
+  
+    const [nameLessor, setNameLessor] = useState("");
+    const [idLessor, setIdLessor] = useState("");
+    const [isLessorAuthComplete, setIsLessorAuthComplete] = useState(false);
+  
+    const [nameLessee, setNameLessee] = useState("");
+    const [idLessee, setIdLessee] = useState("");
+    const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
+  
+    const [selectedCheckbox, setSelectedCheckbox] = useState("");
+  
     const navigate = useNavigate();
-  return (
-    <div>
-        <Header/>
+  
+    const handleAuth = async (type) => {
+      try {
+        const name = type === "lessor" ? nameLessor : nameLessee;
+        const id = type === "lessor" ? idLessor : idLessee;
+  
+        const hashedCode = cryptoJs.SHA256(name + id + ENC_KEY).toString();
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
+          {
+            params: { name: decodeURI(name), code: hashedCode },
+          }
+        );
+        console.log(response);
+        alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 성공`);
+        if (type === "lessor") {
+          setIsLessorAuthComplete(true);
+        } else {
+          setIsLesseeAuthComplete(true);
+        }
+      } catch (error) {
+        alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 실패`);
+        console.error(error);
+      }
+    };
+  
+    const handleCheckboxChange = (value) => {
+      setSelectedCheckbox(value);
+    };
+  
+    const isButtonEnabled =
+      isLessorAuthComplete &&
+      isLesseeAuthComplete &&
+      selectedCheckbox === "동의함";
+  
+    return (
+      <div>
+        <Header />
         <Container>
-            <Title>주택 임대차 표준 계약</Title>
-                <CertContainer>
-                    <CertBox>
-                    <InputContainer> 
-                        <BoldText>임대인</BoldText>
-                        <Row>
-                            <BoldText>이름</BoldText>
-                            <StringInput/>
-                        </Row>
-                        <Row>
-                            <BoldText>주민등록번호</BoldText>
-                            <StringInput />
-                        </Row>
-                    </InputContainer>
-                    <AuthButton onClick={() => {handleAuth()}}>인증하기</AuthButton>
-                    </CertBox>
-                    <CertBox>
-                        <InputContainer>        
-                        <BoldText>임차인</BoldText>
-                        <Row>
-                            <BoldText>이름</BoldText>
-                            <StringInput/>
-                        </Row>
-                        <Row>
-                            <BoldText>주민등록번호</BoldText>
-                            <StringInput />
-                        </Row>
-                        </InputContainer> 
-                        <AuthButton>인증하기</AuthButton>
-                    </CertBox>
-                </CertContainer>
-                <Divider />
-                <AgreeContainer>
-                    <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
-                    <AgreeText>
-                        1. 개인정보 수집 항목 및 이용 목적 <br />
+          <Title>주택 임대차 표준 계약</Title>
+          <CertContainer>
+            <CertBox>
+              <InputContainer>
+                <BoldText>임대인</BoldText>
+                <Row>
+                  <BoldText>이름</BoldText>
+                  <StringInput
+                    value={nameLessor}
+                    onChange={(e) => setNameLessor(e.target.value)}
+                  />
+                </Row>
+                <Row>
+                  <BoldText>주민등록번호</BoldText>
+                  <StringInput
+                    value={idLessor}
+                    onChange={(e) => setIdLessor(e.target.value)}
+                  />
+                </Row>
+              </InputContainer>
+              <AuthButton
+                onClick={() => handleAuth("lessor")}
+                disabled={isLessorAuthComplete}
+              >
+                {isLessorAuthComplete ? "인증완료" : "인증하기"}
+              </AuthButton>
+            </CertBox>
+            <CertBox>
+              <InputContainer>
+                <BoldText>임차인</BoldText>
+                <Row>
+                  <BoldText>이름</BoldText>
+                  <StringInput
+                    value={nameLessee}
+                    onChange={(e) => setNameLessee(e.target.value)}
+                  />
+                </Row>
+                <Row>
+                  <BoldText>주민등록번호</BoldText>
+                  <StringInput
+                    value={idLessee}
+                    onChange={(e) => setIdLessee(e.target.value)}
+                  />
+                </Row>
+              </InputContainer>
+              <AuthButton
+                onClick={() => handleAuth("lessee")}
+                disabled={isLesseeAuthComplete}
+              >
+                {isLesseeAuthComplete ? "인증완료" : "인증하기"}
+              </AuthButton>
+            </CertBox>
+          </CertContainer>
+          <Divider />
+          <AgreeContainer>
+            <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
+            <AgreeText>
+            1. 개인정보 수집 항목 및 이용 목적 <br />
                         본인은 본인확인 및 서명 절차를 위해 다음과 같은 개인정보가 수집 및 이용됨에 동의합니다. <br /> <br />
                         수집 항목 : 이름, 주민등록번호 <br />
                         이용 목적 : 본인 확인, 계약 서명 및 관련 서비스 제공, 게약 이행 및 사후 관리<br /> <br />
@@ -79,31 +128,36 @@ function Contract1() {
                         4. 개인 정보 제 3자 제공 및 위탁에 대한 안내 <br />
                         귀하의 개인정보는 원칙적으로 제3자에게 제공되지 않습니다. 다만, 법령에 따라 제3자에게 제공이 필요할 경우 사전에 안내드리겠습니다. <br /> <br />
                         본인은 위 내용을 충분히 이해하였으며, 이에 동의합니다.
-                            <Label>
-                                <CheckBox
-                                    type="checkbox"
-                                    checked={selectedCheckbox === '동의함'}
-                                    onChange={() => handleCheckboxChange('동의함')}
-                                />
-                                동의함
-                            </Label>
-                            <Label>
-                                <CheckBox
-                                    type="checkbox"
-                                    checked={selectedCheckbox === '동의하지 않음'}
-                                    onChange={() => handleCheckboxChange('동의하지 않음')}
-                                />
-                                동의하지 않음
-                            </Label>
-                    </AgreeText>
-                </AgreeContainer>
-                <Button onClick = {() => navigate('/member/contract2')}>계속 진행하기</Button>
+              <Label>
+                <CheckBox
+                  type="checkbox"
+                  checked={selectedCheckbox === "동의함"}
+                  onChange={() => handleCheckboxChange("동의함")}
+                />
+                동의함
+              </Label>
+              <Label>
+                <CheckBox
+                  type="checkbox"
+                  checked={selectedCheckbox === "동의하지 않음"}
+                  onChange={() => handleCheckboxChange("동의하지 않음")}
+                />
+                동의하지 않음
+              </Label>
+            </AgreeText>
+          </AgreeContainer>
+          <Button
+            onClick={() => navigate("/member/contract/2")}
+            disabled={!isButtonEnabled} // 조건을 기반으로 비활성화
+          >
+            계속 진행하기
+          </Button>
         </Container>
-    </div>
-  )
-}
-
-export default Contract1
+      </div>
+    );
+  }
+  
+  export default Contract1;
 
 const Container = styled.div`
     display: flex;
@@ -218,14 +272,15 @@ const Label = styled.label`
 `;
 
 const Button = styled.button`
-    width: 40%;
-    height: 4rem;
-    margin: 3rem;
-    border-radius: 15px;
-    border-style: none;
-    background-color: #6E7D9C;
-    font-size: 20px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 40%;
+  height: 4rem;
+  margin: 3rem;
+  border-radius: 15px;
+  border-style: none;
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#6E7D9C")};
+  font-size: 20px;
+  color: ${(props) => (props.disabled ? "#666" : "white")};
+  font-weight: bold;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;

@@ -1,32 +1,35 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styled from 'styled-components';
-import 'react-calendar/dist/Calendar.css';
 import { Button } from "@mui/material";
 
 function AdminHoliday() {
-  const [selectedDates, setSelectedDates] = useState(null); // 날짜 범위 상태
+  const [value, setValue] = useState(dayjs()); // 현재 날짜로 초기값 설정
 
   return (
     <Container>
-      <CalendarContainer>
-        <Calendar
-          onChange={setSelectedDates} // 날짜 또는 범위 선택 핸들러
-          value={selectedDates} // 선택된 날짜 또는 범위
-          selectRange // 날짜 범위 선택 활성화
-          calendarType="gregory"
-          view="month"
-          prev2Label={null}
-          next2Label={null}
-          showNeighboringMonth={false}
-        />
-      </CalendarContainer>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CalendarContainer>
+          <DatePicker
+            label="휴무일 선택"
+            value={value}
+            onChange={(newValue) => setValue(newValue)} // 날짜 선택 핸들러
+          />
+          &nbsp;~&nbsp; 
+          <DatePicker
+            label="휴무일 선택"
+            value={value}
+            onChange={(newValue) => setValue(newValue)} // 날짜 선택 핸들러
+          />
+        </CalendarContainer>
+      </LocalizationProvider>
       <SelectedDate>
-        {selectedDates
-          ? `선택한 날짜: ${selectedDates[0].toLocaleDateString()} ~ ${selectedDates[1].toLocaleDateString()}`
-          : '휴무일을 선택하세요'}
+        {value ? `선택한 날짜: ${value.format('YYYY-MM-DD')}` : '날짜를 선택하세요'}
       </SelectedDate>
-      {selectedDates ? <Button>휴무일 등록</Button> : ''}
+      {value && <Button variant="contained">휴무일 등록</Button>}
     </Container>
   );
 }
@@ -42,7 +45,9 @@ const Container = styled.div`
 
 const CalendarContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   margin: 3rem 1rem 0 1rem;
   justify-content: center;
 `;
@@ -54,16 +59,3 @@ const SelectedDate = styled.div`
   font-weight: bold;
   margin-bottom: 1rem;
 `;
-
-// const Button = styled.button`
-//     width: 60%;
-//     height: 3rem;
-//     margin: 3rem;
-//     border-radius: 15px;
-//     border-style: none;
-//     background-color: #6E7D9C;
-//     font-size: 18px;
-//     color: white;
-//     font-weight: bold;
-//     cursor: pointer;
-// `;

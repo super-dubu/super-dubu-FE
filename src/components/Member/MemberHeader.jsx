@@ -6,7 +6,7 @@ import { AuthContext } from "../api/AuthContext";
 
 function MemberHeader({ showLogout }) {
   const navigate = useNavigate();
-  const { logout, user } = useContext(AuthContext); 
+  const { logout, user } = useContext(AuthContext);
   // console.log("user :", user);
 
   const handleLogout = () => {
@@ -17,10 +17,10 @@ function MemberHeader({ showLogout }) {
 
   return (
     <Header>
-      <Logo src={logo} onClick={() => navigate('/member')} />
+      <Logo src={logo} onClick={() => navigate("/member")} />
       <RightContainer>
         <MemberText>
-           {user ? <UserName>{user.member.agentName}</UserName> : ""}님, 반갑습니다!
+          {user ? <UserName>{user.agentName}</UserName> : ""}님, 반갑습니다!
         </MemberText>
         {showLogout ? (
           <Logout onClick={handleLogout}>Logout</Logout>

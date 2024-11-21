@@ -7,21 +7,39 @@ import { AuthContext } from "../api/AuthContext";
 function MemberSide() {
   const navigate = useNavigate();
 
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
 
   return (
     <div>
       <SideInfo>
         <IDPhoto src={Image} />
         <NameBox>
-          {user ? <Name> {user.member.agentName} <Position>공인 중개사</Position></Name> : ""}
-          {user ? <ShopInfo>{user.member.officeName}<br /> ({user.member.agentAddress})</ShopInfo> : ""}
+          {user ? (
+            <Name>
+              {" "}
+              {user.agentName} <Position>공인 중개사</Position>
+            </Name>
+          ) : (
+            ""
+          )}
+          {user ? (
+            <ShopInfo>
+              {user.officeName}
+              <br /> ({user.agentAddress})
+            </ShopInfo>
+          ) : (
+            ""
+          )}
         </NameBox>
         <Divider />
         <SideMenu>
           <SideButton>예약 관리</SideButton>
-          <SideButton onClick={() => navigate("/member/property")}>매물 등록</SideButton>
-          <SideButton onClick={() => navigate("/member/contract1")}>계약서 작성</SideButton>
+          <SideButton onClick={() => navigate("/member/property")}>
+            매물 등록
+          </SideButton>
+          <SideButton onClick={() => navigate("/member/contract1")}>
+            계약서 작성
+          </SideButton>
           <SideButton>최근 계약</SideButton>
         </SideMenu>
       </SideInfo>

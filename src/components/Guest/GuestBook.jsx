@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import { useNavigate, useLocation } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 const GuestBook = () => {
   const [isDateModalOpen, setDateModalOpen] = useState(false);
@@ -12,26 +13,44 @@ const GuestBook = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { items : it } = location.state;
+  const { items: it } = location.state;
 
-  const handleReservationClick = (e) => {
+  const handleReservationClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-  
+
     const reservationData = {
-      name: document.querySelector("input[placeholder='이름을 입력하세요']").value,
-      contact: document.querySelector("input[placeholder='010 - xxxx - xxxx']").value,
+      name: document.querySelector("input[placeholder='이름을 입력하세요']")
+        .value,
+      contact: document.querySelector("input[placeholder='010 - xxxx - xxxx']")
+        .value,
       date: selectedDate ? selectedDate.toISOString() : null,
       time: selectedTime,
-      requests: document.querySelector("textarea[placeholder='원하는 매물의 조건 등을 남겨주세요!']").value,
-      items: it,
+      requests: document.querySelector(
+        "textarea[placeholder='원하는 매물의 조건 등을 남겨주세요!']"
+      ).value,
+      memberRegister: it.memberRegister,
+      status: "PENDING",
+      items: it.itemID,
     };
-  ㅌ
     console.log("예약 정보:", reservationData);
-  
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACK_URL}/reservation/add`,
+        reservationData
+      );
+      console.log(response.data);
+      console.log(reservationData);
+      alert("예약 등록이 완료되었습니다.");
+      navigate("/sell");
+    } catch (error) {
+      console.error("Error uploading property:", error);
+      alert("예약 등록 중 오류가 발생했습니다.");
+    }
     setSuccessModalOpen(true);
-    };
-  
+  };
+
   const handleTimeClick = (time) => {
     setSelectedTime(time);
   };
@@ -40,7 +59,9 @@ const GuestBook = () => {
     <>
       <FormContainer>
         <Header>
-          <Title>공인중개인 {it.member}  ( {it.memberOffice} )</Title>
+          <Title>
+            공인중개인 {it.member} ( {it.memberOffice} )
+          </Title>
         </Header>
         <Separator />
         <Form>

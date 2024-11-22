@@ -22,12 +22,11 @@ function MemberMypage() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-
   return (
     <div>
       {user ? <Header showLogout={true} /> : ""}
       <Container>
-        <SideBar openModal = {openModal}/>
+        <SideBar openModal={openModal} />
         <Content>
           <BookingList>
             <Title>상담 예약 내역</Title>
@@ -154,4 +153,3 @@ const SellInfo = styled.div`
 `;
 
 const InfoDetail = styled.div``;
-

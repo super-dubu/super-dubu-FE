@@ -15,7 +15,9 @@ function MemberMain() {
   if (isLoading || !items || !items.data || !items.data.result) {
     return (
       <LoadingContainer>
-        <LoadingMessage>데이터를 로딩 중입니다. 잠시만 기다려주세요...</LoadingMessage>
+        <LoadingMessage>
+          데이터를 로딩 중입니다. 잠시만 기다려주세요...
+        </LoadingMessage>
       </LoadingContainer>
     );
   }
@@ -32,7 +34,10 @@ function MemberMain() {
   // 데이터가 준비된 후에만 화면 렌더링
   return (
     <div>
-      <Header userName={user?.member?.agentName || "사용자"} showLogout={false} />
+      <Header
+        userName={user?.member?.agentName || "사용자"}
+        showLogout={false}
+      />
       <Container>
         <SideBar>
           <MenuBar>

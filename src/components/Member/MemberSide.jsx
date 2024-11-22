@@ -4,7 +4,7 @@ import Image from "../../img/image.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../api/AuthContext";
 
-function MemberSide({openModal}) {
+function MemberSide({ openModal }) {
   const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);

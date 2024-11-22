@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import styled from "styled-components";
 import { Button } from "@mui/material";
 
 function AdminHoliday() {
@@ -18,7 +18,7 @@ function AdminHoliday() {
             value={value}
             onChange={(newValue) => setValue(newValue)} // 날짜 선택 핸들러
           />
-          &nbsp;~&nbsp; 
+          &nbsp;~&nbsp;
           <DatePicker
             label="휴무일 선택"
             value={value}
@@ -27,7 +27,9 @@ function AdminHoliday() {
         </CalendarContainer>
       </LocalizationProvider>
       <SelectedDate>
-        {value ? `선택한 날짜: ${value.format('YYYY-MM-DD')}` : '날짜를 선택하세요'}
+        {value
+          ? `선택한 날짜: ${value.format("YYYY-MM-DD")}`
+          : "날짜를 선택하세요"}
       </SelectedDate>
       {value && <Button variant="contained">휴무일 등록</Button>}
     </Container>

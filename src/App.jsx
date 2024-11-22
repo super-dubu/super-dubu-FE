@@ -79,6 +79,7 @@ function App() {
           </Route>
         </Routes>
       </div>
+
     </BrowserRouter>
   );
 }

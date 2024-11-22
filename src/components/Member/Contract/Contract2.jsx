@@ -8,7 +8,11 @@ import getData from '../../../hooks/GetData'
 function Contract2() {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const [selectedCheckbox, setSelectedCheckbox] = useState("");
+  const [selectedCheckbox, setSelectedCheckbox] = useState({
+    contractType: "",
+    unpaidTax: "",
+    date: "",
+  });
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,22 +24,11 @@ function Contract2() {
   //   `HLF/getBuilding?tokenID=${PNU}`
   // );
 
-  const handleCheckboxChange = (value) => {
-    setSelectedCheckbox(value);
-  };
-
-  const handlePostModal = () => {
-    setPostModalOpen(!isPostModalOpen);
-  };
-
-  const handleAddressComplete = (data) => {
-    setAddress(data.address);
-    setPostModalOpen(false);
-  };
-
-  const handleAddressChange = (e) => {
-    const value = e.target.value;
-    setDetailAddress(value); // 실시간으로 업데이트
+  const handleCheckboxChange = (key, value) => {
+    setSelectedCheckbox((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   // // 로딩 상태 처리
@@ -98,24 +91,24 @@ function Contract2() {
             <Label>
               <CheckBox
                 type="checkbox"
-                checked={selectedCheckbox === "신규 계약"}
-                onChange={() => handleCheckboxChange("신규 계약")}
+                checked={selectedCheckbox.contractType === "신규 계약"}
+                onChange={() => handleCheckboxChange("contractType","신규 계약")}
               />
               신규 계약
             </Label>
             <Label>
               <CheckBox
                 type="checkbox"
-                checked={selectedCheckbox === "재계약"}
-                onChange={() => handleCheckboxChange("재계약")}
+                checked={selectedCheckbox.contractType === "재계약"}
+                onChange={() => handleCheckboxChange("contractType","재계약")}
               />
               합의에 의한 재계약
             </Label>
             <Label>
               <CheckBox
                 type="checkbox"
-                checked={selectedCheckbox === "갱신 계약"}
-                onChange={() => handleCheckboxChange("갱신 계약")}
+                checked={selectedCheckbox.contractType === "갱신 계약"}
+                onChange={() => handleCheckboxChange("contractType","갱신 계약")}
               />
               [주택임대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신 계약
             </Label>
@@ -128,8 +121,8 @@ function Contract2() {
                 <Label>
                     <CheckBox
                         type="checkbox"
-                        checked={selectedCheckbox === '해당 없음'}
-                        onChange={() => handleCheckboxChange('해당 없음')}
+                        checked={selectedCheckbox.unpaidTax === '해당 없음'}
+                        onChange={() => handleCheckboxChange('unpaidTax','해당 없음')}
                     />
                     해당 없음
                 </Label>
@@ -137,8 +130,31 @@ function Contract2() {
                 <Label>
                     <CheckBox
                         type="checkbox"
-                        checked={selectedCheckbox === '해당 있음'}
-                        onChange={() => handleCheckboxChange('해당 있음')}
+                        checked={selectedCheckbox.unpaidTax === '해당 있음'}
+                        onChange={() => handleCheckboxChange('unpaidTax','해당 있음')}
+                    />
+                    해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부 확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
+              </Label>
+            </Box>
+        </CheckContainer>
+        <CheckContainer>
+          <Box>
+            <BoldText>선순위 확정일자 현황</BoldText>
+                <br />
+                <Label>
+                    <CheckBox
+                        type="checkbox"
+                        checked={selectedCheckbox.date === '해당 없음'}
+                        onChange={() => handleCheckboxChange('date','해당 없음')}
+                    />
+                    해당 없음
+                </Label>
+                <br />
+                <Label>
+                    <CheckBox
+                        type="checkbox"
+                        checked={selectedCheckbox.date === '해당 있음'}
+                        onChange={() => handleCheckboxChange('date','해당 있음')}
                     />
                     해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부 확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
               </Label>

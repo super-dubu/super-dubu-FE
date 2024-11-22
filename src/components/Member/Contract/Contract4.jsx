@@ -3,6 +3,7 @@ import Header from '../MemberHeader';
 import styled from 'styled-components';
 import { AuthContext } from '../../api/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ContractContext } from '../../api/ContractContext';
 
 function Contract4() {
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
@@ -11,8 +12,8 @@ function Contract4() {
         setSelectedCheckbox(value);
     };
 
-    // const {user} = useContext(AuthContext);
-    // console.log(user);
+    const {itemLog, setItemLog} = useContext(ContractContext);
+    console.log("Contract4", itemLog);
 
     const navigate = useNavigate();
  

@@ -1,11 +1,47 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import Header from '../MemberHeader';
+import { ContractContext } from '../../api/ContractContext';
 
 function Contract3() {
 
     const navigate = useNavigate();
+    const {itemLog, setItemLog} = useContext(ContractContext);
+    const [formData, setFormData] = useState({
+        priceRental: "",
+        priceMonthly: "",
+        manageFee: "",
+        startDate: "",
+        endDate: "",
+        bankAccount: "",
+        bankName: "",
+      });
+
+    console.log("Contract3", itemLog);
+
+    useEffect(() => {
+        if (itemLog?.itemInfo) {
+          setFormData(itemLog.itemInfo || "");
+        }
+      }, [itemLog]);
+
+    const handleInputChange = (field, value) => {
+        setFormData((prev) => ({
+          ...prev,
+          [field]: value,
+        }));
+      
+        setItemLog((prev) => ({
+          ...prev,
+          itemInfo: {
+            ...prev.itemInfo,
+            [field]: value,
+          },
+        }));
+      };
+
+
   return (
     <div>
         <Header />
@@ -15,29 +51,48 @@ function Contract3() {
              <Table>
                 <Row>
                     <Label>보증금</Label>
-                    <InputRow>금 <Input $large /> 원정 <Input $large placeholder='₩'/></InputRow>
+                    <InputRow>금 <Input 
+                                    placeholder={itemLog.itemInfo.priceRental}
+                                    value={formData.priceRental}
+                                    onChange={(e) => handleInputChange("priceRental", e.target.value)}/> 
+                    만  &nbsp;원정 <Input $large placeholder={`₩ ${itemLog.itemInfo?.priceRental ? itemLog.itemInfo.priceRental * 10000 : ""}`}
+      /></InputRow>
                 </Row>
                 <Row>
                     <Label>계약금</Label>
-                    <InputRow>금 <Input $large /> 원정 <Input $large placeholder='₩'/>은 계약시에 지불하고 영수함. &nbsp; 영수자 <Input /></InputRow>
+                    <InputRow>금 <Input />만  &nbsp;원정 <Input $large placeholder='₩'/>은 계약시에 지불하고 영수함. &nbsp; 영수자 <Input /></InputRow>
                 </Row>
                 <Row>
                     <Label>중도금</Label>
-                    <InputRow>금 <Input $large /> 원정 <Input $large placeholder='₩'/>은  <Input />년  <Input />월  <Input />일에 지불하며</InputRow>
+                    <InputRow>금 <Input />만  &nbsp;원정<Input $large placeholder='₩'/>은  <Input />년  <Input />월  <Input />일에 지불하며</InputRow>
                 </Row>
                 <Row>
                     <Label>잔금</Label>
-                    <InputRow>금  <Input $large /> 원정 <Input $large placeholder='₩'/>은  <Input />년  <Input />월  <Input />일에 지불한다</InputRow>
+                    <InputRow>금  <Input/> 만  &nbsp;원정<Input $large placeholder='₩'/>은  <Input />년  <Input />월  <Input />일에 지불한다</InputRow>
                 </Row>
                 <Row>
                     <Label>차임(월세)</Label>
-                    <InputRow> 금<Input $large />는 원정은 매월 <Input />일에 지불한다. (입금 계좌 : <Input $large /> )</InputRow>
+                    <InputRow> 금<Input 
+                                    placeholder={`${itemLog.itemInfo.priceMonthly}`}
+                                    value={formData.priceMonthly}
+                                    onChange={(e) => handleInputChange("priceMonthly", e.target.value)} />
+                                    만  &nbsp;원정 <Input $large placeholder={`₩ ${itemLog.itemInfo?.priceMonthly * 10000}`}/>은 매월 <Input />일에 지불한다. 
+                                    (입금 계좌 : <Input placeholder='은행'
+                                                        value={formData.bankName}
+                                                        onChange={(e) => handleInputChange("bankName", e.target.value)}
+                                                        />
+                                                <Input $large 
+                                                placeholder='계좌번호'
+                                                value={formData.bankAccount}
+                                                onChange={(e) => handleInputChange("bankAccount", e.target.value)}
+                                                /> )</InputRow>
                 </Row>
                 <Row>
                     <Label>관리비</Label>
                     <InputRow>
                         <Wrapper>                        
-                            <Text className="special-text">(정액인 경우) 총액 금 <Input /> 원정 (\<Input $large />) <GrayText>월 10만원 이상인 경우 세부금액 기재</GrayText></Text>
+                            <Text className="special-text">(정액인 경우) 총액 금 <Input placeholder={itemLog?.itemInfo.manageFee} value={formData.manageFee} onChange={(e) => handleInputChange("manageFee", e.target.value)}/>천 &nbsp; 원정 
+                            (\<Input $large placeholder={`₩ ${itemLog.itemInfo?.priceRental ? itemLog.itemInfo.manageFee * 1000 : ""}`}/>) <GrayText>월 10만원 이상인 경우 세부금액 기재</GrayText></Text>
                             <Divider />
                         <CostContainer>
                             <Can>
@@ -61,8 +116,17 @@ function Contract3() {
                     </InputRow>
                 </Row>
              </Table>
-             <Text><Bold>제2조(임대차기간)</Bold> 임대인은 임차주택을 임대차 목적대로 사용‧수익할 수 있는 상태로 <Input />년  <Input />월 <Input />일까지 임차인에게 인도하고, <br />
-             임대차기간은 인도일로부터  <Input />년  <Input />월 <Input />일까지로 한다. </Text>
+             <Text><Bold>제2조(임대차기간)</Bold> 임대인은 임차주택을 임대차 목적대로 사용‧수익할 수 있는 상태로 
+                 <Input $large 
+                 placeholder='XXXX-XX-XX'
+                 value={formData.startDate}
+                 onChange={(e) => handleInputChange("startDate", e.target.value)}
+                 />까지 임차인에게 인도하고, <br />
+             임대차기간은 인도일로부터  <Input $large 
+                                            placeholder='XXXX-XX-XX' 
+                                            value={formData.endDate}
+                                            onChange={(e) => handleInputChange("endDate", e.target.value)}
+                                            />까지로 한다. </Text>
             <Button onClick={() => navigate('/member/contract/4')}>다음</Button>
         </Container>
     </div>
@@ -149,6 +213,18 @@ const InputRow = styled.div`
 `;
 
 const Input = styled.input`
+  width: ${(props) => (props.$large ? '12rem' : '5rem')};  
+  margin-left: 5px;
+  margin-right: 5px;
+  border-width: 0 0 1px 0;
+  font-size: 18px;
+  ::placeholder{
+     font-size: 18px;
+     color: #595959;
+    }
+`;
+
+const NoInput = styled.input`
   width: ${(props) => (props.$large ? '12rem' : '5rem')};  
   margin-left: 5px;
   margin-right: 5px;

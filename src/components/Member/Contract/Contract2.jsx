@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../MemberHeader';
 import getData from '../../../hooks/GetData'
-
+import { ContractContext } from '../../api/ContractContext';
 
 function Contract2() {
-  const [address, setAddress] = useState("");
-  const [detailAddress, setDetailAddress] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [detailAddress, setDetailAddress] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCheckbox, setSelectedCheckbox] = useState({
     contractType: "",
     unpaidTax: "",
@@ -19,10 +20,19 @@ function Contract2() {
   const { PNU, itemInfo } = location.state || {};
   console.log(itemInfo);
 
+  const {itemLog, setItemLog} = useContext(ContractContext);
+    console.log("Contract2", itemLog);
+
   // 데이터 로딩
   // const { data: building, isLoading, isError } = getData(
   //   `HLF/getBuilding?tokenID=${PNU}`
   // );
+
+  useEffect(() => {
+    if (itemLog && itemInfo) {
+      setIsLoading(false);
+    }
+  }, [itemLog, itemInfo]);
 
   const handleCheckboxChange = (key, value) => {
     setSelectedCheckbox((prev) => ({
@@ -32,7 +42,7 @@ function Contract2() {
   };
 
   // // 로딩 상태 처리
-  // if (isLoading) {
+  // if (!itemLog) {
   //   return <p>로딩 중...</p>;
   // }
 
@@ -44,6 +54,9 @@ function Contract2() {
   // 데이터가 로드된 후 렌더링
   // const contractItem = building?.data?.result;
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
   return (
     <div>
       <Header />
@@ -68,11 +81,11 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>토지</BoldText>
-                지목 &nbsp;<StringInput variant="medium" />
+                지목 &nbsp;<StringInput variant="medium" disabled/>
               </Row>
               <Row>
                 <BoldText></BoldText>
-                면적 &nbsp;<StringInput variant="medium" /> ㎡
+                면적 &nbsp;<StringInput variant="medium" disabled/> ㎡
               </Row>
             </Can>
             <Can>
@@ -82,7 +95,7 @@ function Contract2() {
               </Row>
               <Row>
                 <BoldText />
-                면적 &nbsp; <StringInput variant="medium" /> ㎡
+                면적 &nbsp; <String variant="medium">{itemInfo?.area / 100}</String> ㎡
               </Row>
             </Can>
           </Area>

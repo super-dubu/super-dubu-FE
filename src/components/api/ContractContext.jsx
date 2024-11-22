@@ -57,10 +57,17 @@ export const ContractProvider = ({ children }) => {
       console.log("Generated initialItemLog:", initialItemLog);
       setItemLog(initialItemLog);
     }
-  }, [user, itemInfo]);
+  }, [user]);
+
+  const updateItemLog = (newData) => {
+    setItemLog((prev) => ({
+      ...prev,
+      ...newData,
+    }));
+  };
 
   return (
-    <ContractContext.Provider value={{ itemLog, setItemLog }}>
+    <ContractContext.Provider value={{ itemLog, setItemLog, updateItemLog}}>
       {children}
     </ContractContext.Provider>
   );

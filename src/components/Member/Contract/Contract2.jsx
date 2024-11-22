@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import DaumPostModal from '../../api/DaumPost'; // DaumPostModal 가져오기
-import { useNavigate } from 'react-router-dom';
-import Header from '../MemberHeader';
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
+import DaumPostModal from "../../api/DaumPost"; // DaumPostModal 가져오기
+import { useNavigate } from "react-router-dom";
+import Header from "../MemberHeader";
 
 function Contract2() {
   const [isPostModalOpen, setPostModalOpen] = useState(false);
-  const [address, setAddress] = useState('');
-  const [detailAddress, setDetailAddress] = useState('');
-  const [selectedCheckbox, setSelectedCheckbox] = useState('');
+  const [address, setAddress] = useState("");
+  const [detailAddress, setDetailAddress] = useState("");
+  const [selectedCheckbox, setSelectedCheckbox] = useState("");
 
-    const handleCheckboxChange = (value) => {
-        setSelectedCheckbox(value);
-    };
+  const handleCheckboxChange = (value) => {
+    setSelectedCheckbox(value);
+  };
 
   const handlePostModal = () => {
     setPostModalOpen(!isPostModalOpen);
@@ -42,7 +42,7 @@ function Contract2() {
               <StringInput
                 variant="medium"
                 value={address}
-                placeholder={address || '기본 주소'}
+                placeholder={address || "기본 주소"}
                 readOnly
               />
               <AddressButton onClick={handlePostModal}>주소 검색</AddressButton>
@@ -61,102 +61,112 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>토지</BoldText>
-                지목 &nbsp;<StringInput variant="medium"/>
+                지목 &nbsp;
+                <StringInput variant="medium" />
               </Row>
               <Row>
                 <BoldText></BoldText>
-                면적 &nbsp;<StringInput variant="medium"/> ㎡
+                면적 &nbsp;
+                <StringInput variant="medium" /> ㎡
               </Row>
             </Can>
             <Can>
               <Row>
                 <BoldText>건물</BoldText>
-                지목 &nbsp;<StringInput variant="medium"/>
+                지목 &nbsp;
+                <StringInput variant="medium" />
               </Row>
               <Row>
                 <BoldText />
-                면적 &nbsp; <StringInput variant="medium"/> ㎡
+                면적 &nbsp; <StringInput variant="medium" /> ㎡
               </Row>
             </Can>
           </Area>
           <Address>
             <BoldText>계약의 종류</BoldText>
-                <Label>
-                            <CheckBox
-                                type="checkbox"
-                                checked={selectedCheckbox === '신규 계약'}
-                                onChange={() => handleCheckboxChange('신규 계약')}
-                            />
-                            신규 계약
-                        </Label>
-                        <Label>
-                            <CheckBox
-                                type="checkbox"
-                                checked={selectedCheckbox === '재계약'}
-                                onChange={() => handleCheckboxChange('재계약')}
-                            />
-                            합의에 의한 재계약
-                        </Label>
-                        <Label>
-                            <CheckBox
-                                type="checkbox"
-                                checked={selectedCheckbox === '갱신 계약'}
-                                onChange={() => handleCheckboxChange('갱신 계약')}
-                            />
-                            [주택임대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신 계약
-                        </Label>
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "신규 계약"}
+                onChange={() => handleCheckboxChange("신규 계약")}
+              />
+              신규 계약
+            </Label>
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "재계약"}
+                onChange={() => handleCheckboxChange("재계약")}
+              />
+              합의에 의한 재계약
+            </Label>
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "갱신 계약"}
+                onChange={() => handleCheckboxChange("갱신 계약")}
+              />
+              [주택임대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신
+              계약
+            </Label>
           </Address>
         </InputContainer>
         <CheckContainer>
           <Box>
             <BoldText>미납 국세･지방세</BoldText>
-              <br />
-              <Label>
-                  <CheckBox
-                      type="checkbox"
-                      checked={selectedCheckbox === '없음'}
-                      onChange={() => handleCheckboxChange('없음')}
-                  />
-                  없음
-              </Label>
-              <br />
-              <Label>
-                  <CheckBox
-                      type="checkbox"
-                      checked={selectedCheckbox === '있음'}
-                      onChange={() => handleCheckboxChange('있음')}
-                  />
-                  있음(중개대상물 확인‧설명서 제2쪽 Ⅱ. 개업공인중개사 세부 확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "없음"}
+                onChange={() => handleCheckboxChange("없음")}
+              />
+              없음
+            </Label>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "있음"}
+                onChange={() => handleCheckboxChange("있음")}
+              />
+              있음(중개대상물 확인‧설명서 제2쪽 Ⅱ. 개업공인중개사 세부 확인사항
+              ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
             </Label>
           </Box>
           <Box>
-          <BoldText>미납 국세･지방세</BoldText>
-              <br />
-              <Label>
-                  <CheckBox
-                      type="checkbox"
-                      checked={selectedCheckbox === '해당 없음'}
-                      onChange={() => handleCheckboxChange('해당 없음')}
-                  />
-                  해당 없음
-              </Label>
-              <br />
-              <Label>
-                  <CheckBox
-                      type="checkbox"
-                      checked={selectedCheckbox === '해당 있음'}
-                      onChange={() => handleCheckboxChange('해당 있음')}
-                  />
-                  해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부 확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
+            <BoldText>미납 국세･지방세</BoldText>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "해당 없음"}
+                onChange={() => handleCheckboxChange("해당 없음")}
+              />
+              해당 없음
+            </Label>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "해당 있음"}
+                onChange={() => handleCheckboxChange("해당 있음")}
+              />
+              해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부
+              확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에
+              기재)
             </Label>
           </Box>
         </CheckContainer>
-        <Button onClick = {() => navigate('/member/contract/3')}>다음</Button>
+        <Button onClick={() => navigate("/member/contract/3")}>다음</Button>
       </Container>
 
       {/* 모달을 조건부로 렌더링 */}
       {isPostModalOpen && (
-        <DaumPostModal onComplete={handleAddressComplete} onClose={handlePostModal} />
+        <DaumPostModal
+          onComplete={handleAddressComplete}
+          onClose={handlePostModal}
+        />
       )}
     </div>
   );
@@ -199,7 +209,7 @@ const Address = styled.div`
   border-width: 1px;
   padding: 1rem;
 
-  &:last-child{
+  &:last-child {
     border-top: 0px;
   }
 `;
@@ -227,17 +237,17 @@ const StringInput = styled.input`
   margin-right: 3px;
 
   ${({ variant }) =>
-    variant === 'long'
+    variant === "long"
       ? css`
           width: 400px;
         `
-      : variant === 'medium'
-      ? css`
-          width: 320px;
-        `
-      : css`
-          width: 150px;
-        `}
+      : variant === "medium"
+        ? css`
+            width: 320px;
+          `
+        : css`
+            width: 150px;
+          `}
 `;
 
 const Area = styled.div`
@@ -247,11 +257,10 @@ const Area = styled.div`
   align-items: center;
   border-style: solid;
   border-width: 0 1px 1px 1px;
-
 `;
 
 const Can = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
@@ -259,7 +268,7 @@ const Can = styled.div`
   border-style: solid;
   border-width: 0px 1px 0px 0px;
 
-  &:last-child{
+  &:last-child {
     border-width: 0px;
   }
 `;
@@ -269,7 +278,7 @@ const CheckBox = styled.input`
 `;
 
 const Label = styled.label`
-    margin-right: 2rem;
+  margin-right: 2rem;
 `;
 
 const CheckContainer = styled.div`
@@ -282,7 +291,7 @@ const CheckContainer = styled.div`
 
 const Box = styled.div`
   height: 7rem;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   border-radius: 20px;
   border: solid 1px;
   padding: 1.2rem;
@@ -291,14 +300,14 @@ const Box = styled.div`
 `;
 
 const Button = styled.button`
-    width: 40%;
-    height: 4rem;
-    margin: 3rem;
-    border-radius: 15px;
-    border-style: none;
-    background-color: #6E7D9C;
-    font-size: 20px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 40%;
+  height: 4rem;
+  margin: 3rem;
+  border-radius: 15px;
+  border-style: none;
+  background-color: #6e7d9c;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 `;

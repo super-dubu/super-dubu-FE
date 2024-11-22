@@ -6,7 +6,7 @@ import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
 import MobileAuth from "./components/api/MobileAuth.jsx";
-import BookAdmin from "./components/Member/BookingAdmin.jsx";
+import BookAdmin from "./components/Member/BookAdmin.jsx";
 import TossPayment from "./components/api/Toss/TossPayment.jsx";
 import SuccessPage from "./components/api/Toss/Success.jsx";
 import FailPage from "./components/api/Toss/Fail.jsx";
@@ -17,12 +17,12 @@ import GuestSell from "./components/Guest/GuestSell.jsx";
 import GuestInfo from "./components/Guest/GuestInfo.jsx";
 import GuestBook from "./components/Guest/GuestBook.jsx";
 
-import Contract1 from './components/Member/Contract/Contract1.jsx';
-import Contract2 from './components/Member/Contract/Contract2.jsx';
-import Contract3 from './components/Member/Contract/Contract3.jsx';
-import Contract4 from './components/Member/Contract/Contract4.jsx';
-import Contract5 from './components/Member/Contract/Contract5.jsx'
-import Contract6 from './components/Member/Contract/Contract6.jsx'
+import Contract1 from "./components/Member/Contract/Contract1.jsx";
+import Contract2 from "./components/Member/Contract/Contract2.jsx";
+import Contract3 from "./components/Member/Contract/Contract3.jsx";
+import Contract4 from "./components/Member/Contract/Contract4.jsx";
+import Contract5 from "./components/Member/Contract/Contract5.jsx";
+import Contract6 from "./components/Member/Contract/Contract6.jsx";
 // import ContractContext from './components/api/ContractContext.jsx'
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
@@ -31,7 +31,7 @@ import { AuthProvider } from "./components/api/AuthContext";
 function App() {
   return (
     <BrowserRouter>
-      {/* <AuthProvider> */}
+      <AuthProvider>
         <div className="App">
           <Routes>
             <Route path="/" element={<GuestLayout />}>
@@ -46,7 +46,6 @@ function App() {
             <Route path="/sandbox/success" element={<SuccessPage />} />
             <Route path="/sandbox/fail" element={<FailPage />} />
 
-            <AuthProvider>
             <Route path="/member" element={<Outlet />}>
               <Route path="join" element={<MemberJoin />} />
               <Route path="login" element={<MemberLogin />} />
@@ -64,11 +63,9 @@ function App() {
               <Route path="5" element={<Contract5 />} />
               <Route path="6" element={<Contract6 />} />
             </Route>
-            </AuthProvider>
-
           </Routes>
         </div>
-       {/* </AuthProvider>  */}
+      </AuthProvider>
     </BrowserRouter>
   );
 }

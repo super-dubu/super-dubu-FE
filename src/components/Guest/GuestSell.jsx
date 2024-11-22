@@ -42,6 +42,17 @@ const GuestSell = () => {
   const itemsToDisplay =
     filteredItems === null ? item.data || [] : filteredItems;
 
+  console.log(itemsToDisplay);
+
+  const formatPrice = (value) => {
+    if (!value) return "0원";
+    const num = Number(value);
+    if (num >= 10000) {
+      return `${Math.floor(num / 10000)}억 ${num % 10000 > 0 ? `${num % 10000}만원` : ""}`;
+    }
+    return `${num}만원`;
+  };
+
   return (
     <Container>
       <FilterBar>
@@ -102,12 +113,20 @@ const GuestSell = () => {
                   }
                 >
                   <ItemImg src="https://via.placeholder.com/150" alt="item" />
-                  <ItemDetails>
-                    <ItemInfo>
-                      {it.priceRental} / {it.priceMonthly}
-                    </ItemInfo>
-                    <ItemLocation>{it.buildingAddress}</ItemLocation>
-                  </ItemDetails>
+                  {it.buildingType == "0" ? (
+                    <ItemDetails>
+                      <ItemInfo>전세 {formatPrice(it.priceRental)}</ItemInfo>
+                      <ItemLocation>{it.buildingAddress}</ItemLocation>
+                    </ItemDetails>
+                  ) : (
+                    <ItemDetails>
+                      <ItemInfo>
+                        월세 {formatPrice(it.priceRental)} /{" "}
+                        {formatPrice(it.priceMonthly)}
+                      </ItemInfo>
+                      <ItemLocation>{it.buildingAddress}</ItemLocation>
+                    </ItemDetails>
+                  )}
                 </Item>
               ))}
             </ItemList>
@@ -115,9 +134,7 @@ const GuestSell = () => {
             <NoItemsMessage>해당하는 매물이 없습니다</NoItemsMessage>
           )}
           <MapArea>
-            <Kmap
-              addresses={item.data?.properties.map((it) => it.buildingAddress)}
-            />
+            <Kmap items={itemsToDisplay} />
           </MapArea>
         </Content>
       </MainSection>
@@ -161,7 +178,7 @@ const MainSection = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 8%;
+  width: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,12 +217,12 @@ const Category = styled.div`
 
 const Content = styled.div`
   display: flex;
-  width: 92%;
+  width: 95%;
   height: 100%;
 `;
 
 const ItemList = styled.div`
-  width: 45%;
+  width: 35%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -251,12 +268,12 @@ const NoItemsMessage = styled.div`
   text-align: center;
   margin-top: 50px;
   padding: 20px;
-  width: 45%;
+  width: 30%;
 `;
 
 const MapArea = styled.div`
-  width: 55%;
-  height: 100%;
+  width: 90%;
+  height: 105%;
   display: flex;
   justify-content: center;
   align-items: center;

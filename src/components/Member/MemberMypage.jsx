@@ -5,11 +5,19 @@ import SideBar from "./MemberSide";
 import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
 import Modal from "./BookAdmin";
+import getData from '../../hooks/GetData'
 
 function MemberMypage() {
   const { user } = useContext(AuthContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log("user", user);
+
+  const booking = getData(`/reservation/view/${user?.registerID}`);
+  const item = getData(`/forsale/view?memberRegister=${user?.registerID}`);
+  console.log(item);
+  console.log("booking", booking);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -23,7 +31,12 @@ function MemberMypage() {
           <BookingList>
             <Title>상담 예약 내역</Title>
             <BookBox>
-              <BookContent />
+              <BookContent>
+                {booking?.data?.data?.reservation_list[0].date}
+                예약자 이름 {booking?.data?.data?.reservation_list[0].name}
+
+              </BookContent>
+                
               <BookContent />
               <BookContent />
             </BookBox>
@@ -34,12 +47,14 @@ function MemberMypage() {
               <SellContent>
                 <Image src={Photo} />
                 <SellInfo>
-                  <InfoDetail>월세 2000 / 50</InfoDetail>
+                  <InfoDetail>전세 {item?.data?.data?.properties[0].priceRental}</InfoDetail>
                   <InfoDetail>주소 어디어디</InfoDetail>
                   <InfoDetail>여기는 뭐 넣을까</InfoDetail>
                 </SellInfo>
               </SellContent>
-              <SellContent />
+              <SellContent>
+                
+              </SellContent>
               <SellContent />
             </SellBox>
           </SellContainer>
@@ -92,6 +107,7 @@ const BookContent = styled.div`
   width: 17rem;
   height: 15rem;
   background-color: white;
+  padding: 1rem;
   /* border-radius: 20px; */
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15); */
   /* border: solid 1px #595959; */

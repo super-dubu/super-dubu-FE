@@ -17,45 +17,58 @@ import GuestSell from "./components/Guest/GuestSell.jsx";
 import GuestInfo from "./components/Guest/GuestInfo.jsx";
 import GuestBook from "./components/Guest/GuestBook.jsx";
 
-import Contract1 from "./components/Member/Contract/Contract1.jsx";
-import Contract2 from "./components/Member/Contract/Contract2.jsx";
-import Contract3 from "./components/Member/Contract/Contract3.jsx";
-import Contract4 from "./components/Member/Contract/Contract4.jsx";
-import Contract5 from "./components/Member/Contract/Contract5.jsx";
-import Contract6 from "./components/Member/Contract/Contract6.jsx";
-// import ContractContext from './components/api/ContractContext.jsx'
+import Contract1 from './components/Member/Contract/Contract1.jsx';
+import Contract2 from './components/Member/Contract/Contract2.jsx';
+import Contract3 from './components/Member/Contract/Contract3.jsx';
+import Contract4 from './components/Member/Contract/Contract4.jsx';
+import Contract5 from './components/Member/Contract/Contract5.jsx'
+import Contract6 from './components/Member/Contract/Contract6.jsx'
+import {ContractProvider} from './components/api/ContractContext.jsx'
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import { AuthProvider } from "./components/api/AuthContext";
 
+
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<GuestLayout />}>
-              <Route path="/" element={<GuestMain />} />
-              <Route path="sell" element={<GuestSell />} />
-              <Route path="sell/:itemID" element={<GuestInfo />} />
-              <Route path="book" element={<GuestBook />} />
-              <Route path="QR" element={<QRPage />} />
-            </Route>
-            <Route path="auth" element={<MobileAuth />} />
-            <Route path="/sandbox" element={<TossPayment />} />
-            <Route path="/sandbox/success" element={<SuccessPage />} />
-            <Route path="/sandbox/fail" element={<FailPage />} />
+      <div className="App">
+        <Routes>
+          {/* Guest 관련 Routes */}
+          <Route path="/" element={<GuestLayout />}>
+            <Route path="/" element={<GuestMain />} />
+            <Route path="sell" element={<GuestSell />} />
+            <Route path="sell/:itemID" element={<GuestInfo />} />
+            <Route path="book" element={<GuestBook />} />
+            <Route path="QR" element={<QRPage />} />
+          </Route>
+          <Route path="auth" element={<MobileAuth />} />
 
-            <Route path="/member" element={<Outlet />}>
-              <Route path="join" element={<MemberJoin />} />
-              <Route path="login" element={<MemberLogin />} />
-              <Route path="property" element={<UploadProperty />} />
-              <Route path="mypage" element={<MemberMypage />} />
-              <Route path="" element={<MemberMain />} />
-              <Route path="bookadmin" element={<BookAdmin />} />
-            </Route>
+          {/* Member 관련 Routes */}
+          <Route
+            path="/member"
+            element={
+              <AuthProvider>
+                <Outlet />
+              </AuthProvider>
+            }
+          >
+            <Route path="join" element={<MemberJoin />} />
+            <Route path="login" element={<MemberLogin />} />
+            <Route path="property" element={<UploadProperty />} />
+            <Route path="mypage" element={<MemberMypage />} />
+            <Route path="" element={<MemberMain />} />
+            <Route path="bookadmin" element={<BookAdmin />} />
 
-            <Route path="/member/contract" element={<Outlet />}>
+            {/* Contract 관련 Routes with ContractContext */}
+            <Route
+              path="contract"
+              element={
+                <ContractProvider>
+                  <Outlet />
+                </ContractProvider>
+              }
+            >
               <Route path="1" element={<Contract1 />} />
               <Route path="2" element={<Contract2 />} />
               <Route path="3" element={<Contract3 />} />
@@ -63,9 +76,10 @@ function App() {
               <Route path="5" element={<Contract5 />} />
               <Route path="6" element={<Contract6 />} />
             </Route>
-          </Routes>
-        </div>
-      </AuthProvider>
+          </Route>
+        </Routes>
+      </div>
+
     </BrowserRouter>
   );
 }

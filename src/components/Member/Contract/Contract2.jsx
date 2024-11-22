@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import DaumPostModal from '../../api/DaumPost'; // DaumPostModal 가져오기
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../MemberHeader';
+import getData from '../../../hooks/GetData'
 
 function Contract2() {
   const [isPostModalOpen, setPostModalOpen] = useState(false);
@@ -29,6 +30,13 @@ function Contract2() {
     // debouncedChangeHandler(value); // 필요 시 추가
   };
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { PNU } = location.state || {};
+  console.log("Contract2", PNU);
+
+  const {data : building} = getData(`HLF/getBuilding?tokenID=${PNU}`)
+  console.log("building", building);
 
   return (
     <div>
@@ -71,7 +79,7 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>건물</BoldText>
-                지목 &nbsp;<StringInput variant="medium"/>
+                지목 &nbsp;<StringInput variant="medium"></StringInput>
               </Row>
               <Row>
                 <BoldText />
@@ -220,7 +228,7 @@ const BoldText = styled.div`
   font-size: 18px;
 `;
 
-const StringInput = styled.input`
+const StringInput = styled.div`
   border-color: #848484;
   border-width: 0.8px;
   height: 2rem;

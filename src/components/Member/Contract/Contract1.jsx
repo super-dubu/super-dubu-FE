@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../MemberHeader'
 import styled, { css } from 'styled-components'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import cryptoJs from 'crypto-js';
 
@@ -17,6 +17,10 @@ function Contract1() {
     const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
   
     const [selectedCheckbox, setSelectedCheckbox] = useState("");
+
+    const location = useLocation();
+    const { PNU } = location.state || {};
+    console.log(PNU, "PNU");
   
     const navigate = useNavigate();
   
@@ -53,6 +57,8 @@ function Contract1() {
       isLessorAuthComplete &&
       isLesseeAuthComplete &&
       selectedCheckbox === "동의함";
+
+    
   
     return (
       <div>
@@ -147,7 +153,7 @@ function Contract1() {
             </AgreeText>
           </AgreeContainer>
           <Button
-            onClick={() => navigate("/member/contract/2")}
+            onClick={() => navigate("/member/contract/2", { state: { PNU } })}
             disabled={!isButtonEnabled} // 조건을 기반으로 비활성화
           >
             계속 진행하기

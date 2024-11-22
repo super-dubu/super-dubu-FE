@@ -6,62 +6,87 @@ import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
 import Modal from "./BookAdmin";
 import getData from '../../hooks/GetData'
+import { useNavigate } from "react-router-dom";
 
 function MemberMypage() {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  // console.log("user", user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log("user", user);
+  // 예약 정보 가져오기
+  const { data: booking, isLoading: bookingLoading } = getData(
+    `/reservation/view/${user?.registerID}`
+  );
 
-  const booking = getData(`/reservation/view/${user?.registerID}`);
-  const item = getData(`/forsale/view?memberRegister=${user?.registerID}`);
-  console.log(item);
-  console.log("booking", booking);
+  // 매물 정보 가져오기
+  const { data: items, isLoading: itemsLoading } = getData(
+    `/forsale/view?memberRegister=${user?.registerID}`
+  );
 
+  console.log("items", items);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // Contract1으로 이동
+  const goToContract = (bookItemID) => {
+    console.log("in goto Contract bookItemID", bookItemID);
+    try {
+      // 예약된 매물의 itemID로 매물 정보 찾기
+      const matchedItem = items?.data?.properties.find(
+        (item) => item.itemID === bookItemID
+      );
+      console.log("matchedItem", matchedItem);
+
+      if (!matchedItem) {
+        alert("해당 itemID에 대한 매물 정보를 찾을 수 없습니다.");
+        return;
+      }
+
+      // tokenID(PNU) 전달
+      navigate(`/member/contract/1`, {
+        state: {
+          itemInfo: matchedItem, // 매물 정보
+          PNU: matchedItem.tokenID, // tokenID를 PNU로 전달
+        },
+      });
+    } catch (error) {
+      console.error("Contract로 이동 중 오류 발생:", error);
+      alert("매물 정보를 가져오는 중 오류가 발생했습니다.");
+    }
+  };
+
+  if (bookingLoading || itemsLoading) {
+    return <p>로딩 중...</p>;
+  }
+
+  console.log("booking",booking?.data?.reservation_list[0]);
 
   return (
     <div>
-      {user ? <Header showLogout={true} /> : ""}
+      {user && <Header showLogout={true} />}
       <Container>
-        <SideBar openModal = {openModal}/>
+        <SideBar openModal={openModal} />
         <Content>
           <BookingList>
             <Title>상담 예약 내역</Title>
             <BookBox>
-              <BookContent>
-                {booking?.data?.data?.reservation_list[0].date}
-                예약자 이름 {booking?.data?.data?.reservation_list[0].name}
-
-              </BookContent>
-                
-              <BookContent />
-              <BookContent />
+              {booking?.data?.reservation_list.map((reservation, index) => (
+                <BookContent key={index}>
+                  <p>예약 날짜: {reservation.date.substring(5, 10)}</p>
+                  <p>예약자 이름: {reservation.name}</p>
+                  {/* <p>예약 매물 주소: {reservation.address}</p> */}
+                  <p>매물 ID: {reservation.itemID}</p>
+                  <ContractButton onClick={() => goToContract(reservation.itemID)}>
+                    계약서 작성하기
+                  </ContractButton>
+                </BookContent>
+              ))}
             </BookBox>
           </BookingList>
-          <SellContainer>
-            <Title>나의 매물</Title>
-            <SellBox>
-              <SellContent>
-                <Image src={Photo} />
-                <SellInfo>
-                  <InfoDetail>전세 {item?.data?.data?.properties[0].priceRental}</InfoDetail>
-                  <InfoDetail>주소 어디어디</InfoDetail>
-                  <InfoDetail>여기는 뭐 넣을까</InfoDetail>
-                </SellInfo>
-              </SellContent>
-              <SellContent>
-                
-              </SellContent>
-              <SellContent />
-            </SellBox>
-          </SellContainer>
         </Content>
       </Container>
-      {isModalOpen && <Modal onClose={closeModal} />}
     </div>
   );
 }
@@ -109,6 +134,8 @@ const BookContent = styled.div`
   height: 15rem;
   background-color: white;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
   /* border-radius: 20px; */
   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15); */
   /* border: solid 1px #595959; */
@@ -155,3 +182,6 @@ const SellInfo = styled.div`
 
 const InfoDetail = styled.div``;
 
+const ContractButton = styled.button`
+  
+`;

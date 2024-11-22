@@ -1,12 +1,15 @@
-import React, { createContext } from 'react'
+import React, { createContext, useState } from 'react'
 export const ContractContext = createContext();
 
-export const ContractProvider = ({ children }) => { 
+export const ContractProvider = ({ children }) => {
+    const [buildingInfo, setBuildingInfo] = useState(null);
 
+    const updateBuildingInfo = (data) => {
+        setBuildingInfo(data);
+      };
     
-
   return (
-   <ContractContext.Provider>
+   <ContractContext.Provider value={{ buildingInfo, updateBuildingInfo }}>
      {children}
    </ContractContext.Provider>
   )

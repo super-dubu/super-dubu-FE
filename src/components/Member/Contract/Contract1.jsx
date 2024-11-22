@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../MemberHeader'
 import styled, { css } from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,35 +20,53 @@ function Contract1() {
     const location = useLocation();
     const { itemInfo, PNU } = location.state || {};
 
-    const {itemLog} = useContext(ContractContext);
+    const {itemLog, setItemLog} = useContext(ContractContext);
     {itemLog ? console.log("initial itemLog", itemLog) : ""};
   
     const navigate = useNavigate();
+
+    const handleNameChange = (type, value) => {
+        setItemLog((prev) => ({
+          ...prev,
+          [type === "lessor" ? "lessorName" : "lesseeName"]: value,
+        }));
+      };
+    
+      
+    //디버깅용
+    useEffect(() => {
+        // itemLog가 변경될 때마다 출력
+        console.log("Updated itemLog:", itemLog);
+      }, [itemLog]);
   
-    const handleAuth = async (type) => {
-      try {
-        const name = type === "lessor" ? nameLessor : nameLessee;
-        const id = type === "lessor" ? idLessor : idLessee;
-  
-        const hashedCode = cryptoJs.SHA256(name + id + ENC_KEY).toString();
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
-          {
-            params: { name: decodeURI(name), code: hashedCode },
+      const handleAuth = async (type) => {
+        try {
+          const name = type === "lessor" ? nameLessor : nameLessee;
+          const id = type === "lessor" ? idLessor : idLessee;
+    
+          const hashedCode = cryptoJs.SHA256(name + id + ENC_KEY).toString();
+          const response = await axios.get(
+            `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
+            {
+              params: { name: decodeURI(name), code: hashedCode },
+            }
+          );
+          console.log(response);
+          alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 성공`);
+    
+          // Update itemLog with authenticated name
+          handleNameChange(type, name);
+    
+          if (type === "lessor") {
+            setIsLessorAuthComplete(true);
+          } else {
+            setIsLesseeAuthComplete(true);
           }
-        );
-        console.log(response);
-        alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 성공`);
-        if (type === "lessor") {
-          setIsLessorAuthComplete(true);
-        } else {
-          setIsLesseeAuthComplete(true);
+        } catch (error) {
+          alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 실패`);
+          console.error(error);
         }
-      } catch (error) {
-        alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 실패`);
-        console.error(error);
-      }
-    };
+      };
   
     const handleCheckboxChange = (value) => {
       setSelectedCheckbox(value);
@@ -73,9 +91,13 @@ function Contract1() {
                 <Row>
                   <BoldText>이름</BoldText>
                   <StringInput
-                    value={nameLessor}
-                    onChange={(e) => setNameLessor(e.target.value)}
-                  />
+                      value={nameLessor}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setNameLessor(value); // state 업데이트
+                        // handleNameChange("lessor", value); // ContractContext에 값 저장
+                      }}
+                />
                 </Row>
                 <Row>
                   <BoldText>주민등록번호</BoldText>
@@ -99,7 +121,10 @@ function Contract1() {
                   <BoldText>이름</BoldText>
                   <StringInput
                     value={nameLessee}
-                    onChange={(e) => setNameLessee(e.target.value)}
+                    onChange={(e) => {
+                        setNameLessee(e.target.value);
+                        // handleNameChange("lessee", value);
+                    }}
                   />
                 </Row>
                 <Row>

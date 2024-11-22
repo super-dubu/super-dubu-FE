@@ -13,7 +13,7 @@ export const ContractProvider = ({ children }) => {
   console.log("Incontext user", user);
   console.log("Incontext asdfe", itemInfo);
 
-  const [itemLog, setItemLog] = useState([]);
+  const [itemLog, setItemLog] = useState({});
 
   useEffect(() => {
     if (user && itemInfo) {

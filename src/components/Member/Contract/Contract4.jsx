@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Header from '../MemberHeader';
 import styled from 'styled-components';
 import { AuthContext } from '../../api/AuthContext';
@@ -7,15 +7,27 @@ import { ContractContext } from '../../api/ContractContext';
 
 function Contract4() {
     const [selectedCheckbox, setSelectedCheckbox] = useState('');
+    const {itemLog, setItemLog} = useContext(ContractContext);
+    console.log("Contract4", itemLog);
+  
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      // 오늘 날짜를 가져오기
+      const today = new Date();
+      const formattedDate = today.toISOString().split("T")[0]; // YYYY-MM-DD 형식으로 변환
+
+      // tradeDate에 오늘 날짜 저장
+      setItemLog((prev) => ({
+          ...prev,
+          tradeDate: formattedDate,
+      }));
+  }, [setItemLog]);
 
     const handleCheckboxChange = (value) => {
         setSelectedCheckbox(value);
     };
 
-    const {itemLog, setItemLog} = useContext(ContractContext);
-    console.log("Contract4", itemLog);
-
-    const navigate = useNavigate();
  
   return (
     <div>

@@ -21,25 +21,38 @@ function Contract3() {
     console.log("Contract3", itemLog);
 
     useEffect(() => {
-        if (itemLog?.itemInfo) {
-          setFormData(itemLog.itemInfo || "");
+        if (itemLog) {
+            setFormData({
+                ...formData,
+                ...itemLog.itemInfo, // itemInfo에 있는 데이터를 formData에 병합
+                startDate: itemLog.startDate || "",
+                endDate: itemLog.endDate || "",
+            });
         }
-      }, [itemLog]);
+    }, [itemLog]);
 
-    const handleInputChange = (field, value) => {
+      const handleInputChange = (field, value) => {
         setFormData((prev) => ({
-          ...prev,
-          [field]: value,
-        }));
-      
-        setItemLog((prev) => ({
-          ...prev,
-          itemInfo: {
-            ...prev.itemInfo,
+            ...prev,
             [field]: value,
-          },
         }));
-      };
+
+        // 필드가 startDate 또는 endDate인지 확인
+        if (field === "startDate" || field === "endDate") {
+            setItemLog((prev) => ({
+                ...prev,
+                [field]: value, // itemLog 바로 안의 데이터를 업데이트
+            }));
+        } else {
+            setItemLog((prev) => ({
+                ...prev,
+                itemInfo: {
+                    ...prev.itemInfo,
+                    [field]: value, // itemInfo 내부의 데이터를 업데이트
+                },
+            }));
+        }
+    };
 
 
   return (

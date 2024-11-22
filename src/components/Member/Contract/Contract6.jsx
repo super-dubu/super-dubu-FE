@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { QRCodeCanvas } from "qrcode.react";
 import { AuthContext } from '../../api/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ContractContext } from '../../api/ContractContext';
 
 function Contract6() {
 
@@ -12,6 +13,9 @@ console.log("Original user", user);
 const userData = user ? user : { user: "" };
 console.log("Processed userData:", userData);
 const navigate = useNavigate();
+const {itemLog, setItemLog} = useContext(ContractContext);
+
+console.log("Contract6", itemLog);
 
 const handleComplete = () => {
     alert('계약이 완료되었습니다.');
@@ -29,15 +33,15 @@ const handleComplete = () => {
             <Title>주요 계약 사항 확인</Title>
             <AgentBox>
                 <Column>
-                    <Row>매물 번호 : </Row>
-                    <Row>주소 : </Row>
-                    <Row>계약 종류 : </Row>
-                    <Row>특약 : </Row>
+                    <Row>매물 번호 : {itemLog.itemInfo._id}</Row>
+                    <Row>주소 : {`${itemLog.itemInfo.buildingAddress} ${itemLog.itemInfo.hosu}`} </Row>
+                    <Row>계약 종류 : {itemLog?.itemInfo?.itemType === "0" ? "월세" : itemLog?.itemInfo?.itemType === "1" ? "전세" : "정보 없음"}  </Row>
+                    <Row>특약 : {itemLog.itemInfo.body}</Row>
                 </Column>
                 <Column>
-                    <Row>보증금 : </Row>
-                    <Row>월세 : </Row>
-                    <Row>관리비 : </Row>
+                    <Row>보증금 : {itemLog.itemInfo.priceRental}</Row>
+                    <Row>월세 : {itemLog.itemInfo.priceMonthly}</Row>
+                    <Row>관리비 : {itemLog.itemInfo.manageFee}</Row>
                     <Row>중개업자명 : {userData.agentName}</Row>
                 </Column>
             </AgentBox>

@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../MemberHeader'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import {ContractContext} from '../../api/ContractContext'
 
 function Contract5() {
     const navigate = useNavigate();
+    const [special, setSpecial] = useState("");
+    const {itemLog, setItemLog} = useContext(ContractContext);
+
+    console.log("Contract5", itemLog);
+
+    const handleSpecialChange = (value) => {
+        setSpecial(value); // 로컬 state 업데이트
+        setItemLog((prev) => ({
+            ...prev,
+            itemInfo: {
+                ...prev.itemInfo,
+                body: value, // itemInfo.body 업데이트
+            },
+        }));
+    };
+
   return (
     <div>
         <Header />
@@ -24,8 +41,17 @@ function Contract5() {
 
                     상세주소가 없는 경우 임차인의 상세주소부여 신청에 대한 소유자 동의여부  (<Checkbox type="checkbox" name="c"/>동의 <Checkbox type="checkbox" name="c"/>미동의)</Note>
              <Label>기타 특약 사항 작성</Label>
-            <SpecialInput />
-            <Button onClick={() => navigate('/member/contract/6')}>다음</Button>
+            <SpecialInput 
+                placeholder={itemLog?.itemInfo?.body}
+                value={special}
+                onChange={(e) => setSpecial(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                handleSpecialChange(special); // 특약사항 값 저장
+                navigate('/member/contract/6'); // 다음 페이지로 이동
+              }}>
+              다음</Button>
         </Container>
     </div>
   )
@@ -59,6 +85,11 @@ const SpecialInput = styled.textarea`
     padding: 1rem;
     height: 10rem;
     border: solid 1px;
+
+    ::placeholder{
+        font-size: 18px;
+        color: #595959;
+    }
 `;
 
 const Label = styled.div`

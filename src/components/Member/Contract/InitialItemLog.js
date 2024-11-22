@@ -1,5 +1,5 @@
-const createInitialItemLog = (agentInfo) => {
-  console.log("Received agentInfo:", agentInfo); // 전달된 agentInfo를 확인
+const createInitialItemLog = (agentInfo, itemInfo) => {
+  // console.log("Received agentInfo:", agentInfo); // 전달된 agentInfo를 확인
   return [
     {
       isExist: "False",
@@ -10,26 +10,7 @@ const createInitialItemLog = (agentInfo) => {
       lessorPhone: "",
       lesseeName: "",
       lesseePhone: "",
-      itemInfo: {
-        tokenID: "",
-        buildingName: "",
-        hosu: "",
-        buildingAddress: "",
-        area: "",
-        priceRental: "",
-        priceMonthly: "",
-        buildingType: "",
-        itemType: "",
-        floorInfo: "",
-        availableDate: "",
-        roomCount: "",
-        confirmDate: "",
-        parking: "",
-        manageFee: "",
-        body: "",
-        itemID: "",
-        status: "PENDING",
-      },
+      itemInfo: itemInfo || {},
       agentInfo: agentInfo || {}, // agentInfo를 동적으로 설정
       txID: "",
       Bank: {

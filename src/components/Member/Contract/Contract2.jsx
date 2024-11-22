@@ -216,7 +216,7 @@ const Address = styled.div`
   border-width: 1px;
   padding: 1rem;
 
-  &:last-child{
+  &:last-child {
     border-top: 0px;
   }
 `;
@@ -276,7 +276,7 @@ const StringInput = styled.input`
   align-items: center;
 
   ${({ variant }) =>
-    variant === 'long'
+    variant === "long"
       ? css`
           min-width: 400px;
         `
@@ -296,11 +296,10 @@ const Area = styled.div`
   align-items: center;
   border-style: solid;
   border-width: 0 1px 1px 1px;
-
 `;
 
 const Can = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
@@ -308,7 +307,7 @@ const Can = styled.div`
   border-style: solid;
   border-width: 0px 1px 0px 0px;
 
-  &:last-child{
+  &:last-child {
     border-width: 0px;
   }
 `;
@@ -318,7 +317,7 @@ const CheckBox = styled.input`
 `;
 
 const Label = styled.label`
-    margin-right: 2rem;
+  margin-right: 2rem;
 `;
 
 const CheckContainer = styled.div`
@@ -331,7 +330,7 @@ const CheckContainer = styled.div`
 
 const Box = styled.div`
   height: 7rem;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   border-radius: 20px;
   border: solid 1px;
   padding: 1.2rem;
@@ -340,14 +339,14 @@ const Box = styled.div`
 `;
 
 const Button = styled.button`
-    width: 40%;
-    height: 4rem;
-    margin: 3rem;
-    border-radius: 15px;
-    border-style: none;
-    background-color: #6E7D9C;
-    font-size: 20px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 40%;
+  height: 4rem;
+  margin: 3rem;
+  border-radius: 15px;
+  border-style: none;
+  background-color: #6e7d9c;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 `;

@@ -182,6 +182,8 @@ const SellInfo = styled.div`
 
 const InfoDetail = styled.div``;
 
+
 const ContractButton = styled.button`
   
 `;
+

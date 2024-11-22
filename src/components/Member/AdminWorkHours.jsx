@@ -1,13 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function AdminWorkHours() {
   return (
     <div>
-      <Container>
-        
-      </Container>
+      <Container></Container>
     </div>
-  )
+  );
 }
 
-export default AdminWorkHours
+export default AdminWorkHours;

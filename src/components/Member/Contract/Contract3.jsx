@@ -143,90 +143,89 @@ function Contract3() {
             <Button onClick={() => navigate('/member/contract/4')}>다음</Button>
         </Container>
     </div>
-  )
+  );
 }
 
-export default Contract3
+export default Contract3;
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Title = styled.div`
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 3rem;
-    margin-bottom: 2rem;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
 `;
 
-
 const Button = styled.button`
-    width: 60%;
-    height: 4rem;
-    /* margin: 0 auto; */
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 15px;
-    border-style: none;
-    background-color: #6E7D9C;
-    font-size: 20px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 60%;
+  height: 4rem;
+  /* margin: 0 auto; */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 15px;
+  border-style: none;
+  background-color: #6e7d9c;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 const Text = styled.div`
-    padding: 1rem;
-    text-align: center;
+  padding: 1rem;
+  text-align: center;
 
-    &.special-text{
-        margin-right: auto;
-    }
+  &.special-text {
+    margin-right: auto;
+  }
 `;
 
 const Bold = styled.span`
-  font-weight:Bold ;
+  font-weight: Bold;
 `;
 
 const Table = styled.div`
-    width: 80%;
-    margin-top: 1rem;
+  width: 80%;
+  margin-top: 1rem;
 `;
 
 const Row = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-style: solid;
-    border-width: 1px 1px 0 1px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
 
-    &:last-child{
-        border-width: 1px;
-    }
+  &:last-child {
+    border-width: 1px;
+  }
 `;
 
 const Label = styled.div`
-    width: 10%;
-    border-style: solid;
-    border-width: 0 1px 0 0;
-    padding: 1rem;
-    font-weight: bold;
-    text-align: center;
-    height: 100%;
+  width: 10%;
+  border-style: solid;
+  border-width: 0 1px 0 0;
+  padding: 1rem;
+  font-weight: bold;
+  text-align: center;
+  height: 100%;
 `;
 
 const InputRow = styled.div`
-    padding-left: 1rem;
-    display: flex;
-    /* flex-direction: column; */
+  padding-left: 1rem;
+  display: flex;
+  /* flex-direction: column; */
 `;
 
 const Input = styled.input`
-  width: ${(props) => (props.$large ? '12rem' : '5rem')};  
+  width: ${(props) => (props.$large ? "12rem" : "5rem")};
   margin-left: 5px;
   margin-right: 5px;
   border-width: 0 0 1px 0;
@@ -245,47 +244,47 @@ const NoInput = styled.input`
 `;
 
 const GrayText = styled.span`
-    font-size: 12px;
-    color: gray;
-    margin-left: 10px;
+  font-size: 12px;
+  color: gray;
+  margin-left: 10px;
 `;
 
 const Divider = styled.div`
   width: 80%;
   height: 0.5px;
-  background-color: black; 
+  background-color: black;
   margin: 1rem 0 1rem 0;
 `;
 
 const Can = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-    width: 50%;
-    padding-right: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  width: 50%;
+  padding-right: 3rem;
 
-    &:first-child{
-        border-width: 0 1px 0 0;
-        border-style: solid;
-    }
+  &:first-child {
+    border-width: 0 1px 0 0;
+    border-style: solid;
+  }
 `;
 
 const CostContainer = styled.div`
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
 `;
 
 const Option = styled.span`
-    width: 10rem;
-    text-align: center;
+  width: 10rem;
+  text-align: center;
 `;
 
 const Wrapper = styled.div`

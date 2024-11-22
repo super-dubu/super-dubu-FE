@@ -54,30 +54,29 @@ function Contract5() {
               다음</Button>
         </Container>
     </div>
-  )
+  );
 }
 
-export default Contract5
+export default Contract5;
 
 const Container = styled.div`
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.div`
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 3rem;
-
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 3rem;
 `;
 
 const Note = styled.div`
-    border: solid 1px;
-    padding: 1rem;
-    width: 80%;
-    margin-top: 2rem;
+  border: solid 1px;
+  padding: 1rem;
+  width: 80%;
+  margin-top: 2rem;
 `;
 
 const SpecialInput = styled.textarea`
@@ -93,29 +92,27 @@ const SpecialInput = styled.textarea`
 `;
 
 const Label = styled.div`
-    margin-top: 5rem;
-    width: 82%;
-    text-align: left;
-    margin-bottom: 8px;
+  margin-top: 5rem;
+  width: 82%;
+  text-align: left;
+  margin-bottom: 8px;
 `;
 
 const Button = styled.button`
-    width: 40%;
-    height: 4rem;
-    margin: 3rem;
-    border-radius: 15px;
-    border-style: none;
-    background-color: #6E7D9C;
-    font-size: 20px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 40%;
+  height: 4rem;
+  margin: 3rem;
+  border-radius: 15px;
+  border-style: none;
+  background-color: #6e7d9c;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
-    width: 3rem;
+  width: 3rem;
 `;
 
-const Checkbox = styled.input.attrs({ type: 'radio' })`
-    
-`;
+const Checkbox = styled.input.attrs({ type: "radio" })``;

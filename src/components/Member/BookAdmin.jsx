@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import Holiday from './AdminHoliday';
-import WorkHours from './AdminWorkHours';
+import Holiday from "./AdminHoliday";
+import WorkHours from "./AdminWorkHours";
 
 function BookingAdmin({ onClose }) {
-    const [selectedType, setSelectedType] = useState("휴무일");
+  const [selectedType, setSelectedType] = useState("휴무일");
   return (
     <Overlay>
       <Modal>
         <Content>
           <Header>
             <CloseButton onClick={onClose}>X</CloseButton>
-                <Menu>
-                    <Type
-                    isActive={selectedType === "휴무일"}
-                    onClick={() => setSelectedType("휴무일")}
-                  >
-                    휴무일
-                  </Type>
-                  <Type
-                    isActive={selectedType === "근무시간"}
-                    onClick={() => setSelectedType("근무시간")}
-                  >
-                    근무시간
-                  </Type>
-                </Menu>
+            <Menu>
+              <Type
+                isActive={selectedType === "휴무일"}
+                onClick={() => setSelectedType("휴무일")}
+              >
+                휴무일
+              </Type>
+              <Type
+                isActive={selectedType === "근무시간"}
+                onClick={() => setSelectedType("근무시간")}
+              >
+                근무시간
+              </Type>
+            </Menu>
           </Header>
           <Body>
             {selectedType === "휴무일" && <Holiday />}
@@ -89,15 +89,15 @@ const Content = styled.div`
 `;
 
 const Menu = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    margin-left: 1.5rem;
-    gap: 3rem;
-    font-size: 18px;
-    font-weight: bold;
-    color: #545454;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 1.5rem;
+  gap: 3rem;
+  font-size: 18px;
+  font-weight: bold;
+  color: #545454;
 `;
 
 const Type = styled.div`
@@ -106,20 +106,18 @@ const Type = styled.div`
   justify-content: center;
   align-items: center; /* 수직 중앙 정렬 */
 
-    ${({ isActive }) =>
-        isActive &&
-        css`
-          color: #6E7D9C;
-          font-weight: bold;
-          border : solid #6E7D9C 2px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          width: 6rem;
-          height: 35px;
-          border-radius: 15px;
-          /* background-color: #f0f8ff; */
-        `}
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      color: #6e7d9c;
+      font-weight: bold;
+      border: solid #6e7d9c 2px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 6rem;
+      height: 35px;
+      border-radius: 15px;
+      /* background-color: #f0f8ff; */
+    `}
 `;
 
-const Body = styled.div`
-    
-`;
+const Body = styled.div``;

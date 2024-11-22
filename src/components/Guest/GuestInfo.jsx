@@ -14,6 +14,15 @@ const GuestInfo = () => {
   const navigate = useNavigate();
   const { items: it } = location.state;
 
+  const formatPrice = (value) => {
+    if (!value) return "0원";
+    const num = Number(value);
+    if (num >= 10000) {
+      return `${Math.floor(num / 10000)}억 ${num % 10000 > 0 ? `${num % 10000}만원` : ""}`;
+    }
+    return `${num}만원`;
+  };
+
   return (
     <Container>
       <FilterBar>
@@ -38,18 +47,31 @@ const GuestInfo = () => {
         <Content>
           <ItemContainer>
             <Header>
-              <span>매물 {it._id}</span>
+              {it.buildingName ? (
+                <span>{it.buildingName}</span>
+              ) : (
+                <span>{it.buildingAddress}</span>
+              )}
               <ExitButton onClick={() => navigate("/sell")}>✕</ExitButton>
             </Header>
             <ImageContainer>
               <Image src={it.image} alt="Room" />
             </ImageContainer>
-            <InfoSection>
-              <Title>
-                월세 {it.priceRental} / {it.priceMonthly}
-              </Title>
-              <Subtitle>{it.buildingAddress}</Subtitle>
-            </InfoSection>
+
+            {it.buildingType == "0" ? (
+              <InfoSection>
+                <Title>전세 {formatPrice(it.priceRental)}</Title>
+                <Subtitle>{it.buildingAddress}</Subtitle>
+              </InfoSection>
+            ) : (
+              <InfoSection>
+                <Title>
+                  월세 {formatPrice(it.priceRental)} /{" "}
+                  {formatPrice(it.priceMonthly)}
+                </Title>
+                <Subtitle>{it.buildingAddress}</Subtitle>
+              </InfoSection>
+            )}
             <InfoSection>
               <h3>가격 정보</h3>
               <InfoRow>
@@ -62,27 +84,19 @@ const GuestInfo = () => {
               </InfoRow>
               <InfoRow>
                 <Label>관리비:</Label>
-                <Value>
-                  매월 {it.manageFee}만원 (수도, 가스 포함)
-                </Value>
+                <Value>매월 {it.manageFee}만원 (수도, 가스 포함)</Value>
               </InfoRow>
             </InfoSection>
             <InfoSection>
               <h3>상세 정보</h3>
               <InfoRow>
-                <Label>방 종류:</Label>
-                <Value>{it.buildingType}</Value>
-              </InfoRow>
-              <InfoRow>
                 <Label> 동 / 호수 </Label>
-                <Value>
-                  {it.hosu}
-                </Value>
+                <Value>{it.hosu}</Value>
               </InfoRow>
               <InfoRow>
                 <Label>면적:</Label>
                 <Value>
-                  {Math.round(parseFloat(it.area) * 0.3025)/100}평
+                  {Math.round(parseFloat(it.area) * 0.3025) / 100}평
                 </Value>
               </InfoRow>
               <InfoRow>
@@ -168,7 +182,7 @@ const MainSection = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 8%;
+  width: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -189,7 +203,7 @@ const Content = styled.div`
 `;
 
 const ItemContainer = styled.div`
-  width: 45%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -262,7 +276,7 @@ const ItemImg = styled.img`
 `;
 
 const MapArea = styled.div`
-  width: 55%;
+  width: 80%;
   height: 100%;
   display: flex;
   justify-content: center;

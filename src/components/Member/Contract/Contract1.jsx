@@ -166,13 +166,12 @@ function Contract1() {
                   checked={selectedCheckbox === "동의함"}
                   onChange={() => handleCheckboxChange("동의함")}
                 />
-                동의함
-              </Label>
-              <Label>
-                <CheckBox
-                  type="checkbox"
-                  checked={selectedCheckbox === "동의하지 않음"}
-                  onChange={() => handleCheckboxChange("동의하지 않음")}
+              </Row>
+              <Row>
+                <BoldText>주민등록번호</BoldText>
+                <StringInput
+                  value={idLessor}
+                  onChange={(e) => setIdLessor(e.target.value)}
                 />
                 동의하지 않음
               </Label>
@@ -191,44 +190,45 @@ function Contract1() {
   
   export default Contract1;
 
+
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.div`
-    margin-top: 5rem;
-    font-size: 32px;
-    font-weight: bold;
-    color: #121212;
-    margin-bottom: 3rem;
+  margin-top: 5rem;
+  font-size: 32px;
+  font-weight: bold;
+  color: #121212;
+  margin-bottom: 3rem;
 `;
 
 const CertContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    /* gap: 3rem; */
-    /* border-style: solid;
+  display: flex;
+  flex-direction: row;
+  /* gap: 3rem; */
+  /* border-style: solid;
     border-width: 0.8px; 모든 면에 동일한 border 적용 */
-    width: 80%;
-    height: 10rem;
+  width: 80%;
+  height: 10rem;
 `;
 
 const CertBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    border-style: solid;
-    border-width: 0.8px 0.8px 0.8px 0.8px;
-    width: 50%;
-    
-    &:last-child {
-        border-width: 0.8px 0.8px 0.8px 0;
-    }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-style: solid;
+  border-width: 0.8px 0.8px 0.8px 0.8px;
+  width: 50%;
+
+  &:last-child {
+    border-width: 0.8px 0.8px 0.8px 0;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -237,70 +237,67 @@ const InputContainer = styled.div`
   gap: 1rem;
 `;
 
-
 const BoldText = styled.div`
-    font-weight: bold;
-    text-align: left;
-    width: 10rem;
-    align-self: center;
-    text-align: center;
+  font-weight: bold;
+  text-align: left;
+  width: 10rem;
+  align-self: center;
+  text-align: center;
 `;
 
 const Row = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const StringInput = styled.input`
-   background-color: #efeff4;
+  background-color: #efeff4;
   border-color: #848484;
   border-width: 0.8px;
   height: 1.5rem;
   width: 14rem;
-
 `;
 
 const AuthButton = styled.button`
-    height: 4.5rem;
-    width: 3rem;
-    margin-top: 36px;
+  height: 4.5rem;
+  width: 3rem;
+  margin-top: 36px;
 `;
 
 const Divider = styled.hr`
-    color: #9b9b9b;
-    height: 0.5px;
-    width: 80%;
-    margin-top: 3rem;
-    /* border: none; */
+  color: #9b9b9b;
+  height: 0.5px;
+  width: 80%;
+  margin-top: 3rem;
+  /* border: none; */
 `;
 
 const AgreeContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
-
 `;
 
 const AgreeTitle = styled.div`
-   margin-bottom: 10px;
-   margin-top: 20px;
-   font-weight: bold;
-   font-size: 18px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 18px;
 `;
 
 const AgreeText = styled.div`
-    border: solid;
-    border-width: 1px;
-    padding: 1rem;
+  border: solid;
+  border-width: 1px;
+  padding: 1rem;
 `;
 
 const CheckBox = styled.input`
-    margin-left: 2rem;
+  margin-left: 2rem;
 `;
 
 const Label = styled.label`
-    margin-right: 1rem;
+  margin-right: 1rem;
 `;
 
 const Button = styled.button`

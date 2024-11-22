@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../MemberHeader'
 import styled, { css } from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import cryptoJs from 'crypto-js';
+import {ContractContext} from '../../api/ContractContext'
 
 function Contract1() {
     const ENC_KEY = import.meta.env.VITE_ENC_KEY;
@@ -11,16 +12,16 @@ function Contract1() {
     const [nameLessor, setNameLessor] = useState("");
     const [idLessor, setIdLessor] = useState("");
     const [isLessorAuthComplete, setIsLessorAuthComplete] = useState(false);
-  
     const [nameLessee, setNameLessee] = useState("");
     const [idLessee, setIdLessee] = useState("");
     const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
-  
     const [selectedCheckbox, setSelectedCheckbox] = useState("");
 
     const location = useLocation();
-    const { PNU } = location.state || {};
-    console.log(PNU, "PNU");
+    const { itemInfo, PNU } = location.state || {};
+
+    const {itemLog} = useContext(ContractContext);
+    {itemLog ? console.log("initial itemLog", itemLog) : ""};
   
     const navigate = useNavigate();
   
@@ -153,7 +154,7 @@ function Contract1() {
             </AgreeText>
           </AgreeContainer>
           <Button
-            onClick={() => navigate("/member/contract/2", { state: { PNU } })}
+            onClick={() => navigate("/member/contract/2", { state: { itemInfo } })}
             disabled={!isButtonEnabled} // 조건을 기반으로 비활성화
           >
             계속 진행하기

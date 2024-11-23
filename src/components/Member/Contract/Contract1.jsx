@@ -16,6 +16,8 @@ function Contract1() {
   const [idLessee, setIdLessee] = useState("");
   const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = useState("");
+  const [lessorPhone, setLessorPhone] = useState("");
+  const [lesseePhone, setLesseePhone] = useState("");
 
   const location = useLocation();
   const { itemInfo, PNU } = location.state || {};
@@ -34,10 +36,20 @@ function Contract1() {
     }));
   };
 
+  const handlePhoneChange = (type, value) => {
+    setItemLog((prev) => ({
+      ...prev,
+      [type === "lessor" ? "lessorPhone" : "lesseePhone"]: value,
+    }));
+  };
+
+  console.log("lesseePhone", lesseePhone);
+  console.log("lessorPhone", lessorPhone);
+
   //디버깅용
   useEffect(() => {
     // itemLog가 변경될 때마다 출력
-    console.log("Contract 1Updated itemLog:", itemLog);
+    console.log("Contract 1 Updated itemLog:", itemLog);
   }, [itemLog]);
 
   const handleAuth = async (type) => {
@@ -99,10 +111,40 @@ function Contract1() {
                 />
               </Row>
               <Row>
-                <BoldText>주민등록번호</BoldText>
+                  <BoldText>주민등록번호</BoldText>
+                  <StringInput
+                    $small
+                    value={idLessor.split("-")[0]} // 앞 6자리
+                    onChange={(e) => {
+                      const part1 = e.target.value.replace(/\D/g, "").slice(0, 6); // 숫자만 허용, 최대 6자리
+                      const part2 = idLessor.split("-")[1] || ""; // 기존 뒷자리
+                      setIdLessor(`${part1}-${part2}`); // 앞자리 업데이트
+                    }}
+                    placeholder="앞 6자리"
+                  />
+                  &nbsp;-&nbsp;
+                  <StringInput
+                    $small
+                    type="password"
+                    value={idLessor.split("-")[1] || ""} // 뒷 7자리
+                    onChange={(e) => {
+                      const part1 = idLessor.split("-")[0]; // 기존 앞자리
+                      const part2 = e.target.value.replace(/\D/g, "").slice(0, 7); // 숫자만 허용, 최대 7자리
+                      setIdLessor(`${part1}-${part2}`); // 뒷자리 업데이트
+                    }}
+                    placeholder="뒤 7자리"
+                  />
+                </Row>
+              <Row>
+                <BoldText>휴대폰 번호</BoldText>
                 <StringInput
-                  value={idLessor}
-                  onChange={(e) => setIdLessor(e.target.value)}
+                  value={lessorPhone}
+                  placeholder="010-XXXX-XXXX"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setLessorPhone(value); // 상태 업데이트
+                    handlePhoneChange("lessor", value); // ContractContext 업데이트
+                  }}
                 />
               </Row>
             </InputContainer>
@@ -127,10 +169,40 @@ function Contract1() {
                 />
               </Row>
               <Row>
-                <BoldText>주민등록번호</BoldText>
+                  <BoldText>주민등록번호</BoldText>
+                  <StringInput
+                    $small
+                    value={idLessee.split("-")[0]} // 앞 6자리
+                    onChange={(e) => {
+                      const part1 = e.target.value.replace(/\D/g, "").slice(0, 6); // 숫자만 허용, 최대 6자리
+                      const part2 = idLessee.split("-")[1] || ""; // 기존 뒷자리
+                      setIdLessee(`${part1}-${part2}`); // 앞자리 업데이트
+                    }}
+                    placeholder="앞 6자리"
+                  />
+                  &nbsp;-&nbsp;
+                  <StringInput
+                    $small
+                    type="password"
+                    value={idLessee.split("-")[1] || ""} // 뒷 7자리
+                    onChange={(e) => {
+                      const part1 = idLessee.split("-")[0]; // 기존 앞자리
+                      const part2 = e.target.value.replace(/\D/g, "").slice(0, 7); // 숫자만 허용, 최대 7자리
+                      setIdLessee(`${part1}-${part2}`); // 뒷자리 업데이트
+                    }}
+                    placeholder="뒤 7자리"
+                  />
+                </Row>
+              <Row>
+                <BoldText>휴대폰 번호</BoldText>
                 <StringInput
-                  value={idLessee}
-                  onChange={(e) => setIdLessee(e.target.value)}
+                  value={lesseePhone}
+                  placeholder="010-XXXX-XXXX"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setLesseePhone(value); // 상태 업데이트
+                    handlePhoneChange("lessee", value); // ContractContext 업데이트
+                  }}
                 />
               </Row>
             </InputContainer>
@@ -222,7 +294,7 @@ const CertContainer = styled.div`
   /* border-style: solid;
     border-width: 0.8px; 모든 면에 동일한 border 적용 */
   width: 80%;
-  height: 10rem;
+  height: 13rem;
 `;
 
 const CertBox = styled.div`
@@ -261,15 +333,16 @@ const Row = styled.div`
 `;
 
 const StringInput = styled.input`
+  width : ${(props) => (props.$small ? "5.3rem" : "12rem")};
   background-color: #efeff4;
   border-color: #848484;
   border-width: 0.8px;
   height: 1.5rem;
-  width: 14rem;
+  /* width: 14rem; */
 `;
 
 const AuthButton = styled.button`
-  height: 4.5rem;
+  height: 7rem;
   width: 3rem;
   margin-top: 36px;
 `;

@@ -11,9 +11,7 @@ function MemberMain() {
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
 
-  console.log(user);
-
-  if (isLoading || !items || !items.data || !items.data.result) {
+  if (isLoading || !items || !items.data || !items.data.response) {
     return (
       <LoadingContainer>
         <LoadingMessage>
@@ -59,7 +57,7 @@ function MemberMain() {
             </SearchOption> */}
           </SearchBar>
           <ItemContainer>
-            {items.data.result.map((it, index) => (
+            {items.data.response.map((it, index) => (
               <Item key={index}>
                 <p>{it.buildingAddress || "주소 없음"}</p>
                 <p>가격: {it.buildingPrice || "정보 없음"}</p>

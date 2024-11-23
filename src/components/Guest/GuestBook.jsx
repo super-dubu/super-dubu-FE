@@ -11,24 +11,30 @@ const GuestBook = () => {
   const [isTimeModalOpen, setTimeModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
+  const [name, setName] = useState(""); // 예약자 이름 상태
+  const [contact, setContact] = useState(""); // 연락처 상태
+  const [requests, setRequests] = useState(""); // 요청 사항 상태
   const navigate = useNavigate();
   const location = useLocation();
-  const { items: it } = location.state;
+  const { item: it } = location.state;
+
+  // 모든 필드가 유효한지 확인
+  const isFormValid =
+    name.trim() !== "" &&
+    contact.trim() !== "" &&
+    selectedDate !== null &&
+    selectedTime.trim() !== "";
 
   const handleReservationClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     const reservationData = {
-      name: document.querySelector("input[placeholder='이름을 입력하세요']")
-        .value,
-      contact: document.querySelector("input[placeholder='010 - xxxx - xxxx']")
-        .value,
+      name,
+      contact,
       date: selectedDate ? selectedDate.toISOString() : null,
       time: selectedTime,
-      requests: document.querySelector(
-        "textarea[placeholder='원하는 매물의 조건 등을 남겨주세요!']"
-      ).value,
+      requests,
       memberRegister: it.memberRegister,
       itemID: it.itemID,
     };
@@ -40,7 +46,6 @@ const GuestBook = () => {
         reservationData
       );
       console.log(response.data);
-      console.log(reservationData);
       alert("예약 등록이 완료되었습니다.");
       navigate("/sell");
     } catch (error) {
@@ -66,7 +71,12 @@ const GuestBook = () => {
         <Form>
           <FormGroup>
             <Label>예약자 이름</Label>
-            <Input type="text" placeholder="이름을 입력하세요" />
+            <Input
+              type="text"
+              placeholder="이름을 입력하세요"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </FormGroup>
 
           <FormGroup>
@@ -76,7 +86,8 @@ const GuestBook = () => {
               placeholder="010 - xxxx - xxxx"
               pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
               maxLength="17"
-              onInput={(e) => {
+              value={contact}
+              onChange={(e) => {
                 let value = e.target.value.replace(/[^0-9]/g, "");
                 if (value.length > 3 && value.length <= 7) {
                   value = `${value.slice(0, 3)} - ${value.slice(3)}`;
@@ -86,7 +97,7 @@ const GuestBook = () => {
                     7
                   )} - ${value.slice(7)}`;
                 }
-                e.target.value = value;
+                setContact(value);
               }}
             />
           </FormGroup>
@@ -121,10 +132,16 @@ const GuestBook = () => {
 
           <FormGroup>
             <Label>요청 사항</Label>
-            <TextArea placeholder="원하는 매물의 조건 등을 남겨주세요!" />
+            <TextArea
+              placeholder="원하는 매물의 조건 등을 남겨주세요!"
+              value={requests}
+              onChange={(e) => setRequests(e.target.value)}
+            />
           </FormGroup>
 
-          <Button onClick={handleReservationClick}>예약 신청하기</Button>
+          <Button onClick={handleReservationClick} disabled={!isFormValid}>
+            예약 신청하기
+          </Button>
         </Form>
       </FormContainer>
 
@@ -147,18 +164,34 @@ const GuestBook = () => {
       {isTimeModalOpen && (
         <ModalOverlay onClick={() => setTimeModalOpen(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={() => setTimeModalOpen(false)}>✕</CloseButton>
             <h3>시간 선택</h3>
             <TimeContainer>
               <TimeSection>
                 <TimeTitle>오전</TimeTitle>
                 <TimeButtonRow>
-                  <TimeButton onClick={() => handleTimeClick("09 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("09 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     09 : 00
                   </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("10 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("10 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     10 : 00
                   </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("11 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("11 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     11 : 00
                   </TimeButton>
                 </TimeButtonRow>
@@ -166,38 +199,49 @@ const GuestBook = () => {
               <TimeSection>
                 <TimeTitle>오후</TimeTitle>
                 <TimeButtonRow>
-                  <TimeButton onClick={() => handleTimeClick("13 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("13 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     13 : 00
                   </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("14 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("14 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     14 : 00
                   </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("15 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("15 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     15 : 00
                   </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("16 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("16 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     16 : 00
                   </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("17 : 00")}>
+                  <TimeButton
+                    onClick={() => {
+                      handleTimeClick("17 : 00");
+                      setTimeModalOpen(false);
+                    }}
+                  >
                     17 : 00
-                  </TimeButton>
-                </TimeButtonRow>
-                <TimeButtonRow>
-                  <TimeButton onClick={() => handleTimeClick("18 : 00")}>
-                    18 : 00
-                  </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("19 : 00")}>
-                    19 : 00
-                  </TimeButton>
-                  <TimeButton onClick={() => handleTimeClick("20 : 00")}>
-                    20 : 00
                   </TimeButton>
                 </TimeButtonRow>
               </TimeSection>
             </TimeContainer>
-            <ConfirmButton onClick={() => setTimeModalOpen(false)}>
-              선택 완료
-            </ConfirmButton>
           </ModalContent>
         </ModalOverlay>
       )}
@@ -276,6 +320,7 @@ const Input = styled.input`
   border-radius: 5px;
   border: 1px solid #ccc;
   width: 100%;
+  box-sizing: border-box;
 `;
 
 const InputWrapper = styled.div`
@@ -298,19 +343,23 @@ const TextArea = styled.textarea`
   border: 1px solid #ccc;
   width: 100%;
   height: 6rem;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const Button = styled.button`
   padding: 0.8rem;
-  background-color: #6e7d9c;
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#6e7d9c")};
   color: white;
   font-size: 14px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 
   &:hover {
-    background-color: #999999;
+    background-color: ${(props) => (props.disabled ? "#ccc" : "#999999")};
   }
 `;
 
@@ -397,5 +446,17 @@ const ConfirmButton = styled.button`
 
   &:hover {
     background-color: #999999;
+  }
+`;
+
+const CloseButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #999;
+  &:hover {
+    color: #000;
   }
 `;

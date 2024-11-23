@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { confirmPayment } from "../Toss/confirmPayments";
+import axios from "axios";
 
 const TransSuccess = () => {
   const location = useLocation();
@@ -18,9 +19,16 @@ const TransSuccess = () => {
       try {
         console.log("Request Data: ", requestData);
         const { response, json } = await confirmPayment(requestData);
+        const updatedJson = { ...json, tokenID: "1159010200102140203" };
         console.log("Received response: ", response);
         console.log("Received json: ", json);
-        setJsonData(json); // 받은 데이터를 상태에 저장
+        setJsonData(updatedJson);
+
+        await axios.post(
+          `${import.meta.env.VITE_BACK_URL}/HLF/bank`,
+          updatedJson
+        );
+        console.log("post 성공..", updatedJson);
       } catch (e) {
         console.error("Error during confirmation: ", e);
       }

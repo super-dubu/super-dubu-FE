@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Kmap({ items = [], info = [] }) {
+function Kmap({ items = [], onMarkerClick }) {
   const apikey = import.meta.env.VITE_KMAP_API_KEY;
-  const navigate = useNavigate();
-  console.log(items);
-  console.log(info);
 
   useEffect(() => {
     const loadKakaoMap = () => {
@@ -41,7 +37,9 @@ function Kmap({ items = [], info = [] }) {
           const geocoder = new kakao.maps.services.Geocoder();
 
           let hasValidAddresses = false;
-          const promises = items?.map((item) => {
+
+          const validItems = Array.isArray(items) ? items : [];
+          const promises = validItems.map((item) => {
             return new Promise((resolve) => {
               geocoder.addressSearch(item.buildingAddress, (result, status) => {
                 if (
@@ -62,33 +60,36 @@ function Kmap({ items = [], info = [] }) {
                     content: `<div style="padding:5px;">${item.buildingAddress}</div>`,
                   });
 
-                  kakao.maps.event.addListener(marker, "click", () => {
+                  // 마커에 mouseover 이벤트 추가
+                  kakao.maps.event.addListener(marker, "mouseover", () => {
                     infowindow.open(map, marker);
-                    navigate(`/sell/:${item.tokenID}`, {
-                      replace: false,
-                      state: { items: item },
-                    });
+                  });
+
+                  // 마커에 mouseout 이벤트 추가
+                  kakao.maps.event.addListener(marker, "mouseout", () => {
+                    infowindow.close();
+                  });
+
+                  // 마커 클릭 이벤트
+                  kakao.maps.event.addListener(marker, "click", () => {
+                    if (onMarkerClick) {
+                      onMarkerClick(item); // 클릭한 아이템을 부모에 전달
+                    }
                   });
 
                   bounds.extend(coords);
-                  hasValidAddresses = true; // 유효한 주소가 있음을 표시
-                } else {
-                  console.error(
-                    `Failed to geocode address: ${item.buildingAddress}`
-                  );
+                  hasValidAddresses = true;
                 }
                 resolve();
               });
             });
           });
 
-          // 모든 addressSearch 완료 후 bounds 설정
           Promise.all(promises).then(() => {
             if (hasValidAddresses) {
-              map.setBounds(bounds); // 모든 마커를 포함하는 영역으로 지도 설정
+              map.setBounds(bounds);
             } else {
-              console.warn("No valid addresses found. Keeping default center.");
-              map.setCenter(new kakao.maps.LatLng(37.5665, 126.978)); // 기본 중심 좌표
+              map.setCenter(new kakao.maps.LatLng(37.5665, 126.978));
             }
           });
         });
@@ -98,7 +99,7 @@ function Kmap({ items = [], info = [] }) {
     };
 
     initMap();
-  }, [items]);
+  }, [items, onMarkerClick]); // items가 변경될 때마다 실행
 
   return (
     <div id="map" style={{ flex: "1", width: "100%", height: "100%" }}></div>

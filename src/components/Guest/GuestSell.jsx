@@ -8,47 +8,118 @@ import house from "../../img/house.png";
 import shop from "../../img/shop.png";
 
 import GetData from "../../hooks/GetData";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import GuestInfo from "./GuestInfo";
+
+const getCategoryImage = (category) => {
+  switch (category) {
+    case "0":
+      return room;
+    case "1":
+      return office;
+    case "2":
+      return apart;
+    case "3":
+      return house;
+    case "4":
+      return shop;
+    default:
+      return room;
+  }
+};
+
+const getCategoryName = (category) => {
+  switch (category) {
+    case "0":
+      return "원/투룸";
+    case "1":
+      return "오피스텔";
+    case "2":
+      return "아파트/빌라";
+    case "3":
+      return "주택";
+    case "4":
+      return "상가/사무실";
+    default:
+      return "카테고리";
+  }
+};
 
 const GuestSell = () => {
   const { data: item, isLoading, isError } = GetData("/forsale/view");
   const [filteredItems, setFilteredItems] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const navigate = useNavigate();
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [filters, setFilters] = useState({
+    category: null,
+    itemType: null,
+    parking: null,
+    manageFee: null,
+  });
   const location = useLocation();
   const { category } = location.state || {};
 
   useEffect(() => {
     if (category && item && item.data) {
-      handleFilterClick(category);
+      setFilters((prev) => ({
+        ...prev,
+        category,
+      }));
     }
   }, [category, item]);
 
-  const handleFilterClick = (category) => {
-    if (!item || !item.data) return;
+  const toggleFilter = (filterType, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterType]: prev[filterType] === value ? null : value,
+    }));
+  };
 
-    setSelectedCategory(category); // Set the selected category
+  const handleCategoryClick = (cat) => {
+    setFilters((prev) => ({
+      ...prev,
+      category: prev.category === cat ? null : cat,
+    }));
+    setSelectedItem(null);
+  };
 
-    let filtered;
-    filtered = item.data.properties.filter(
-      (it) => it.buildingType === category
-    );
-    setFilteredItems(filtered.length > 0 ? filtered : []);
+  useEffect(() => {
+    if (!item?.data?.properties) return;
+
+    let result = item.data.properties;
+
+    if (filters.category !== null) {
+      result = result.filter((it) => it.buildingType === filters.category);
+    }
+    if (filters.itemType !== null) {
+      result = result.filter((it) => it.itemType === filters.itemType);
+    }
+    if (filters.parking !== null) {
+      result = result.filter((it) => Number(it.parking) > 0);
+    }
+    if (filters.manageFee !== null) {
+      result = result.filter((it) => Number(it.manageFee) > 0);
+    }
+
+    setFilteredItems(result);
+  }, [filters, item]);
+
+  const handleItemClick = (it) => {
+    setSelectedItem(it);
   };
 
   if (isLoading) return <h1>로딩중입니다</h1>;
   if (isError) return <h1>에러에요 비상비상</h1>;
 
   const itemsToDisplay =
-    filteredItems === null ? item.data || [] : filteredItems;
-
-  console.log(itemsToDisplay);
+    filteredItems === null ? item?.data?.properties || [] : filteredItems;
 
   const formatPrice = (value) => {
     if (!value) return "0원";
     const num = Number(value);
     if (num >= 10000) {
-      return `${Math.floor(num / 10000)}억 ${num % 10000 > 0 ? `${num % 10000}만원` : ""}`;
+      return `${Math.floor(num / 10000)}억 ${
+        num % 10000 > 0 ? `${num % 10000}만원` : ""
+      }`;
     }
     return `${num}만원`;
   };
@@ -56,86 +127,89 @@ const GuestSell = () => {
   return (
     <Container>
       <FilterBar>
-        <FilterButton>월세</FilterButton>
-        <FilterButton>주차가능</FilterButton>
-        <FilterButton>반려동물</FilterButton>
-        <FilterButton>추가 필터</FilterButton>
+        <FilterButton
+          isActive={filters.itemType === "1"}
+          onClick={() => toggleFilter("itemType", "1")}
+        >
+          월세
+        </FilterButton>
+        <FilterButton
+          isActive={filters.parking !== null}
+          onClick={() => toggleFilter("parking", true)}
+        >
+          주차 가능
+        </FilterButton>
+        <FilterButton
+          isActive={filters.manageFee !== null}
+          onClick={() => toggleFilter("manageFee", true)}
+        >
+          관리비
+        </FilterButton>
       </FilterBar>
       <MainSection>
         <Sidebar>
-          <CategoryContainer
-            isSelected={selectedCategory === 0}
-            onClick={() => handleFilterClick("0")}
-          >
-            <ItemImg src={room} />
-            <Category>원/투룸</Category>
-          </CategoryContainer>
-          <CategoryContainer
-            isSelected={selectedCategory === 1}
-            onClick={() => handleFilterClick("1")}
-          >
-            <ItemImg src={office} />
-            <Category>오피스텔</Category>
-          </CategoryContainer>
-          <CategoryContainer
-            isSelected={selectedCategory === 2}
-            onClick={() => handleFilterClick("2")}
-          >
-            <ItemImg src={apart} />
-            <Category>아파트/빌라</Category>
-          </CategoryContainer>
-          <CategoryContainer
-            isSelected={selectedCategory === 3}
-            onClick={() => handleFilterClick("3")}
-          >
-            <ItemImg src={house} />
-            <Category>주택</Category>
-          </CategoryContainer>
-          <CategoryContainer
-            isSelected={selectedCategory === 4}
-            onClick={() => handleFilterClick("4")}
-          >
-            <ItemImg src={shop} />
-            <Category>상가/사무실</Category>
-          </CategoryContainer>
+          {["0", "1", "2", "3", "4"].map((cat) => (
+            <CategoryContainer
+              key={cat}
+              isSelected={filters.category === cat}
+              onClick={() => handleCategoryClick(cat)}
+            >
+              <ItemImg src={getCategoryImage(cat)} />
+              <Category>{getCategoryName(cat)}</Category>
+            </CategoryContainer>
+          ))}
         </Sidebar>
         <Content>
-          {itemsToDisplay.length > 0 ? (
-            <ItemList>
-              {itemsToDisplay.map((it) => (
-                <Item
-                  key={it.tokenID}
-                  onClick={() =>
-                    navigate(`/sell/:${it.tokenID}`, {
-                      replace: false,
-                      state: { items: it },
-                    })
-                  }
-                >
-                  <ItemImg src="https://via.placeholder.com/150" alt="item" />
-                  {it.buildingType == "0" ? (
-                    <ItemDetails>
-                      <ItemInfo>전세 {formatPrice(it.priceRental)}</ItemInfo>
-                      <ItemLocation>{it.buildingAddress}</ItemLocation>
-                    </ItemDetails>
-                  ) : (
-                    <ItemDetails>
-                      <ItemInfo>
-                        월세 {formatPrice(it.priceRental)} /{" "}
-                        {formatPrice(it.priceMonthly)}
-                      </ItemInfo>
-                      <ItemLocation>{it.buildingAddress}</ItemLocation>
-                    </ItemDetails>
-                  )}
-                </Item>
-              ))}
-            </ItemList>
+          {selectedItem ? (
+            <>
+              <GuestInfo
+                item={selectedItem}
+                onClose={() => setSelectedItem(null)}
+              />
+              <MapArea>
+                <Kmap
+                  items={[selectedItem]}
+                  onMarkerClick={(item) => setSelectedItem(item)}
+                />
+              </MapArea>
+            </>
           ) : (
-            <NoItemsMessage>해당하는 매물이 없습니다</NoItemsMessage>
+            <>
+              {itemsToDisplay.length > 0 ? (
+                <ItemList>
+                  {itemsToDisplay.map((it) => (
+                    <Item key={it.tokenID} onClick={() => handleItemClick(it)}>
+                      <ItemImg src={it.image} alt="item" />
+                      {it.buildingType === "0" ? (
+                        <ItemDetails>
+                          <ItemInfo>
+                            전세 {formatPrice(it.priceRental)}
+                          </ItemInfo>
+                          <ItemLocation>{it.buildingAddress}</ItemLocation>
+                        </ItemDetails>
+                      ) : (
+                        <ItemDetails>
+                          <ItemInfo>
+                            월세 {formatPrice(it.priceRental)} /{" "}
+                            {formatPrice(it.priceMonthly)}
+                          </ItemInfo>
+                          <ItemLocation>{it.buildingAddress}</ItemLocation>
+                        </ItemDetails>
+                      )}
+                    </Item>
+                  ))}
+                </ItemList>
+              ) : (
+                <NoItemsMessage>해당하는 매물이 없습니다</NoItemsMessage>
+              )}
+              <MapArea>
+                <Kmap
+                  items={itemsToDisplay}
+                  onMarkerClick={(item) => setSelectedItem(item)}
+                />
+              </MapArea>
+            </>
           )}
-          <MapArea>
-            <Kmap items={itemsToDisplay} />
-          </MapArea>
         </Content>
       </MainSection>
     </Container>
@@ -162,12 +236,13 @@ const FilterBar = styled.div`
 
 const FilterButton = styled.button`
   padding: 10px 20px;
-  background-color: white;
+  background-color: ${(props) => (props.isActive ? "#6e7d9c" : "white")};
+  color: ${(props) => (props.isActive ? "white" : "#333")};
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #eaeaea;
+    background-color: ${(props) => (props.isActive ? "#5a6a8c" : "#eaeaea")};
   }
 `;
 
@@ -192,8 +267,8 @@ const Sidebar = styled.div`
 `;
 
 const CategoryContainer = styled.div`
-  width: 110px;
-  height: 110px;
+  width: 90px;
+  height: 100px;
   padding: 5px;
   cursor: pointer;
   ${(props) =>
@@ -212,7 +287,6 @@ const Category = styled.div`
   margin-bottom: 3px;
   margin-top: 3px;
   font-size: 14px;
-  /* font-weight: bold; */
 `;
 
 const Content = styled.div`

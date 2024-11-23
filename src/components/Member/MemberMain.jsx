@@ -11,7 +11,6 @@ function MemberMain() {
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
 
-  // 로딩 중일 때 화면 표시
   if (isLoading || !items || !items.data || !items.data.result) {
     return (
       <LoadingContainer>
@@ -22,7 +21,6 @@ function MemberMain() {
     );
   }
 
-  // 에러 발생 시 화면 표시
   if (isError) {
     return (
       <ErrorContainer>
@@ -31,7 +29,6 @@ function MemberMain() {
     );
   }
 
-  // 데이터가 준비된 후에만 화면 렌더링
   return (
     <div>
       <Header

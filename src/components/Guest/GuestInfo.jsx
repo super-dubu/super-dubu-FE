@@ -1,19 +1,9 @@
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
-import Kmap from "../api/KakaoMap";
-import room from "../../img/room.png";
-import office from "../../img/officetel.png";
-import apart from "../../img/apartment.png";
-import house from "../../img/house.png";
-import shop from "../../img/shop.png";
+import { useNavigate } from "react-router-dom";
 
-import { useNavigate, useLocation } from "react-router-dom";
-
-const GuestInfo = () => {
-  const location = useLocation();
+const GuestInfo = ({ item, onClose }) => {
   const navigate = useNavigate();
-  const { items: it } = location.state;
-
   const formatPrice = (value) => {
     if (!value) return "0원";
     const num = Number(value);
@@ -24,127 +14,86 @@ const GuestInfo = () => {
   };
 
   return (
-    <Container>
-      <FilterBar>
-        <FilterButton>월세</FilterButton>
-        <FilterButton>주차가능</FilterButton>
-        <FilterButton>반려동물</FilterButton>
-        <FilterButton>추가 필터</FilterButton>
-      </FilterBar>
-      <MainSection>
-        <Sidebar>
-          <ItemImg src={room} />
-          <Category>원/투룸</Category>
-          <ItemImg src={office} />
-          <Category>오피스텔</Category>
-          <ItemImg src={apart} />
-          <Category>아파트</Category>
-          <ItemImg src={house} />
-          <Category>주택/빌라</Category>
-          <ItemImg src={shop} />
-          <Category>상가/사무실</Category>
-        </Sidebar>
-        <Content>
-          <ItemContainer>
-            <Header>
-              {it.buildingName ? (
-                <span>{it.buildingName}</span>
-              ) : (
-                <span>{it.buildingAddress}</span>
-              )}
-              <ExitButton onClick={() => navigate("/sell")}>✕</ExitButton>
-            </Header>
-            <ImageContainer>
-              <Image src={it.image} alt="Room" />
-            </ImageContainer>
+    <ItemContainer>
+      <Header>
+        {item.buildingName ? (
+          <span>{item.buildingName}</span>
+        ) : (
+          <span>{item.buildingAddress}</span>
+        )}
+        <ExitButton onClick={onClose}>✕</ExitButton>
+      </Header>
+      <ImageContainer>
+        <Image src={item.image} alt="Room" />
+      </ImageContainer>
 
-            {it.buildingType == "0" ? (
-              <InfoSection>
-                <Title>전세 {formatPrice(it.priceRental)}</Title>
-                <Subtitle>{it.buildingAddress}</Subtitle>
-              </InfoSection>
-            ) : (
-              <InfoSection>
-                <Title>
-                  월세 {formatPrice(it.priceRental)} /{" "}
-                  {formatPrice(it.priceMonthly)}
-                </Title>
-                <Subtitle>{it.buildingAddress}</Subtitle>
-              </InfoSection>
-            )}
-            <InfoSection>
-              <h3>가격 정보</h3>
-              <InfoRow>
-                <Label>월세:</Label>
-                <Value>{it.priceMonthly}</Value>
-              </InfoRow>
-              <InfoRow>
-                <Label>보증금:</Label>
-                <Value>{it.priceRental}</Value>
-              </InfoRow>
-              <InfoRow>
-                <Label>관리비:</Label>
-                <Value>매월 {it.manageFee}만원 (수도, 가스 포함)</Value>
-              </InfoRow>
-            </InfoSection>
-            <InfoSection>
-              <h3>상세 정보</h3>
-              <InfoRow>
-                <Label> 동 / 호수 </Label>
-                <Value>{it.hosu}</Value>
-              </InfoRow>
-              <InfoRow>
-                <Label>면적:</Label>
-                <Value>
-                  {Math.round(parseFloat(it.area) * 0.3025) / 100}평
-                </Value>
-              </InfoRow>
-              <InfoRow>
-                <Label>방 수 / 욕실 수:</Label>
-                <Value>
-                  {it.roomCount}개 / {it.bathroom}개
-                </Value>
-              </InfoRow>
-              <InfoRow>
-                <Label>입주 가능일:</Label>
-                <Value>{it.availableDate}</Value>
-              </InfoRow>
-            </InfoSection>
-            <InfoSection>
-              <h3>공인중개인 정보</h3>
-              <p>중개 사무소 정보: {it.memberOffice}</p>
-              <p>중개인: {it.member}</p>
-              <p>중개 등록 번호: {it.memberRegister}</p>
-              <p>대표 번호: {it.memberNumber}</p>
-            </InfoSection>
-            <Footer>
-              <Button
-                onClick={() =>
-                  navigate("/book", {
-                    replace: false,
-                    state: { items: it },
-                  })
-                }
-              >
-                공인중개사 예약하기
-              </Button>
-            </Footer>
-          </ItemContainer>
-          <MapArea>
-            <Kmap info={it} />
-          </MapArea>
-        </Content>
-      </MainSection>
-    </Container>
+      {item.buildingType === "0" ? (
+        <InfoSection>
+          <Title>전세 {formatPrice(item.priceRental)}</Title>
+          <Subtitle>{item.buildingAddress}</Subtitle>
+        </InfoSection>
+      ) : (
+        <InfoSection>
+          <Title>
+            월세 {formatPrice(item.priceRental)} /{" "}
+            {formatPrice(item.priceMonthly)}
+          </Title>
+          <Subtitle>{item.buildingAddress}</Subtitle>
+        </InfoSection>
+      )}
+      <InfoSection>
+        <h3>가격 정보</h3>
+        <InfoRow>
+          <Label>월세:</Label>
+          <Value>{item.priceMonthly}</Value>
+        </InfoRow>
+        <InfoRow>
+          <Label>보증금:</Label>
+          <Value>{item.priceRental}</Value>
+        </InfoRow>
+        <InfoRow>
+          <Label>관리비:</Label>
+          <Value>매월 {item.manageFee}만원 (수도, 가스 포함)</Value>
+        </InfoRow>
+      </InfoSection>
+      <InfoSection>
+        <h3>상세 정보</h3>
+        <InfoRow>
+          <Label> 동 / 호수 </Label>
+          <Value>{item.hosu}</Value>
+        </InfoRow>
+        <InfoRow>
+          <Label>면적:</Label>
+          <Value>{Math.round(parseFloat(item.area) * 0.3025) / 100}평</Value>
+        </InfoRow>
+        <InfoRow>
+          <Label>방 수 / 욕실 수:</Label>
+          <Value>
+            {item.roomCount}개 / {item.bathroom}개
+          </Value>
+        </InfoRow>
+        <InfoRow>
+          <Label>입주 가능일:</Label>
+          <Value>{item.availableDate}</Value>
+        </InfoRow>
+      </InfoSection>
+      <InfoSection>
+        <h3>공인중개인 정보</h3>
+        <p>중개 사무소 정보: {item.memberOffice}</p>
+        <p>중개인: {item.member}</p>
+        <p>중개 등록 번호: {item.memberRegister}</p>
+        <p>대표 번호: {item.memberNumber}</p>
+      </InfoSection>
+      <Footer>
+        <Button
+          onClick={() => navigate("/book", { replace: false, state: { item } })}
+        >
+          공인중개사 예약하기
+        </Button>
+      </Footer>
+    </ItemContainer>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-`;
 
 const ExitButton = styled.div`
   cursor: pointer;
@@ -153,53 +102,6 @@ const ExitButton = styled.div`
   &:hover {
     background-color: #767676;
   }
-`;
-
-const FilterBar = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  gap: 1rem;
-  background-color: #f1f1f1;
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
-`;
-
-const FilterButton = styled.button`
-  padding: 10px 20px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: #eaeaea;
-  }
-`;
-
-const MainSection = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-`;
-
-const Sidebar = styled.div`
-  width: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f7f7f7;
-  padding: 1rem;
-`;
-
-const Category = styled.div`
-  margin-bottom: 3px;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-const Content = styled.div`
-  display: flex;
-  width: 92%;
-  height: 100%;
 `;
 
 const ItemContainer = styled.div`
@@ -238,7 +140,7 @@ const InfoSection = styled.div`
   border-bottom: 1px solid #eee;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* 각 항목 간격 */
+  gap: 8px;
 `;
 
 const Title = styled.h2`
@@ -266,22 +168,6 @@ const Button = styled.button`
   color: #fff;
   border-radius: 4px;
   cursor: pointer;
-`;
-
-const ItemImg = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 5px;
-  /* object-fit: cover; */
-`;
-
-const MapArea = styled.div`
-  width: 80%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
 `;
 
 const InfoRow = styled.div`

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function MobileAuth() {
-  return (
-    <div>MobileAuth</div>
-  )
+  return <div>MobileAuth</div>;
 }
 
-export default MobileAuth
+export default MobileAuth;

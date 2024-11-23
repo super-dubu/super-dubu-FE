@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 function MemberMypage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  // console.log("user", user);
+  console.log("user", user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,6 +25,7 @@ function MemberMypage() {
     `/forsale/view?memberRegister=${user?.registerID}`
   );
 
+  console.log("booking",booking);
   console.log("items", items);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

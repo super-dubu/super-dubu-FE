@@ -37,7 +37,7 @@ function Contract1() {
   //디버깅용
   useEffect(() => {
     // itemLog가 변경될 때마다 출력
-    console.log("Contract 1Updated itemLog:", itemLog);
+    console.log("Contract 1 Updated itemLog:", itemLog);
   }, [itemLog]);
 
   const handleAuth = async (type) => {

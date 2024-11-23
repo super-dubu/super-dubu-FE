@@ -11,6 +11,8 @@ function MemberMain() {
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
 
+  console.log(user);
+
   if (isLoading || !items || !items.data || !items.data.result) {
     return (
       <LoadingContainer>

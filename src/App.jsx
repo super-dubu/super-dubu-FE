@@ -5,7 +5,6 @@ import MemberMypage from "./components/Member/MemberMypage.jsx";
 import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
-import MobileAuth from "./components/api/MobileAuth.jsx";
 import BookAdmin from "./components/Member/BookAdmin.jsx";
 import TossPayment from "./components/api/Toss/TossPayment.jsx";
 import SuccessPage from "./components/api/Toss/Success.jsx";
@@ -22,6 +21,7 @@ import Contract3 from "./components/Member/Contract/Contract3.jsx";
 import Contract4 from "./components/Member/Contract/Contract4.jsx";
 import Contract5 from "./components/Member/Contract/Contract5.jsx";
 import Contract6 from "./components/Member/Contract/Contract6.jsx";
+import MobileAuth from "./components/Member/Contract/MobileAuth.jsx";
 import { ContractProvider } from "./components/api/ContractContext.jsx";
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
@@ -72,6 +72,7 @@ function App() {
               <Route path="4" element={<Contract4 />} />
               <Route path="5" element={<Contract5 />} />
               <Route path="6" element={<Contract6 />} />
+              <Route path="mobileauth" element={<MobileAuth />} />
             </Route>
           </Route>
         </Routes>

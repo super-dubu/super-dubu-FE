@@ -42,8 +42,7 @@ function App() {
           <Route path="sandbox" element={<TossPayment />} />
           <Route path="sandbox/fail" element={<FailPage />} />
           <Route path="sandbox/success" element={<SuccessPage />} />
-          <Route path="mobileauth" element={<MobileAuth />} />
-          
+
           <Route
             path="/member"
             element={
@@ -73,7 +72,8 @@ function App() {
               <Route path="4" element={<Contract4 />} />
               <Route path="5" element={<Contract5 />} />
               <Route path="6" element={<Contract6 />} />
-              
+
+              <Route path="mobileauth" element={<MobileAuth />} />
             </Route>
           </Route>
         </Routes>

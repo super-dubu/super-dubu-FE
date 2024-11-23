@@ -19,7 +19,14 @@ function MemberHeader({ showLogout }) {
       <Logo src={logo} onClick={() => navigate("/member")} />
       <RightContainer>
         <MemberText>
-          {user ? <UserName>{user.officeName} <Bold> {user.agentName}</Bold></UserName> : "사용자"} 님, 반갑습니다!
+          {user ? (
+            <UserName>
+              {user.officeName} <Bold> {user.agentName}</Bold>
+            </UserName>
+          ) : (
+            "사용자"
+          )}{" "}
+          님, 반갑습니다!
         </MemberText>
         {showLogout ? (
           <Logout onClick={handleLogout}>Logout</Logout>

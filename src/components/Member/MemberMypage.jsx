@@ -5,7 +5,7 @@ import SideBar from "./MemberSide";
 import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
 import Modal from "./BookAdmin";
-import getData from '../../hooks/GetData'
+import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
 
 function MemberMypage() {
@@ -48,11 +48,9 @@ function MemberMypage() {
         return;
       }
 
-      // tokenID(PNU) 전달
       navigate(`/member/contract/1`, {
         state: {
           itemInfo: matchedItem, // 매물 정보
-          PNU: matchedItem.tokenID, // tokenID를 PNU로 전달
         },
       });
     } catch (error) {
@@ -207,3 +205,4 @@ const Bold = styled.span`
   margin-left: 5px;
   color: #121212;
 `;
+

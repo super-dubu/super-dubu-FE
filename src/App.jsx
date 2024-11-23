@@ -14,37 +14,35 @@ import FailPage from "./components/api/Toss/Fail.jsx";
 import GuestLayout from "./components/Guest/GuestLayout.jsx";
 import GuestMain from "./components/Guest/GuestMain.jsx";
 import GuestSell from "./components/Guest/GuestSell.jsx";
-import GuestInfo from "./components/Guest/GuestInfo.jsx";
 import GuestBook from "./components/Guest/GuestBook.jsx";
 
-import Contract1 from './components/Member/Contract/Contract1.jsx';
-import Contract2 from './components/Member/Contract/Contract2.jsx';
-import Contract3 from './components/Member/Contract/Contract3.jsx';
-import Contract4 from './components/Member/Contract/Contract4.jsx';
-import Contract5 from './components/Member/Contract/Contract5.jsx'
-import Contract6 from './components/Member/Contract/Contract6.jsx'
-import {ContractProvider} from './components/api/ContractContext.jsx'
+import Contract1 from "./components/Member/Contract/Contract1.jsx";
+import Contract2 from "./components/Member/Contract/Contract2.jsx";
+import Contract3 from "./components/Member/Contract/Contract3.jsx";
+import Contract4 from "./components/Member/Contract/Contract4.jsx";
+import Contract5 from "./components/Member/Contract/Contract5.jsx";
+import Contract6 from "./components/Member/Contract/Contract6.jsx";
+import { ContractProvider } from "./components/api/ContractContext.jsx";
 
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import { AuthProvider } from "./components/api/AuthContext";
-
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          {/* Guest 관련 Routes */}
           <Route path="/" element={<GuestLayout />}>
             <Route path="/" element={<GuestMain />} />
             <Route path="sell" element={<GuestSell />} />
-            <Route path="sell/:itemID" element={<GuestInfo />} />
             <Route path="book" element={<GuestBook />} />
             <Route path="QR" element={<QRPage />} />
           </Route>
           <Route path="auth" element={<MobileAuth />} />
+          <Route path="sandbox" element={<TossPayment />} />
+          <Route path="sandbox/fail" element={<FailPage />} />
+          <Route path="sandbox/success" element={<SuccessPage />} />
 
-          {/* Member 관련 Routes */}
           <Route
             path="/member"
             element={
@@ -60,7 +58,6 @@ function App() {
             <Route path="" element={<MemberMain />} />
             <Route path="bookadmin" element={<BookAdmin />} />
 
-            {/* Contract 관련 Routes with ContractContext */}
             <Route
               path="contract"
               element={
@@ -79,7 +76,6 @@ function App() {
           </Route>
         </Routes>
       </div>
-
     </BrowserRouter>
   );
 }

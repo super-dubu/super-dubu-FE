@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import room from "../../img/room.png";
-import office from "../../img/officetel.png";
+import office from "../../img/room.png";
 import apart from "../../img/apartment.png";
 import house from "../../img/house.png";
 import shop from "../../img/shop.png";

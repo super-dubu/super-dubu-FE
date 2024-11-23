@@ -13,6 +13,12 @@ function MemberLogin() {
   const [password, setPassword] = useState("");
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   const handleLogin = async () => {
     try {
       const hashedPassword = CryptoJS.SHA256(password + ENC_KEY).toString();
@@ -70,12 +76,14 @@ function MemberLogin() {
             placeholder="ID"
             value={id}
             onChange={(e) => setId(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
           <Box
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </Login>
         <Buttons>

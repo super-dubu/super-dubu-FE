@@ -67,7 +67,7 @@ export const ContractProvider = ({ children }) => {
   };
 
   return (
-    <ContractContext.Provider value={{ itemLog, setItemLog, updateItemLog}}>
+    <ContractContext.Provider value={{ itemLog, setItemLog, updateItemLog }}>
       {children}
     </ContractContext.Provider>
   );

@@ -16,10 +16,21 @@ function Contract6() {
 
   console.log("Contract6", itemLog);
 
-  const handleComplete = () => {
-    alert("계약이 완료되었습니다.");
-    navigate("/member/mypage");
+  const handleComplete = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACK_URL}/HLF/contract`,
+        itemLog
+      );
+      console.log(response.data);
+      alert("계약이 완료되었습니다.");
+      navigate("/sandbox", { state: { it: itemLog } });
+    } catch (error) {
+      console.error("Error uploading property:", error);
+      alert("예약 등록 중 오류가 발생했습니다.");
+    }
   };
+
   return (
     <div>
       <Header />

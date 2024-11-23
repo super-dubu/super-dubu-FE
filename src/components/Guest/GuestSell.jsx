@@ -180,7 +180,7 @@ const GuestSell = () => {
                   {itemsToDisplay.map((it) => (
                     <Item key={it.tokenID} onClick={() => handleItemClick(it)}>
                       <ItemImg src={it.image} alt="item" />
-                      {it.buildingType === "0" ? (
+                      {it.itemType === "0" ? (
                         <ItemDetails>
                           <ItemInfo>
                             전세 {formatPrice(it.priceRental)}

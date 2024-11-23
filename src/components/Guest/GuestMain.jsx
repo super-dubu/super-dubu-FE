@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import room from "../../../../../../네트워크보안/과제/07/3-1.jpg";
+import room from "../../img/room.png";
 import office from "../../img/officetel.png";
 import apart from "../../img/apartment.png";
 import house from "../../img/house.png";

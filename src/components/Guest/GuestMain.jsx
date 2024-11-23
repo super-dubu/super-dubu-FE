@@ -16,44 +16,42 @@ const GuestMain = () => {
 
   return (
     <Container>
-    <GuestContainer>
-      <SearchBar>
-        <SearchInput placeholder="🔍 검색 키워드를 입력해주세요" />
-      </SearchBar>
-      <CardContainer>
-        <Card onClick={() => handleNavigate("0")}>
-          <CardText>원/투룸</CardText>
-          <img src={room} alt="원/투룸" />
-        </Card>
-        <Card onClick={() => handleNavigate("1")}>
-          <CardText>오피스텔</CardText>
-          <img src={office} alt="오피스텔" />
-        </Card>
-        <Card onClick={() => handleNavigate("2")}>
-          <CardText>아파트/빌라</CardText>
-          <img src={apart} alt="아파트" />
-        </Card>
-        <Card onClick={() => handleNavigate("3")}>
-          <CardText>주택</CardText>
-          <img src={house} alt="주택/빌라" />
-        </Card>
-        <Card onClick={() => handleNavigate("4")}>
-          <CardText>상가/사무실</CardText>
-          <img src={shop} alt="상가/사무실" />
-        </Card>
-      </CardContainer>
-      <FooterSpacer />
-      <Footer />
-    </GuestContainer>
+      <GuestContainer>
+        <SearchBar>
+          <SearchInput placeholder="🔍 검색 키워드를 입력해주세요" />
+        </SearchBar>
+        <CardContainer>
+          <Card onClick={() => handleNavigate("0")}>
+            <CardText>원/투룸</CardText>
+            <img src={room} alt="원/투룸" />
+          </Card>
+          <Card onClick={() => handleNavigate("1")}>
+            <CardText>오피스텔</CardText>
+            <img src={office} alt="오피스텔" />
+          </Card>
+          <Card onClick={() => handleNavigate("2")}>
+            <CardText>아파트/빌라</CardText>
+            <img src={apart} alt="아파트" />
+          </Card>
+          <Card onClick={() => handleNavigate("3")}>
+            <CardText>주택</CardText>
+            <img src={house} alt="주택/빌라" />
+          </Card>
+          <Card onClick={() => handleNavigate("4")}>
+            <CardText>상가/사무실</CardText>
+            <img src={shop} alt="상가/사무실" />
+          </Card>
+        </CardContainer>
+        <FooterSpacer />
+        <Footer />
+      </GuestContainer>
     </Container>
   );
 };
 
 export default GuestMain;
 
-const Container = styled.div`
-`;
-
+const Container = styled.div``;
 
 const GuestContainer = styled.div`
   display: flex;
@@ -101,7 +99,7 @@ const Card = styled.div`
   text-align: center;
   padding: 10px;
   margin-bottom: 20px;
-  
+
   cursor: pointer;
   img {
     width: 65%;

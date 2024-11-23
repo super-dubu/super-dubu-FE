@@ -131,7 +131,7 @@ const GuestInfo = () => {
             </Footer>
           </ItemContainer>
           <MapArea>
-            <Kmap />
+            <Kmap info={it} />
           </MapArea>
         </Content>
       </MainSection>

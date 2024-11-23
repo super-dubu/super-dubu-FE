@@ -1,3 +1,5 @@
+const string = import.meta.env.VITE_CUSTOM_KEY;
+
 const createInitialItemLog = (agentInfo, itemInfo) => ({
   isExist: "False",
   tradeDate: "",
@@ -9,12 +11,7 @@ const createInitialItemLog = (agentInfo, itemInfo) => ({
   lesseePhone: "",
   itemInfo: itemInfo || {}, // 전달된 itemInfo 사용
   agentInfo: agentInfo || {}, // 전달된 agentInfo 사용
-  txID: "",
-  Bank: {
-    company: "",
-    account: "",
-    name: "",
-  },
+  txID: string,
 });
 
 export default createInitialItemLog;

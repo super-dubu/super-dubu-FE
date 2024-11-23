@@ -129,6 +129,7 @@ function UploadProperty() {
         formData
       );
       setImageUrl(response.data);
+      console.log("imageURL", imageUrl)
     } catch (error) {
       console.error("에러 발생:", error);
       alert("에러 발생: " + error.message);

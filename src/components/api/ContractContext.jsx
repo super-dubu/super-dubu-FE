@@ -28,29 +28,23 @@ export const ContractProvider = ({ children }) => {
 
       const item = {
         area: itemInfo?.area || "",
-        availableData: itemInfo?.availableData || "",
-        bathroom: itemInfo?.bathroom || "",
+        availableDate: itemInfo?.availableDate || "",
+        buildingName: itemInfo?.buildingName || "",
+        confirmDate: itemInfo?.confirmDate || "",
         body: itemInfo?.body || "",
         buildingAddress: itemInfo?.buildingAddress || "",
         buildingType: itemInfo?.buildingType || "",
         floorInfo: itemInfo?.floorInfo || "",
         hosu: itemInfo?.hosu || "",
-        image: itemInfo?.image || "",
         itemID: itemInfo?.itemID || "",
         itemType: itemInfo?.itemType || "",
         manageFee: itemInfo?.manageFee || "",
-        member: itemInfo?.member || "",
-        memberNumber: itemInfo?.memberNumber || "",
-        memberOffice: itemInfo?.memberOffice || "",
-        memberRegister: itemInfo?.memberRegister || "",
-        owner: itemInfo?.owner || "",
         parking: itemInfo?.parking || "",
         priceMonthly: itemInfo?.priceMonthly || "",
         priceRental: itemInfo?.priceRental || "",
         roomCount: itemInfo?.roomCount || "",
         status: itemInfo?.status || "",
         tokenID: itemInfo?.tokenID || "",
-        _id: itemInfo?._id || "",
       };
 
       const initialItemLog = createInitialItemLog(agentInfo, item);

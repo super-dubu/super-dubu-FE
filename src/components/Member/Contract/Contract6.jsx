@@ -47,7 +47,7 @@ function Contract6() {
         <Title>주요 계약 사항 확인</Title>
         <AgentBox>
           <Column>
-            <Row>매물 번호 : {itemLog.itemInfo._id}</Row>
+            <Row>매물 번호 : {itemLog.itemInfo.itemID}</Row>
             <Row>
               주소 :{" "}
               {`${itemLog.itemInfo.buildingAddress} ${itemLog.itemInfo.hosu}`}{" "}

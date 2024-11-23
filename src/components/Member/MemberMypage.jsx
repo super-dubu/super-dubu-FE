@@ -8,10 +8,10 @@ import Modal from "./BookAdmin";
 import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
 
+
 function MemberMypage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log("user mypage", user);
 
   // 예약 정보 가져오기
   const { data: booking, isLoading: bookingLoading } = getData(
@@ -23,7 +23,7 @@ function MemberMypage() {
     `/forsale/view?memberRegister=${user?.registerID}`
   );
 
-  console.log(items);
+  console.log("items",items);
 
   // 예약 목록 정렬 함수
   const sortedBookings =
@@ -35,28 +35,20 @@ function MemberMypage() {
 
   // Contract1으로 이동
   const goToContract = (bookItemID) => {
-    console.log("in goto Contract bookItemID", bookItemID);
-    try {
-      // 예약된 매물의 itemID로 매물 정보 찾기
-      const matchedItem = items?.data?.properties.find(
-        (item) => item.itemID === bookItemID
-      );
-      console.log("matchedItem", matchedItem);
+    const matchedItem = items?.data?.properties.find(
+      (item) => item.itemID === bookItemID
+    );
 
-      if (!matchedItem) {
-        alert("해당 itemID에 대한 매물 정보를 찾을 수 없습니다.");
-        return;
-      }
-
-      navigate(`/member/contract/1`, {
-        state: {
-          itemInfo: matchedItem, // 매물 정보
-        },
-      });
-    } catch (error) {
-      console.error("Contract로 이동 중 오류 발생:", error);
-      alert("매물 정보를 가져오는 중 오류가 발생했습니다.");
+    if (!matchedItem) {
+      alert("해당 itemID에 대한 매물 정보를 찾을 수 없습니다.");
+      return;
     }
+
+    navigate(`/member/contract/1`, {
+      state: {
+        itemInfo: matchedItem, // 매물 정보
+      },
+    });
   };
 
   if (bookingLoading || itemsLoading) {
@@ -72,7 +64,6 @@ function MemberMypage() {
           <Title>예약 내역</Title>
           <BookContainer>
             {sortedBookings.map((book) => {
-              // items.data.properties에서 예약의 itemID와 매칭되는 매물 찾기
               const matchedItem = items?.data?.properties.find(
                 (item) => item.itemID === book.itemID
               );
@@ -113,13 +104,27 @@ function MemberMypage() {
         </Content>
         <Content>
           <Title>나의 매물</Title>
+          <ItemContainer>
+            {items?.data?.properties?.map((it, index) => (
+              <Item key={index}>
+                <ImageArea>
+                  {it.image}
+                </ImageArea>
+                <TextArea>
+                  <p>건물 이름: {it.buildingName || "정보 없음"}</p>
+                  <p>주소: {it.buildingAddress || "정보 없음"}</p>
+                  <p>면적: {it.area || "정보 없음"}</p>
+                </TextArea>
+              </Item>
+            ))}
+          </ItemContainer>
         </Content>
       </Container>
     </div>
   );
 }
 
-export default MemberMypage;
+export default MemberMypage
 
 const Container = styled.div`
   display: flex;
@@ -151,6 +156,7 @@ const BookContainer = styled.div`
   margin-top: 2rem;
   align-items: center;
   gap: 2rem;
+  overflow-y: auto
 `;
 
 const BookContent = styled.div`
@@ -162,6 +168,7 @@ const BookContent = styled.div`
   border-width: 0 0 0 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   position: relative;
+  margin-left: -3rem;
 `;
 
 const Time = styled.div`
@@ -206,3 +213,28 @@ const Bold = styled.span`
   color: #121212;
 `;
 
+const ItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  gap: 2rem;
+  overflow-y: auto
+`;
+
+const Item = styled.div`
+  width: 90%;
+  height: 20rem;
+  border: solid 1px black;
+  display: flex;
+  flex-direction: row;
+`;
+
+const TextArea = styled.div`
+  
+`;
+
+const ImageArea = styled.div`
+
+`;

@@ -37,24 +37,8 @@ function MemberMain() {
       />
       <Container>
         <SideBar>
-          {/* <MenuBar>
-            {["전체 매물", "예약 대기", "거래 진행중"].map((label) => (
-              <MenuButton
-                key={label}
-                isActive={activeButton === label}
-                onClick={() => setActiveButton(label)}
-              >
-                {label}
-              </MenuButton>
-            ))}
-          </MenuBar> */}
           <SearchBar>
             <SearchInput placeholder="검색 키워드를 입력해주세요" />
-            {/* <SearchOption>
-              {["인기순", "가격순", "최신순"].map((option) => (
-                <Options key={option}>{option}</Options>
-              ))}
-            </SearchOption> */}
           </SearchBar>
           <ItemContainer>
             {items.data.response.map((it, index) => (
@@ -157,7 +141,7 @@ const SearchBar = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  height: 7rem;
+  height: 10rem;
   border-bottom: 1.2px solid #9b9b9b;
 `;
 
@@ -169,6 +153,8 @@ const SearchInput = styled.input`
   outline: none;
   padding: 0 1rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const SearchOption = styled.div`
@@ -186,7 +172,6 @@ const Options = styled.div`
 const ItemContainer = styled.div`
   margin-top: 1rem;
   width: 100%;
-  max-height: 40rem; /* 4개의 아이템 높이에 맞게 설정 */
   overflow-y: auto; /* 스크롤 활성화 */
   display: flex;
   flex-direction: column;

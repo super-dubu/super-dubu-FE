@@ -39,16 +39,25 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-left : 2rem;
+  margin-left : auto;
+  margin-right: 1rem;
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 1.5rem;
+  /* justify-content: flex-end; */
 
 `;
 
 const Label = styled.div`
   font-weight: bold;
   cursor: pointer;
-  color: #121212;
+  color: #6E7D9C;
+  /* color: white; */
   font-size: 18px;
+  border: solid 2px;
+  border-color: #6E7D9C;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  /* background-color: #6E7D9C; */
 `;

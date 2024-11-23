@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import logo from '../../../img/logo.png';
-import { ContractContext } from '../../api/ContractContext';
+import logo from '../../img/logo.png'
 import cryptoJs from 'crypto-js';
 import axios from 'axios';
 

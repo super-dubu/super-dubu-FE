@@ -95,7 +95,7 @@ function UploadProperty() {
 
     if (isLoading || isError || !item) return;
 
-    const matched = item.data.result.find((building) => {
+    const matched = item.data.response.find((building) => {
       const tokenIDPrefix = building.tokenID.slice(0, 17);
       const buildingCodePrefix = data.buildingCode.slice(0, 17);
       return tokenIDPrefix === buildingCodePrefix;
@@ -116,33 +116,31 @@ function UploadProperty() {
     for (let i = 0; i < files.length; i++) {
       formData.append("many", files[i], `${i + 1}`);
     }
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
   };
 
   const handleUploadProperty = async () => {
-    // 1. 이미지를 서버에 저장
     try {
+      // 1. 이미지를 서버에 저장
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/forsale/upload`,
         formData
       );
       setImageUrl(response.data);
-    } catch (error) {
-      console.error("에러 발생:", error);
-      alert("에러 발생: " + error.message);
-    }
 
-    // 2. 이미지를 포함해서 json 파일을 전달
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACK_URL}/forsale/add`,
-        Property
-      );
-      alert("매물 등록이 완료되었습니다.");
-      navigate("/member/mypage");
-    } catch (e) {
+      if (response.data.length > 0) {
+        Property.image = response.data;
+
+        // 2. 이미지를 포함한 Property 데이터를 서버에 전달
+        const propertyResponse = await axios.post(
+          `${import.meta.env.VITE_BACK_URL}/forsale/add`,
+          Property
+        );
+        alert("매물 등록이 완료되었습니다.");
+        navigate("/member/mypage");
+      } else {
+        throw new Error("이미지 업로드 실패");
+      }
+    } catch (error) {
       console.error("Error uploading property:", error);
       alert("매물 등록 중 오류가 발생했습니다.");
     }

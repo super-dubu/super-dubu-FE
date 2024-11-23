@@ -44,7 +44,6 @@ function MobileAuth() {
       // 응답 데이터 확인
       console.log("서버 응답:", response);
 
-      // 응답 메시지 확인
       if (response.data && response.data.message === "Success") {
         alert("신원 인증 성공");
         setIsAuthComplete(true);
@@ -114,7 +113,6 @@ const Header = styled.div`
   border-color: #9b9b9b;
   border-width: 0 0 1px 0;
   display: flex;
-  /* justify-content: flex-start; */
   align-items: center;
 `;
 
@@ -139,19 +137,18 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  align-items: center; /* 세로 정렬 */
+  align-items: center;
   justify-content: flex-start;
   width: 100%;
-  /* padding: 0.5rem 0; */
 `;
 
 const Label = styled.div`
-  width: 6rem; /* Label의 고정 너비 설정 */
+  width: 6rem;
   font-size: 16px;
   font-weight: bold;
   padding: 1rem;
   color: #595959;
-  text-align: center; /* 텍스트를 오른쪽 정렬 */
+  text-align: center;
 `;
 
 const Input = styled.input`

@@ -4,12 +4,16 @@ import Header from "../Member/MemberHeader";
 import Kmap from "../api/KakaoMap.jsx";
 import getData from "../../hooks/GetData.js";
 import { AuthContext } from "../api/AuthContext.jsx";
+import MemberInfo from "./MemberInfo.jsx";
 
 function MemberMain() {
-  const [activeButton, setActiveButton] = useState("전체 매물");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const itemsPerPage = 6;
   const { user } = useContext(AuthContext);
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
+  const [searchQuery, setSearchQuery] = useState("");
 
   if (isLoading || !items || !items.data || !items.data.response) {
     return (
@@ -29,6 +33,35 @@ function MemberMain() {
     );
   }
 
+  const filteredItems = items.data.response.filter((item) =>
+    item.buildingAddress?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalItems = filteredItems.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const currentItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (direction) => {
+    setCurrentPage((prevPage) => prevPage + direction);
+  };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleItemClick = (it) => {
+    setSelectedItem(it);
+  };
+
+  const handleBackToList = () => {
+    setSelectedItem(null);
+  };
+
   return (
     <div>
       <Header
@@ -36,37 +69,53 @@ function MemberMain() {
         showLogout={false}
       />
       <Container>
-        <SideBar>
-          {/* <MenuBar>
-            {["전체 매물", "예약 대기", "거래 진행중"].map((label) => (
-              <MenuButton
-                key={label}
-                isActive={activeButton === label}
-                onClick={() => setActiveButton(label)}
-              >
-                {label}
-              </MenuButton>
-            ))}
-          </MenuBar> */}
-          <SearchBar>
-            <SearchInput placeholder="검색 키워드를 입력해주세요" />
-            {/* <SearchOption>
-              {["인기순", "가격순", "최신순"].map((option) => (
-                <Options key={option}>{option}</Options>
-              ))}
-            </SearchOption> */}
-          </SearchBar>
-          <ItemContainer>
-            {items.data.response.map((it, index) => (
-              <Item key={index}>
-                <p>{it.buildingAddress || "주소 없음"}</p>
-                <p>가격: {it.buildingPrice || "정보 없음"}</p>
-                <p>소유주: {it.owner || "정보 없음"}</p>
-              </Item>
-            ))}
-          </ItemContainer>
-        </SideBar>
-        <Kmap />
+        {selectedItem ? (
+          <MemberInfo item={selectedItem} onBack={handleBackToList} />
+        ) : (
+          <SideBar>
+            <SearchBar>
+              <SearchInput
+                placeholder="검색 키워드를 입력해주세요"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+            </SearchBar>
+            <ItemContainer>
+              {totalItems === 0 ? (
+                <NoItemsMessage>해당 매물이 없습니다.</NoItemsMessage>
+              ) : (
+                currentItems.map((it, index) => (
+                  <Item key={index} onClick={() => handleItemClick(it)}>
+                    <p>{it.buildingAddress || "주소 없음"}</p>
+                  </Item>
+                ))
+              )}
+            </ItemContainer>
+            {totalItems > 0 && (
+              <Pagination>
+                <PageButton
+                  disabled={currentPage === 1}
+                  onClick={() => handlePageChange(-1)}
+                >
+                  ← 이전
+                </PageButton>
+                <PageNumber>
+                  {currentPage} / {totalPages}
+                </PageNumber>
+                <PageButton
+                  disabled={currentPage === totalPages}
+                  onClick={() => handlePageChange(1)}
+                >
+                  다음 →
+                </PageButton>
+              </Pagination>
+            )}
+          </SideBar>
+        )}
+        <Kmap
+          items={selectedItem ? [selectedItem] : currentItems}
+          onMarkerClick={(item) => setSelectedItem(item)}
+        />
       </Container>
     </div>
   );
@@ -120,37 +169,6 @@ const SideBar = styled.div`
   align-items: center;
 `;
 
-const MenuBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  border-style: solid;
-  border-width: 0 0 1.2px 0;
-  border-color: #9b9b9b;
-  width: 100%;
-  height: 5rem;
-`;
-
-const MenuButton = styled.div.attrs((props) => ({
-  isActive: props.isActive, // 스타일에서만 사용할 prop으로 정의
-}))`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 33.3%;
-  font-weight: 700;
-  border-right: 1.2px solid #9b9b9b;
-  color: ${(props) => (props.isActive ? "white" : "#545454")};
-  background-color: ${(props) => (props.isActive ? "#B2B0B0" : "white")};
-  cursor: pointer;
-
-  &:last-child {
-    border-right: none;
-  }
-`;
-
 const SearchBar = styled.div`
   display: flex;
   align-items: center;
@@ -173,7 +191,6 @@ const SearchInput = styled.input`
 
 const SearchOption = styled.div`
   display: flex;
-  /* margin-top: 1rem; */
   margin: 1rem 1.5rem 0 auto;
   gap: 2rem;
 `;
@@ -186,13 +203,12 @@ const Options = styled.div`
 const ItemContainer = styled.div`
   margin-top: 1rem;
   width: 100%;
-  max-height: 40rem; /* 4개의 아이템 높이에 맞게 설정 */
-  overflow-y: auto; /* 스크롤 활성화 */
+  max-height: 35rem;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  /* 스크롤바 스타일 */
   scrollbar-width: thin;
   scrollbar-color: #b2b0b0 #f0f0f0;
   &::-webkit-scrollbar {
@@ -207,12 +223,20 @@ const ItemContainer = styled.div`
   }
 `;
 
+const NoItemsMessage = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #545454;
+  text-align: center;
+  margin-top: 2rem;
+`;
+
 const Item = styled.div`
   width: 90%;
-  height: 10rem;
+  height: 5rem;
   border: 1px solid #ddd;
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 0.71rem;
   border-radius: 8px;
   background-color: #f9f9f9;
   display: flex;
@@ -222,16 +246,29 @@ const Item = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const Loading = styled.div`
-  font-size: 1.2rem;
-  color: gray;
-  margin: 1rem 0;
-  text-align: center;
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
 `;
 
-const EndMessage = styled.div`
+const PageButton = styled.button`
+  border: none;
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#6e7d9c")};
+  color: ${(props) => (props.disabled ? "#888" : "#fff")};
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  font-weight: bold;
+
+  &:hover {
+    background-color: ${(props) => (props.disabled ? "#ccc" : "#5a6a8c")};
+  }
+`;
+
+const PageNumber = styled.div`
   font-size: 1.2rem;
-  color: #888;
-  margin: 1rem 0;
-  text-align: center;
+  font-weight: bold;
+  color: #545454;
 `;

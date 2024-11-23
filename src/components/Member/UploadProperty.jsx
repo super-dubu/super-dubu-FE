@@ -16,7 +16,6 @@ function UploadProperty() {
   const [detailAddress, setDetailAddress] = useState("");
   const [debouncedDetailAddress, setDebouncedDetailAddress] = useState("");
   const [match, setMatch] = useState({});
-  const [postImg, setPostImg] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
 
   const [buildingType, setBuildingType] = useState("0");
@@ -28,10 +27,12 @@ function UploadProperty() {
   const [bathroom, setBathroom] = useState("");
   const [parking, setParking] = useState("");
   const [body, setBody] = useState("");
+  const [imageUrl, setImageUrl] = useState([]);
 
   const navigate = useNavigate();
   const { data: item, isLoading, isError } = GetData("/HLF/getBuildings");
   const { user } = useContext(AuthContext);
+  const formData = new FormData();
 
   const Property = {
     tokenID: match.tokenID,
@@ -49,9 +50,9 @@ function UploadProperty() {
     bathroom: bathroom,
     confirmDate: match.comfirmDate,
     parking: parking,
+    image: imageUrl,
     manageFee: manageFee,
     body: body,
-    image: "https://via.placeholder.com/150",
     owner: match.owner,
     member: user?.agentName,
     memberRegister: user?.registerID,
@@ -107,37 +108,44 @@ function UploadProperty() {
     }
   };
 
+  const handleFileUpload = async (e) => {
+    e.preventDefault();
+    const files = e.target.files;
+
+    formData.append("tokenID", match.tokenID);
+    for (let i = 0; i < files.length; i++) {
+      formData.append("many", files[i], `${i + 1}`);
+    }
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+  };
+
   const handleUploadProperty = async () => {
+    // 1. 이미지를 서버에 저장
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACK_URL}/forsale/upload`,
+        formData
+      );
+      setImageUrl(response.data);
+    } catch (error) {
+      console.error("에러 발생:", error);
+      alert("에러 발생: " + error.message);
+    }
+
+    // 2. 이미지를 포함해서 json 파일을 전달
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/forsale/add`,
         Property
       );
-      console.log(response.data);
-      console.log(Property);
       alert("매물 등록이 완료되었습니다.");
       navigate("/member/mypage");
-    } catch (error) {
+    } catch (e) {
       console.error("Error uploading property:", error);
       alert("매물 등록 중 오류가 발생했습니다.");
     }
-  };
-
-  const handleFileUpload = (e) => {
-    const fileArr = Array.from(e.target.files);
-    setPostImg(fileArr);
-
-    const fileURLs = [];
-    fileArr.forEach((file) => {
-      const fileRead = new FileReader();
-      fileRead.onload = () => {
-        fileURLs.push(fileRead.result);
-        if (fileURLs.length === fileArr.length) {
-          setPreviewImg(fileURLs);
-        }
-      };
-      fileRead.readAsDataURL(file);
-    });
   };
 
   useEffect(() => {

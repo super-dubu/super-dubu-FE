@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const GuestInfo = ({ item, onClose }) => {
   const navigate = useNavigate();
   const formatPrice = (value) => {
+    console.log(item);
     if (!value) return "0원";
     const num = Number(value);
     if (num >= 10000) {
@@ -27,7 +28,7 @@ const GuestInfo = ({ item, onClose }) => {
         <Image src={item.image} alt="Room" />
       </ImageContainer>
 
-      {item.buildingType === "0" ? (
+      {item.itemType == "0" ? (
         <InfoSection>
           <Title>전세 {formatPrice(item.priceRental)}</Title>
           <Subtitle>{item.buildingAddress}</Subtitle>

@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Kmap({ items = [] }) {
+function Kmap({ items = [], info = [] }) {
   const apikey = import.meta.env.VITE_KMAP_API_KEY;
   const navigate = useNavigate();
+  console.log(items);
+  console.log(info);
 
   useEffect(() => {
     const loadKakaoMap = () => {

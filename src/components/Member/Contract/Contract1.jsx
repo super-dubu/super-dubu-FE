@@ -175,15 +175,14 @@ function Contract1() {
                 checked={selectedCheckbox === "동의함"}
                 onChange={() => handleCheckboxChange("동의함")}
               />
+              동의함
             </Label>
-            <Row>
-              <BoldText>주민등록번호</BoldText>
-              <StringInput
-                value={idLessor}
-                onChange={(e) => setIdLessor(e.target.value)}
+            <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox === "동의 하지않음"}
+                onChange={() => handleCheckboxChange("동의 하지않음")}
               />
               동의하지 않음
-            </Row>
           </AgreeText>
         </AgreeContainer>
         <Button

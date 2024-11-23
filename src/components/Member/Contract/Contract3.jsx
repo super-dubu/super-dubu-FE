@@ -131,12 +131,12 @@ function Contract3() {
              </Table>
              <Text><Bold>제2조(임대차기간)</Bold> 임대인은 임차주택을 임대차 목적대로 사용‧수익할 수 있는 상태로 
                  <Input $large 
-                 placeholder='XXXX-XX-XX'
+                 placeholder='YYYY-MM-DD'
                  value={formData.startDate}
                  onChange={(e) => handleInputChange("startDate", e.target.value)}
                  />까지 임차인에게 인도하고, <br />
              임대차기간은 인도일로부터  <Input $large 
-                                            placeholder='XXXX-XX-XX' 
+                                            placeholder='YYYY-MM-DD' 
                                             value={formData.endDate}
                                             onChange={(e) => handleInputChange("endDate", e.target.value)}
                                             />까지로 한다. </Text>

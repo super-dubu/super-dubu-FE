@@ -11,9 +11,7 @@ function MemberMain() {
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
 
-  console.log(user);
-
-  if (isLoading || !items || !items.data || !items.data.result) {
+  if (isLoading || !items || !items.data || !items.data.response) {
     return (
       <LoadingContainer>
         <LoadingMessage>
@@ -39,7 +37,7 @@ function MemberMain() {
       />
       <Container>
         <SideBar>
-          <MenuBar>
+          {/* <MenuBar>
             {["전체 매물", "예약 대기", "거래 진행중"].map((label) => (
               <MenuButton
                 key={label}
@@ -49,17 +47,17 @@ function MemberMain() {
                 {label}
               </MenuButton>
             ))}
-          </MenuBar>
+          </MenuBar> */}
           <SearchBar>
             <SearchInput placeholder="검색 키워드를 입력해주세요" />
-            <SearchOption>
+            {/* <SearchOption>
               {["인기순", "가격순", "최신순"].map((option) => (
                 <Options key={option}>{option}</Options>
               ))}
-            </SearchOption>
+            </SearchOption> */}
           </SearchBar>
           <ItemContainer>
-            {items.data.result.map((it, index) => (
+            {items.data.response.map((it, index) => (
               <Item key={index}>
                 <p>{it.buildingAddress || "주소 없음"}</p>
                 <p>가격: {it.buildingPrice || "정보 없음"}</p>

@@ -11,9 +11,7 @@ import { useNavigate } from "react-router-dom";
 function MemberMypage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  console.log("user", user);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log("user mypage", user);
 
   // 예약 정보 가져오기
   const { data: booking, isLoading: bookingLoading } = getData(
@@ -25,10 +23,15 @@ function MemberMypage() {
     `/forsale/view?memberRegister=${user?.registerID}`
   );
 
-  console.log("booking", booking);
-  console.log("items", items);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  console.log(items);
+
+  // 예약 목록 정렬 함수
+  const sortedBookings =
+    booking?.data?.reservation_list?.slice().sort((a, b) => {
+      const dateTimeA = new Date(`${a.date}T${a.time}`);
+      const dateTimeB = new Date(`${b.date}T${b.time}`);
+      return dateTimeA - dateTimeB; // 가까운 날짜/시간 순으로 정렬
+    }) || [];
 
   // Contract1으로 이동
   const goToContract = (bookItemID) => {
@@ -60,32 +63,56 @@ function MemberMypage() {
     return <p>로딩 중...</p>;
   }
 
-  console.log("booking", booking?.data?.reservation_list[0]);
-
   return (
     <div>
       {user && <Header showLogout={true} />}
+      <SideBar />
       <Container>
-        <SideBar openModal={openModal} />
         <Content>
-          <BookingList>
-            <Title>상담 예약 내역</Title>
-            <BookBox>
-              {booking?.data?.reservation_list.map((reservation, index) => (
-                <BookContent key={index}>
-                  <p>예약 날짜: {reservation.date.substring(5, 10)}</p>
-                  <p>예약자 이름: {reservation.name}</p>
-                  {/* <p>예약 매물 주소: {reservation.address}</p> */}
-                  <p>매물 ID: {reservation.itemID}</p>
-                  <ContractButton
-                    onClick={() => goToContract(reservation.itemID)}
-                  >
-                    계약서 작성하기
-                  </ContractButton>
+          <Title>예약 내역</Title>
+          <BookContainer>
+            {sortedBookings.map((book) => {
+              // items.data.properties에서 예약의 itemID와 매칭되는 매물 찾기
+              const matchedItem = items?.data?.properties.find(
+                (item) => item.itemID === book.itemID
+              );
+
+              return (
+                <BookContent key={book.itemID}>
+                  <Row>
+                    <Time>
+                      {book.date.slice(0, 10)} {book.time}
+                    </Time>
+                    <Button onClick={() => goToContract(book.itemID)}>
+                      계약 진행하기
+                    </Button>
+                  </Row>
+                  <TextContainer>
+                    <Text>
+                      예약자 이름 <Bold>{book.name}</Bold>
+                    </Text>
+                    <Text>
+                      연락처 <Bold>{book.contact}</Bold>
+                    </Text>
+                    <Text>
+                      상담 매물{" "}
+                      <Bold>
+                        {matchedItem ? matchedItem.buildingAddress : "정보 없음"}{" "}
+                        {matchedItem ? matchedItem.buildingName : "정보 없음"}{" "}
+                        {matchedItem ? matchedItem.hosu : "정보 없음"}
+                      </Bold>
+                    </Text>
+                    <Text>
+                      요청 사항 <Bold>{book.requests}</Bold>
+                    </Text>
+                  </TextContainer>
                 </BookContent>
-              ))}
-            </BookBox>
-          </BookingList>
+              );
+            })}
+          </BookContainer>
+        </Content>
+        <Content>
+          <Title>나의 매물</Title>
         </Content>
       </Container>
     </div>
@@ -103,84 +130,79 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  overflow: hidden;
-`;
-
-const BookingList = styled.div`
-  background-color: #f5f5f5;
-  width: 100%;
-  height: 22rem;
+  width: 50%;
+  height: 100%;
   border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #9b9b9b;
+  border-width: 0 1px 0 0;
+  border-color: #9B9B9B;
 `;
 
 const Title = styled.div`
-  margin: 1.5rem 0 0 1.5rem;
-  font-size: 18px;
+  margin-top: 2rem;
+  margin-left: 2rem;
   font-weight: bold;
   color: #121212;
+  font-size: 20px;
 `;
 
-const BookBox = styled.div`
+const BookContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin-top: 2rem;
+  align-items: center;
   gap: 2rem;
-  margin: 2rem 0 0 1.5rem;
 `;
 
 const BookContent = styled.div`
-  width: 17rem;
-  height: 15rem;
-  background-color: white;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  /* border-radius: 20px; */
-  /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15); */
-  /* border: solid 1px #595959; */
-`;
-
-const SellContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const SellBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  margin: 4rem 0 0 3rem;
-`;
-
-const SellContent = styled.div`
-  width: 30rem;
-  height: 20rem;
-  background-color: white;
-  border-radius: 20px;
+  width: 80%;
+  height: auto;
+  padding-bottom: 1rem;
+  border-style: solid;
+  border-color: #595959;
+  border-width: 0 0 0 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  position: relative;
 `;
 
-const Image = styled.img`
-  width: 8rem;
-  height: 10rem;
+const Time = styled.div`
+  margin: 0.5rem 0 1rem 1rem;
+  font-weight: bold;
+  font-size: 18px;
 `;
 
-const SellInfo = styled.div`
+const Text = styled.div`
+  
+`;
+
+const TextContainer = styled.div`
+  margin-left: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 2rem;
-  gap: 1rem;
+  gap: 10px;
+  color: #595959;
 `;
 
-const InfoDetail = styled.div``;
+const Button = styled.button`
+  height: 2rem;
+  /* margin-top: 0.5rem; */
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  background-color: white;
+  border: solid 1px #595959;
+  border-radius: 10px;
+  cursor: pointer;
+`;
 
-const ContractButton = styled.button``;
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+`;
+
+const Bold = styled.span`
+  margin-left: 5px;
+  color: #121212;
+`;
+

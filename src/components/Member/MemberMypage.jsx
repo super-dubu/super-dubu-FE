@@ -5,7 +5,7 @@ import SideBar from "./MemberSide";
 import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
 import Modal from "./BookAdmin";
-import getData from '../../hooks/GetData'
+import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
 
 function MemberMypage() {
@@ -25,7 +25,7 @@ function MemberMypage() {
     `/forsale/view?memberRegister=${user?.registerID}`
   );
 
-  console.log("booking",booking);
+  console.log("booking", booking);
   console.log("items", items);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -45,11 +45,9 @@ function MemberMypage() {
         return;
       }
 
-      // tokenID(PNU) 전달
       navigate(`/member/contract/1`, {
         state: {
           itemInfo: matchedItem, // 매물 정보
-          PNU: matchedItem.tokenID, // tokenID를 PNU로 전달
         },
       });
     } catch (error) {
@@ -62,7 +60,7 @@ function MemberMypage() {
     return <p>로딩 중...</p>;
   }
 
-  console.log("booking",booking?.data?.reservation_list[0]);
+  console.log("booking", booking?.data?.reservation_list[0]);
 
   return (
     <div>
@@ -79,7 +77,9 @@ function MemberMypage() {
                   <p>예약자 이름: {reservation.name}</p>
                   {/* <p>예약 매물 주소: {reservation.address}</p> */}
                   <p>매물 ID: {reservation.itemID}</p>
-                  <ContractButton onClick={() => goToContract(reservation.itemID)}>
+                  <ContractButton
+                    onClick={() => goToContract(reservation.itemID)}
+                  >
                     계약서 작성하기
                   </ContractButton>
                 </BookContent>
@@ -183,8 +183,4 @@ const SellInfo = styled.div`
 
 const InfoDetail = styled.div``;
 
-
-const ContractButton = styled.button`
-  
-`;
-
+const ContractButton = styled.button``;

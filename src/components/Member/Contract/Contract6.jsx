@@ -5,6 +5,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { AuthContext } from "../../api/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ContractContext } from "../../api/ContractContext";
+import axios from "axios";
 
 function Contract6() {
   const { user } = useContext(AuthContext);
@@ -38,7 +39,10 @@ function Contract6() {
         <Title>상호 계약 확인 인증</Title>
         <Plz>*휴대폰으로 QR 코드를 스캔하여 인증한 후 계약을 완료하세요.</Plz>
         <QRBox>
-          <QRCodeCanvas value={`${import.meta.env.VITE_FRONT_URL}/mobileauth`} size={300} />
+          <QRCodeCanvas
+            value={`${import.meta.env.VITE_FRONT_URL}/mobileauth`}
+            size={300}
+          />
         </QRBox>
         <Title>주요 계약 사항 확인</Title>
         <AgentBox>

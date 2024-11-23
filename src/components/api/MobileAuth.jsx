@@ -1,15 +1,15 @@
-import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
-import logo from '../../img/logo.png'
-import cryptoJs from 'crypto-js';
-import axios from 'axios';
+import React, { useState } from "react";
+import styled from "styled-components";
+import logo from "../../img/logo.png";
+import cryptoJs from "crypto-js";
+import axios from "axios";
 
 function MobileAuth() {
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
-  const [part1, setPart1] = useState(''); // 주민번호 앞 6자리
-  const [part2, setPart2] = useState(''); // 주민번호 뒤 7자리
+  const [part1, setPart1] = useState(""); // 주민번호 앞 6자리
+  const [part2, setPart2] = useState(""); // 주민번호 뒤 7자리
   const [isAuthComplete, setIsAuthComplete] = useState(false); // 인증 여부
-  const [name, setName] = useState(''); // 이름
+  const [name, setName] = useState(""); // 이름
 
   // 주민등록번호 합치기
   const fullNationalID = `${part1}-${part2}`;
@@ -17,7 +17,7 @@ function MobileAuth() {
 
   // 입력값 처리
   const handleInput = (value, setter, maxLength) => {
-    const filteredValue = value.replace(/\D/g, ''); // 숫자만 허용
+    const filteredValue = value.replace(/\D/g, ""); // 숫자만 허용
     if (filteredValue.length <= maxLength) {
       setter(filteredValue);
     }
@@ -29,16 +29,21 @@ function MobileAuth() {
       alert("이름과 주민등록번호를 올바르게 입력해주세요.");
       return;
     }
-  
+
     try {
-      const hashedCode = cryptoJs.SHA256(name + fullNationalID + ENC_KEY).toString();
-      const response = await axios.get(`${import.meta.env.VITE_BACK_URL}/HLF/auth`, {
-        params: { name: decodeURI(name), code: hashedCode },
-      });
-  
+      const hashedCode = cryptoJs
+        .SHA256(name + fullNationalID + ENC_KEY)
+        .toString();
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
+        {
+          params: { name: decodeURI(name), code: hashedCode },
+        }
+      );
+
       // 응답 데이터 확인
       console.log("서버 응답:", response);
-  
+
       // 응답 메시지 확인
       if (response.data && response.data.message === "Success") {
         alert("신원 인증 성공");
@@ -85,7 +90,7 @@ function MobileAuth() {
           </Row>
         </InputContainer>
         <Button onClick={handleAuth} disabled={isAuthComplete}>
-          {isAuthComplete ? '인증완료' : '인증하기'}
+          {isAuthComplete ? "인증완료" : "인증하기"}
         </Button>
       </Container>
     </div>
@@ -132,10 +137,10 @@ const InputContainer = styled.div`
 
 const Row = styled.div`
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   gap: 1rem;
   align-items: center; /* 세로 정렬 */
-  justify-content: flex-start; 
+  justify-content: flex-start;
   width: 100%;
   /* padding: 0.5rem 0; */
 `;
@@ -153,7 +158,7 @@ const Input = styled.input`
   ::placeholder {
     color: #ccc;
   }
-  width : ${(props) => (props.$large ? "12rem" : "4.5rem")};
+  width: ${(props) => (props.$large ? "12rem" : "4.5rem")};
   height: 2rem;
   font-size: 1rem;
   padding: 0.3rem;
@@ -161,7 +166,6 @@ const Input = styled.input`
   border-radius: 4px;
   text-align: center;
 `;
-
 
 const Button = styled.button`
   margin-top: 2rem;

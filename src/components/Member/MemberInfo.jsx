@@ -92,6 +92,7 @@ const InfoContent = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 `;
 
 const Row = styled.div`

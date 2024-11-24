@@ -87,7 +87,7 @@ function MemberMain() {
         ) : (
           currentItems.map((it, index) => (
             <Item key={index} onClick={() => handleItemClick(it)}>
-              <p>{it.buildingAddress || "주소 없음"}</p>
+              {it.buildingAddress || "주소 없음"}
             </Item>
           ))
         )}
@@ -165,6 +165,7 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+  height: 100%;
 
 `;
 
@@ -214,7 +215,6 @@ const Options = styled.div`
 `;
 
 const ItemContainer = styled.div`
-  margin-top: 1rem;
   width: 100%;
   max-height: 35rem;
   overflow-y: auto;
@@ -222,7 +222,7 @@ const ItemContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  scrollbar-width: thin;
+  /* scrollbar-width: thin;
   scrollbar-color: #b2b0b0 #f0f0f0;
   &::-webkit-scrollbar {
     width: 6px;
@@ -233,7 +233,7 @@ const ItemContainer = styled.div`
   }
   &::-webkit-scrollbar-track {
     background-color: #f0f0f0;
-  }
+  } */
 `;
 
 const NoItemsMessage = styled.div`
@@ -245,23 +245,25 @@ const NoItemsMessage = styled.div`
 `;
 
 const Item = styled.div`
-  width: 90%;
+  width: 100%;
   height: 5rem;
-  border: 1px solid #ddd;
-  margin-bottom: 1rem;
-  padding: 0.71rem;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #ccc;
+  /* font-weight: bold; */
   border-radius: 8px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding-left: 2rem;
 `;
 
 const Pagination = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
   margin-top: 1rem;
   gap: 0.5rem;
 `;
@@ -281,9 +283,11 @@ const PageButton = styled.button`
 `;
 
 const PageNumber = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 18px;
+  /* font-weight: bold; */
   color: #545454;
+  margin: 0 10px;
+
 `;
 
 const MapContainer = styled.div`

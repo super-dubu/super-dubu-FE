@@ -7,7 +7,7 @@ import { AuthContext } from "../api/AuthContext";
 import Modal from "./BookAdmin";
 import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
-
+import ContractCheck from "./ContractCheck";
 
 function MemberMypage() {
   const { user } = useContext(AuthContext);
@@ -23,7 +23,7 @@ function MemberMypage() {
     `/forsale/view?memberRegister=${user?.registerID}`
   );
 
-  console.log("items",items);
+  console.log("items", items);
 
   // 예약 목록 정렬 함수
   const sortedBookings =
@@ -88,7 +88,9 @@ function MemberMypage() {
                     <Text>
                       상담 매물{" "}
                       <Bold>
-                        {matchedItem ? matchedItem.buildingAddress : "정보 없음"}{" "}
+                        {matchedItem
+                          ? matchedItem.buildingAddress
+                          : "정보 없음"}{" "}
                         {matchedItem ? matchedItem.buildingName : "정보 없음"}{" "}
                         {matchedItem ? matchedItem.hosu : "정보 없음"}
                       </Bold>
@@ -107,9 +109,7 @@ function MemberMypage() {
           <ItemContainer>
             {items?.data?.properties?.map((it, index) => (
               <Item key={index}>
-                <ImageArea>
-                  {it.image}
-                </ImageArea>
+                <ImageArea>{it.image}</ImageArea>
                 <TextArea>
                   <p>건물 이름: {it.buildingName || "정보 없음"}</p>
                   <p>주소: {it.buildingAddress || "정보 없음"}</p>
@@ -124,7 +124,7 @@ function MemberMypage() {
   );
 }
 
-export default MemberMypage
+export default MemberMypage;
 
 const Container = styled.div`
   display: flex;
@@ -139,7 +139,7 @@ const Content = styled.div`
   height: 100%;
   border-style: solid;
   border-width: 0 1px 0 0;
-  border-color: #9B9B9B;
+  border-color: #9b9b9b;
 `;
 
 const Title = styled.div`
@@ -156,7 +156,7 @@ const BookContainer = styled.div`
   margin-top: 2rem;
   align-items: center;
   gap: 2rem;
-  overflow-y: auto
+  overflow-y: auto;
 `;
 
 const BookContent = styled.div`
@@ -177,9 +177,7 @@ const Time = styled.div`
   font-size: 18px;
 `;
 
-const Text = styled.div`
-  
-`;
+const Text = styled.div``;
 
 const TextContainer = styled.div`
   margin-left: 1rem;
@@ -220,7 +218,7 @@ const ItemContainer = styled.div`
   align-items: center;
   margin-top: 3rem;
   gap: 2rem;
-  overflow-y: auto
+  overflow-y: auto;
 `;
 
 const Item = styled.div`
@@ -231,10 +229,6 @@ const Item = styled.div`
   flex-direction: row;
 `;
 
-const TextArea = styled.div`
-  
-`;
+const TextArea = styled.div``;
 
-const ImageArea = styled.div`
-
-`;
+const ImageArea = styled.div``;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import styled from "styled-components";
 
@@ -7,6 +8,10 @@ const clientKey = import.meta.env.VITE_CLIENT_KEY;
 const customerKey = import.meta.env.VITE_CUSTOM_KEY;
 
 const TossPayment = () => {
+  const location = useLocation();
+  const { it: itemLog } = location.state || {};
+  console.log(itemLog);
+
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [amount, setAmount] = useState({
@@ -60,9 +65,9 @@ const TossPayment = () => {
                 try {
                   await widgets?.requestPayment({
                     orderId: generateRandomString(),
-                    orderName: "안녕하세요",
+                    orderName: "거래하세요",
                     customerName: "김덕환",
-                    customerEmail: "customer123@gmail.com",
+                    customerEmail: "glico@naver.com",
                     successUrl:
                       window.location.origin +
                       "/sandbox/success" +

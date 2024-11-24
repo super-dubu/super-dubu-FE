@@ -8,15 +8,14 @@ function MemberSide({ openModal }) {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
-
   return (
     <div>
       <Container>
         <Wrapper>
           {/* <Label onClick={() => navigate()}>예약 관리</Label> */}
-          <Label onClick={() => navigate('/member/property')}>매물 등록</Label>
-          <Label onClick={() => navigate('')}>계약 조회</Label>
-          </Wrapper>
+          <Label onClick={() => navigate("/member/property")}>매물 등록</Label>
+          <Label onClick={() => navigate("/member/check")}>계약 조회</Label>
+        </Wrapper>
       </Container>
     </div>
   );
@@ -29,33 +28,32 @@ const Container = styled.div`
   height: 5rem;
   border-style: solid;
   border-width: 0 0 1px 0;
-  border-color: #9B9B9B;
+  border-color: #9b9b9b;
   display: flex;
   flex-direction: row;
   /* margin-left: 1rem; */
   align-items: center;
   gap: 2rem;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 `;
 
 const Wrapper = styled.div`
-  margin-left : auto;
+  margin-left: auto;
   margin-right: 1rem;
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
   /* justify-content: flex-end; */
-
 `;
 
 const Label = styled.div`
   font-weight: bold;
   cursor: pointer;
-  color: #6E7D9C;
+  color: #6e7d9c;
   /* color: white; */
   font-size: 18px;
   border: solid 2px;
-  border-color: #6E7D9C;
+  border-color: #6e7d9c;
   background-color: white;
   padding: 10px;
   border-radius: 10px;

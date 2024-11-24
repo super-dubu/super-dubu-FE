@@ -35,7 +35,7 @@ const TransSuccess = () => {
     const confirm = async () => {
       try {
         const { response, json } = await confirmPayment(requestData);
-        const updatedJson = { ...json, TokenID: "1159010200102140203" };
+        const updatedJson = { ...json, TokenID: "1159010100102840001" };
         setJsonData(updatedJson);
       } catch (e) {
         console.error("Error during confirmation: ", e);
@@ -130,6 +130,6 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   &:hover {
-    background-color: #1f6dea;
+    background-color: #4285f4;
   }
 `;

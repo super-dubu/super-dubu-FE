@@ -7,31 +7,34 @@ const MemberInfo = ({ item, onBack }) => {
       <InfoContainer>
         <BackButton onClick={onBack}>← 목록으로</BackButton>
         <InfoContent>
-          <h2>{item.buildingAddress}</h2>
+          <Address>{item.buildingAddress}</Address>
           <Row>
-            <Key>tokenID:</Key> <Value>{item.tokenID}</Value>
+            <Key>PNU Code</Key> <Value>{item.tokenID}</Value>
           </Row>
           <Row>
-            <Key>buildingName:</Key>{" "}
+            <Key>건물 이름</Key>{" "}
             <Value>{item.buildingName || "정보 없음"}</Value>
           </Row>
           <Row>
-            <Key>buildingPrice:</Key> <Value>{item.buildingPrice}</Value>
+            <Key>상세 주소</Key> <Value>{item.hosu || "정보 없음"}</Value>
           </Row>
           <Row>
-            <Key>confirmDate:</Key> <Value>{item.confirmDate}</Value>
+            <Key>공시지가</Key> <Value>{item.buildingPrice}</Value>
           </Row>
           <Row>
-            <Key>floorInfo:</Key> <Value>{item.floorInfo}</Value>
+            <Key>승인일자</Key> <Value>{item.confirmDate}</Value>
           </Row>
           <Row>
-            <Key>hosu:</Key> <Value>{item.hosu || "정보 없음"}</Value>
+            <Key>면적</Key> <Value>{`${(item.area / 100)} ㎡`}</Value>
           </Row>
           <Row>
-            <Key>owner:</Key> <Value>{item.owner}</Value>
+            <Key>층수</Key> <Value>{item.floorInfo}</Value>
           </Row>
           <Row>
-            <Key>roomCount:</Key> <Value>{item.roomCount}</Value>
+            <Key>소유주</Key> <Value>{item.owner}</Value>
+          </Row>
+          <Row>
+            <Key>방 개수</Key> <Value>{item.roomCount}</Value>
           </Row>
         </InfoContent>
       </InfoContainer>
@@ -48,16 +51,25 @@ const CenteredContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  width: 30rem;
+  width: 35%;
+  height: 100%;
   padding: 2rem;
   background-color: white;
-  border-radius: 15px;
+  /* border-radius: 15px; */
   margin-left: 15px;
   margin-right: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* justify-content: center; */
+`;
+
+const Address = styled.div`
+  text-align: center;
+  margin: 2rem;
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 const BackButton = styled.button`
@@ -78,12 +90,16 @@ const BackButton = styled.button`
 
 const InfoContent = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0.5rem 0;
+  gap: 1rem;
 `;
 
 const Key = styled.span`

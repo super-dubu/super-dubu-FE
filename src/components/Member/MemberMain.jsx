@@ -69,53 +69,57 @@ function MemberMain() {
         showLogout={false}
       />
       <Container>
-        {selectedItem ? (
-          <MemberInfo item={selectedItem} onBack={handleBackToList} />
-        ) : (
-          <SideBar>
-            <SearchBar>
+        <SearchBar>
               <SearchInput
-                placeholder="검색 키워드를 입력해주세요"
+                placeholder="🔍 검색 키워드를 입력해주세요"
                 value={searchQuery}
                 onChange={handleSearch}
               />
             </SearchBar>
-            <ItemContainer>
-              {totalItems === 0 ? (
-                <NoItemsMessage>해당 매물이 없습니다.</NoItemsMessage>
-              ) : (
-                currentItems.map((it, index) => (
-                  <Item key={index} onClick={() => handleItemClick(it)}>
-                    <p>{it.buildingAddress || "주소 없음"}</p>
-                  </Item>
-                ))
-              )}
-            </ItemContainer>
-            {totalItems > 0 && (
-              <Pagination>
-                <PageButton
-                  disabled={currentPage === 1}
-                  onClick={() => handlePageChange(-1)}
-                >
-                  ← 이전
-                </PageButton>
-                <PageNumber>
-                  {currentPage} / {totalPages}
-                </PageNumber>
-                <PageButton
-                  disabled={currentPage === totalPages}
-                  onClick={() => handlePageChange(1)}
-                >
-                  다음 →
-                </PageButton>
-              </Pagination>
-            )}
-          </SideBar>
+            {selectedItem ? (
+  <MemberInfo item={selectedItem} onBack={handleBackToList} />
+) : (
+  <Row>
+    <SideBar>
+      <ItemContainer>
+        {totalItems === 0 ? (
+          <NoItemsMessage>해당 매물이 없습니다.</NoItemsMessage>
+        ) : (
+          currentItems.map((it, index) => (
+            <Item key={index} onClick={() => handleItemClick(it)}>
+              {it.buildingAddress || "주소 없음"}
+            </Item>
+          ))
         )}
-        <Kmap
-          items={selectedItem ? [selectedItem] : currentItems}
-          onMarkerClick={(item) => setSelectedItem(item)}
-        />
+      </ItemContainer>
+      {totalItems > 0 && (
+        <Pagination>
+          <PageButton
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(-1)}
+          >
+            ← 이전
+          </PageButton>
+          <PageNumber>
+            {currentPage} / {totalPages}
+          </PageNumber>
+          <PageButton
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(1)}
+          >
+            다음 →
+          </PageButton>
+        </Pagination>
+      )}
+    </SideBar>
+    <MapContainer>
+      <Kmap
+        items={selectedItem ? [selectedItem] : currentItems}
+        onMarkerClick={(item) => setSelectedItem(item)}
+      />
+    </MapContainer>
+  </Row>
+)}
       </Container>
     </div>
   );
@@ -153,16 +157,24 @@ const ErrorMessage = styled.div`
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   height: 100vh;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
 `;
 
 const SideBar = styled.div`
   border-style: solid;
   border-width: 0 1.2px 0 0;
   border-color: #9b9b9b;
-  width: 35rem;
+  /* width: 35rem; */
+  flex: 3.5;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -171,16 +183,15 @@ const SideBar = styled.div`
 
 const SearchBar = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
-  height: 10rem;
+  height: 5rem;
   border-bottom: 1.2px solid #9b9b9b;
 `;
 
 const SearchInput = styled.input`
-  width: 80%;
+  width: 30rem;
   height: 2.8rem;
   border-radius: 30px;
   border: 1px solid #9b9b9b;
@@ -189,6 +200,7 @@ const SearchInput = styled.input`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-left: 1rem;
 `;
 
 const SearchOption = styled.div`
@@ -203,7 +215,6 @@ const Options = styled.div`
 `;
 
 const ItemContainer = styled.div`
-  margin-top: 1rem;
   width: 100%;
   max-height: 35rem;
   overflow-y: auto;
@@ -211,7 +222,7 @@ const ItemContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  scrollbar-width: thin;
+  /* scrollbar-width: thin;
   scrollbar-color: #b2b0b0 #f0f0f0;
   &::-webkit-scrollbar {
     width: 6px;
@@ -222,7 +233,7 @@ const ItemContainer = styled.div`
   }
   &::-webkit-scrollbar-track {
     background-color: #f0f0f0;
-  }
+  } */
 `;
 
 const NoItemsMessage = styled.div`
@@ -234,23 +245,25 @@ const NoItemsMessage = styled.div`
 `;
 
 const Item = styled.div`
-  width: 90%;
+  width: 100%;
   height: 5rem;
-  border: 1px solid #ddd;
-  margin-bottom: 1rem;
-  padding: 0.71rem;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #ccc;
+  /* font-weight: bold; */
   border-radius: 8px;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding-left: 2rem;
 `;
 
 const Pagination = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
   margin-top: 1rem;
   gap: 0.5rem;
 `;
@@ -270,7 +283,15 @@ const PageButton = styled.button`
 `;
 
 const PageNumber = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 18px;
+  /* font-weight: bold; */
   color: #545454;
+  margin: 0 10px;
+
+`;
+
+const MapContainer = styled.div`
+  /* width: 100%; */
+  flex: 6.5;
+  height: 100%;
 `;

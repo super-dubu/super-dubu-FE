@@ -7,6 +7,7 @@ import { AuthContext } from "../api/AuthContext";
 import Modal from "./BookAdmin";
 import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
+import test from '../../img/image.png'
 
 
 function MemberMypage() {
@@ -108,7 +109,7 @@ function MemberMypage() {
             {items?.data?.properties?.map((it, index) => (
               <Item key={index}>
                 <ImageArea>
-                  {it.image}
+                  <Image src={test} />
                 </ImageArea>
                 <TextArea>
                   <p>건물 이름: {it.buildingName || "정보 없음"}</p>
@@ -225,7 +226,7 @@ const ItemContainer = styled.div`
 
 const Item = styled.div`
   width: 90%;
-  height: 20rem;
+  height: 20rem; /* 고정 높이 설정 */
   border: solid 1px black;
   display: flex;
   flex-direction: row;
@@ -235,6 +236,19 @@ const TextArea = styled.div`
   
 `;
 
-const ImageArea = styled.div`
 
+const Image = styled.img`
+  width: 100%; 
+  height: auto; 
+  object-fit: cover;
+`;
+
+const ImageArea = styled.div`
+  width: 40%;
+  height: 90%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 이미지를 컨테이너 안에 숨김 처리 */
+  padding: 1rem; /* 원하는 패딩 추가 */
 `;

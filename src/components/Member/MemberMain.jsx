@@ -69,53 +69,57 @@ function MemberMain() {
         showLogout={false}
       />
       <Container>
-        {selectedItem ? (
-          <MemberInfo item={selectedItem} onBack={handleBackToList} />
-        ) : (
-          <SideBar>
-            <SearchBar>
+        <SearchBar>
               <SearchInput
-                placeholder="검색 키워드를 입력해주세요"
+                placeholder="🔍 검색 키워드를 입력해주세요"
                 value={searchQuery}
                 onChange={handleSearch}
               />
             </SearchBar>
-            <ItemContainer>
-              {totalItems === 0 ? (
-                <NoItemsMessage>해당 매물이 없습니다.</NoItemsMessage>
-              ) : (
-                currentItems.map((it, index) => (
-                  <Item key={index} onClick={() => handleItemClick(it)}>
-                    <p>{it.buildingAddress || "주소 없음"}</p>
-                  </Item>
-                ))
-              )}
-            </ItemContainer>
-            {totalItems > 0 && (
-              <Pagination>
-                <PageButton
-                  disabled={currentPage === 1}
-                  onClick={() => handlePageChange(-1)}
-                >
-                  ← 이전
-                </PageButton>
-                <PageNumber>
-                  {currentPage} / {totalPages}
-                </PageNumber>
-                <PageButton
-                  disabled={currentPage === totalPages}
-                  onClick={() => handlePageChange(1)}
-                >
-                  다음 →
-                </PageButton>
-              </Pagination>
-            )}
-          </SideBar>
+            {selectedItem ? (
+  <MemberInfo item={selectedItem} onBack={handleBackToList} />
+) : (
+  <Row>
+    <SideBar>
+      <ItemContainer>
+        {totalItems === 0 ? (
+          <NoItemsMessage>해당 매물이 없습니다.</NoItemsMessage>
+        ) : (
+          currentItems.map((it, index) => (
+            <Item key={index} onClick={() => handleItemClick(it)}>
+              <p>{it.buildingAddress || "주소 없음"}</p>
+            </Item>
+          ))
         )}
-        <Kmap
-          items={selectedItem ? [selectedItem] : currentItems}
-          onMarkerClick={(item) => setSelectedItem(item)}
-        />
+      </ItemContainer>
+      {totalItems > 0 && (
+        <Pagination>
+          <PageButton
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(-1)}
+          >
+            ← 이전
+          </PageButton>
+          <PageNumber>
+            {currentPage} / {totalPages}
+          </PageNumber>
+          <PageButton
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(1)}
+          >
+            다음 →
+          </PageButton>
+        </Pagination>
+      )}
+    </SideBar>
+    <MapContainer>
+      <Kmap
+        items={selectedItem ? [selectedItem] : currentItems}
+        onMarkerClick={(item) => setSelectedItem(item)}
+      />
+    </MapContainer>
+  </Row>
+)}
       </Container>
     </div>
   );
@@ -153,16 +157,23 @@ const ErrorMessage = styled.div`
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   height: 100vh;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+
 `;
 
 const SideBar = styled.div`
   border-style: solid;
   border-width: 0 1.2px 0 0;
   border-color: #9b9b9b;
-  width: 35rem;
+  /* width: 35rem; */
+  flex: 3.5;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -171,16 +182,15 @@ const SideBar = styled.div`
 
 const SearchBar = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
-  height: 10rem;
+  height: 5rem;
   border-bottom: 1.2px solid #9b9b9b;
 `;
 
 const SearchInput = styled.input`
-  width: 80%;
+  width: 30rem;
   height: 2.8rem;
   border-radius: 30px;
   border: 1px solid #9b9b9b;
@@ -189,6 +199,7 @@ const SearchInput = styled.input`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-left: 1rem;
 `;
 
 const SearchOption = styled.div`
@@ -273,4 +284,10 @@ const PageNumber = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   color: #545454;
+`;
+
+const MapContainer = styled.div`
+  /* width: 100%; */
+  flex: 6.5;
+  height: 100%;
 `;

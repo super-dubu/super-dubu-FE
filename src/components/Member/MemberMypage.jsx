@@ -112,9 +112,10 @@ function MemberMypage() {
                   <Image src={test} />
                 </ImageArea>
                 <TextArea>
-                  <p>건물 이름: {it.buildingName || "정보 없음"}</p>
-                  <p>주소: {it.buildingAddress || "정보 없음"}</p>
-                  <p>면적: {it.area || "정보 없음"}</p>
+                  <TextContainer>
+                    <Info>{it.buildingAddress || "정보 없음"}  {it.buildingName || ""} {it.hosu || ""}</Info>
+                    <Info>{it.itemType === "0" ? "월세" : it.itemType === "1" ? "전세" : "정보 없음"}</Info>
+                  </TextContainer>
                 </TextArea>
               </Item>
             ))}
@@ -233,7 +234,7 @@ const Item = styled.div`
 `;
 
 const TextArea = styled.div`
-  
+  flex : 6;
 `;
 
 
@@ -244,11 +245,15 @@ const Image = styled.img`
 `;
 
 const ImageArea = styled.div`
-  width: 40%;
+  flex: 4;
   height: 90%; 
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* 이미지를 컨테이너 안에 숨김 처리 */
+  /* overflow: hidden; 이미지를 컨테이너 안에 숨김 처리 */
   padding: 1rem; /* 원하는 패딩 추가 */
+`;
+
+const Info = styled.div`
+  margin: 1rem;
 `;

@@ -6,6 +6,8 @@ import MemberJoin from "./components/Member/MemberJoin.jsx";
 import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
 import BookAdmin from "./components/Member/BookAdmin.jsx";
+import ContractCheck from "./components/Member/ContractCheck.jsx";
+
 import TossPayment from "./components/api/Toss/TossPayment.jsx";
 import SuccessPage from "./components/api/Toss/Success.jsx";
 import FailPage from "./components/api/Toss/Fail.jsx";
@@ -57,6 +59,7 @@ function App() {
             <Route path="mypage" element={<MemberMypage />} />
             <Route path="" element={<MemberMain />} />
             <Route path="bookadmin" element={<BookAdmin />} />
+            <Route path="check" element={<ContractCheck />} />
 
             <Route
               path="contract"

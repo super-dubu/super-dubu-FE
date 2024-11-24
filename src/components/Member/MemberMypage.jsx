@@ -13,6 +13,8 @@ import ContractCheck from "./ContractCheck";
 function MemberMypage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // 예약 정보 가져오기
   const { data: booking, isLoading: bookingLoading } = getData(
@@ -52,9 +54,19 @@ function MemberMypage() {
     });
   };
 
-  if (bookingLoading || itemsLoading) {
-    return <p>로딩 중...</p>;
-  }
+  // if (bookingLoading || itemsLoading) {
+  //   return <p>로딩 중...</p>;
+  // }
+
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedImage(null);
+  };
 
   return (
     <div>
@@ -81,23 +93,23 @@ function MemberMypage() {
                   </Row>
                   <TextContainer>
                     <Text>
-                      예약자 이름 <Bold>{book.name}</Bold>
+                    <Bold>예약자 이름</Bold> {book.name}
                     </Text>
                     <Text>
-                      연락처 <Bold>{book.contact}</Bold>
+                    <Bold>연락처</Bold> {book.contact}
                     </Text>
                     <Text>
-                      상담 매물{" "}
-                      <Bold>
+                      <Bold>상담 매물{" "}</Bold>
+                      
                         {matchedItem
                           ? matchedItem.buildingAddress
                           : "정보 없음"}{" "}
                         {matchedItem ? matchedItem.buildingName : "정보 없음"}{" "}
                         {matchedItem ? matchedItem.hosu : "정보 없음"}
-                      </Bold>
+                      
                     </Text>
                     <Text>
-                      요청 사항 <Bold>{book.requests}</Bold>
+                    <Bold>요청 사항</Bold> {book.requests}
                     </Text>
                   </TextContainer>
                 </BookContent>
@@ -111,13 +123,30 @@ function MemberMypage() {
             {items?.data?.properties?.map((it, index) => (
               <Item key={index}>
                 <ImageArea>
-                  <Image src={test} />
+                  {it.image?.map((img, i) => (
+                  <Image
+                    key={i}
+                    src={img}
+                    alt={`image-${i}`}
+                    onClick={() => openModal(img)}
+                  />
+                ))}
                 </ImageArea>
                 <TextArea>
-                  <TextContainer>
-                    <Info>{it.buildingAddress || "정보 없음"}  {it.buildingName || ""} {it.hosu || ""}</Info>
-                    <Info>{it.itemType === "0" ? "월세" : it.itemType === "1" ? "전세" : "정보 없음"}</Info>
-                  </TextContainer>
+                <TextContainer>
+                  <Price>
+                    {it.itemType === "1" ? "월세 " : it.itemType === "0" ? "전세 " : "정보 없음"} 
+                    {it.priceRental} 
+                    {it.priceMonthly ? ` / ${it.priceMonthly}` : ""}
+                  </Price>
+                  <Info>
+                    {it.buildingAddress || "정보 없음"} {it.buildingName || ""} {it.hosu || ""}
+                  </Info>
+                  <Info>
+                    {it.area ? `${(it.area / 100).toFixed(2)} ㎡` : "정보 없음"} {it.floorInfo ? `, ${it.floorInfo}층` : ""} {it.manageFee ? `, 관리비 ${it.manageFee}만원` : ""}
+                  </Info>
+                  <Info>{it.body || ""}</Info>
+                </TextContainer>
                 </TextArea>
               </Item>
             ))}
@@ -173,6 +202,7 @@ const BookContent = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   position: relative;
   margin-left: -3rem;
+  /* padding: 1rem; */
 `;
 
 const Time = styled.div`
@@ -181,14 +211,17 @@ const Time = styled.div`
   font-size: 18px;
 `;
 
-const Text = styled.div``;
+const Text = styled.div`
+  width: 90%;
+`;
 
 const TextContainer = styled.div`
+  width: 100%;
   margin-left: 1rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #595959;
+  color: #121212;
 `;
 
 const Button = styled.button`
@@ -211,8 +244,8 @@ const Row = styled.div`
 `;
 
 const Bold = styled.span`
-  margin-left: 5px;
-  color: #121212;
+  margin-right: 5px;
+  color: #878585;
 `;
 
 const ItemContainer = styled.div`
@@ -220,21 +253,33 @@ const ItemContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
-  gap: 2rem;
+  /* margin-top: 3rem; */
   overflow-y: auto;
+  /* border-style: solid;
+  border-width: 1px 0 0 0;
+  border-color: #b9b9b9; */
 `;
 
 const Item = styled.div`
-  width: 90%;
+  width: 100%;
   height: 20rem; /* 고정 높이 설정 */
-  border: solid 1px black;
   display: flex;
   flex-direction: row;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #b9b9b9;
 `;
 
 const TextArea = styled.div`
   flex : 6;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem 2rem 0;
+  justify-content: center;
+`;
+
+const Info = styled.div`
+
 `;
 
 
@@ -251,9 +296,10 @@ const ImageArea = styled.div`
   justify-content: center;
   align-items: center;
   /* overflow: hidden; 이미지를 컨테이너 안에 숨김 처리 */
-  padding: 1rem; /* 원하는 패딩 추가 */
+  padding: 1rem;
 `;
 
-const Info = styled.div`
-  margin: 1rem;
+const Price = styled.div`
+  font-size: 18px;
+  font-weight: bold;
 `;

@@ -27,14 +27,18 @@ function MemberMypage() {
   );
 
   console.log("items", items);
+  console.log("booking", booking);
 
   // 예약 목록 정렬 함수
   const sortedBookings =
     booking?.data?.reservation_list?.slice().sort((a, b) => {
-      const dateTimeA = new Date(`${a.date}T${a.time}`);
-      const dateTimeB = new Date(`${b.date}T${b.time}`);
+      const dateTimeA = new Date(a.date);
+      const dateTimeB = new Date(b.date);
+      console.log("Sorting Dates:", dateTimeA, dateTimeB)
       return dateTimeA - dateTimeB; // 가까운 날짜/시간 순으로 정렬
     }) || [];
+
+    // {sortedBookings ? console.log("Sorting Dates:", dateTimeA, dateTimeB) : ""};
 
   // Contract1으로 이동
   const goToContract = (bookItemID) => {
@@ -68,6 +72,31 @@ function MemberMypage() {
     setSelectedImage(null);
   };
 
+  const handleCancelBooking = (bookingID) => {
+    const confirmCancel = window.confirm("예약 취소 알림이 예약자에게 따로 가지 않습니다. \n정말 예약을 취소하시겠습니까?");
+    if (confirmCancel) {
+      // 예약 취소 API 요청 또는 상태 업데이트
+      fetch(`${import.meta.env.VITE_BACK_URL}/reservation/delete/${bookingID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("예약 취소에 실패했습니다.");
+          }
+          // 성공적으로 삭제 후 예약 목록 갱신
+          alert("예약이 성공적으로 취소되었습니다.");
+          window.location.reload(); // 삭제 후 페이지 새로고침 (또는 상태 갱신)
+        })
+        .catch((error) => {
+          console.error("예약 취소 중 오류 발생:", error);
+          alert("예약 취소 중 문제가 발생했습니다.");
+        });
+    }
+  };
+
   return (
     <div>
       {user && <Header showLogout={true} />}
@@ -83,13 +112,14 @@ function MemberMypage() {
 
               return (
                 <BookContent key={book.itemID}>
+                    <Cancle onClick={() => handleCancelBooking(book.bookID)}>✕</Cancle>
                   <Row>
                     <Time>
                       {book.date.slice(0, 10)} {book.time}
                     </Time>
-                    <Button onClick={() => goToContract(book.itemID)}>
-                      계약 진행하기
-                    </Button>
+                      <Button onClick={() => goToContract(book.itemID)}>
+                        계약 진행하기
+                      </Button>
                   </Row>
                   <TextContainer>
                     <Text>
@@ -210,6 +240,24 @@ const Time = styled.div`
   font-weight: bold;
   font-size: 18px;
 `;
+const Cancle = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* width: 2rem;
+  height: 2rem;
+  border: 1px solid #595959; */
+  /* border-radius: 50%; */
+  cursor: pointer;
+  /* margin-left: 1rem; 왼쪽 여백 추가 */
+  padding-left : 1rem;
+  padding-top: 1rem;
+  color: #595959;
+  background-color: white;
+  font-weight: bold;
+  /* width: 2rem;
+  height: 2rem; */
+`;
 
 const Text = styled.div`
   width: 90%;
@@ -239,8 +287,10 @@ const Button = styled.button`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 1rem;
   justify-content: center;
+  align-items: center; /* Row의 세로 중심에 배치 */
+  width: 100%;
+  /* padding: 0 1rem; Row의 양쪽 여백 추가 */
 `;
 
 const Bold = styled.span`

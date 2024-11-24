@@ -9,6 +9,8 @@ const ContractCheck = () => {
   const { data: contract, isLoading, isError } = GetData("/HLF/getAllContract");
   const [selectedStatus, setSelectedStatus] = useState("PENDING");
 
+  console.log(contract);
+
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
   };
@@ -55,11 +57,11 @@ const ContractCheck = () => {
           ) : (
             filteredContracts.map((item, index) => (
               <ContractItem key={index}>
-                <p>건물명: {item.itemInfo.buildingName}</p>
-                <p>주소: {item.itemInfo.buildingAddress}</p>
-                <p>상태: {item.itemInfo.status}</p>
-                <p>계약자: {item.lesseeName}</p>
-                <p>계약 시작일: {item.startDate}</p>
+                <p><span>건물명</span>  {item.itemInfo.buildingName || "정보 없음"}</p>
+                <p><span>주소</span>  {item.itemInfo.buildingAddress || "정보 없음"}</p>
+                <p><span>상태</span>  {item.itemInfo.status || "정보 없음"}</p>
+                <p><span>계약자</span>  {item.lesseeName || "정보 없음"}</p>
+                <p><span>계약일</span>   {item.tradeDate || "정보 없음"}</p>
               </ContractItem>
             ))
           )}
@@ -86,6 +88,7 @@ const FilterButton = styled.button`
   padding: 0.5rem 1rem;
   background-color: ${(props) => (props.active ? "#6e7d9c" : "#ccc")};
   color: white;
+  font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -105,17 +108,24 @@ const ContractItem = styled.div`
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  /* background-color: #f9f9f9; */
 
   p {
     margin: 0.3rem 0;
     font-size: 0.9rem;
   }
+
+  span{
+    color: #595959;
+    margin-right: 5px;
+    width: 4rem;
+  }
 `;
 
 const Message = styled.div`
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #333;
+  margin-top: 2rem;
 `;

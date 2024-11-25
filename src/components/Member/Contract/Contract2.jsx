@@ -66,7 +66,7 @@ function Contract2() {
           <Address>
             <Row>
               <BoldText>소재지</BoldText>
-              <String variant="medium">
+              <String variant="long">
                 {itemInfo?.buildingAddress || "기본 주소"}
               </String>
             </Row>
@@ -81,21 +81,21 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>토지</BoldText>
-                지목 &nbsp;<StringInput variant="medium" disabled/>
+                지목 &nbsp;<StringInput variant="small" disabled/>
               </Row>
               <Row>
                 <BoldText></BoldText>
-                면적 &nbsp;<StringInput variant="medium" disabled/> ㎡
+                면적 &nbsp;<StringInput variant="small" disabled/> ㎡
               </Row>
             </Can>
             <Can>
               <Row>
                 <BoldText>건물</BoldText>
-                지목 &nbsp;<StringInput variant="medium"></StringInput>
+                지목 &nbsp;<StringInput variant="small" defaultValue="대지"></StringInput>
               </Row>
               <Row>
                 <BoldText />
-                면적 &nbsp; <String variant="medium">{itemInfo?.area / 100}</String> ㎡
+                면적 &nbsp; <StringInput variant="small" defaultValue={itemInfo?.area / 100}></StringInput> ㎡
               </Row>
             </Can>
           </Area>
@@ -232,7 +232,8 @@ const AddressButton = styled.button`
 const BoldText = styled.div`
   font-weight: bold;
   text-align: left;
-  width: 10rem;
+  width: auto;
+  min-width: 6rem;
   padding-left: 1rem;
   font-size: 18px;
 `;
@@ -285,7 +286,7 @@ const StringInput = styled.input`
           min-width: 320px;
         `
       : css`
-          min-width: 150px;
+          min-width: 30%;
         `}
 `;
 

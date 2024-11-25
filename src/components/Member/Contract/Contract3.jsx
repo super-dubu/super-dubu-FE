@@ -231,7 +231,7 @@ const Input = styled.input`
   border-width: 0 0 1px 0;
   font-size: 18px;
   ::placeholder{
-     font-size: 18px;
+     font-size: 16px !important;
      color: #595959;
     }
 `;

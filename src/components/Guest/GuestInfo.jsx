@@ -45,15 +45,15 @@ const GuestInfo = ({ item, onClose }) => {
       <InfoSection>
         <h3>가격 정보</h3>
         <InfoRow>
-          <Label>월세:</Label>
-          <Value>{item.priceMonthly}</Value>
+          <Label>월세</Label>
+          <span>{item.priceMonthly}</span>
         </InfoRow>
         <InfoRow>
-          <Label>보증금:</Label>
+          <Label>보증금</Label>
           <Value>{item.priceRental}</Value>
         </InfoRow>
         <InfoRow>
-          <Label>관리비:</Label>
+          <Label>관리비</Label>
           <Value>매월 {item.manageFee}만원 (수도, 가스 포함)</Value>
         </InfoRow>
       </InfoSection>
@@ -64,26 +64,26 @@ const GuestInfo = ({ item, onClose }) => {
           <Value>{item.hosu}</Value>
         </InfoRow>
         <InfoRow>
-          <Label>면적:</Label>
+          <Label>면적</Label>
           <Value>{Math.round(parseFloat(item.area) * 0.3025) / 100}평</Value>
         </InfoRow>
         <InfoRow>
-          <Label>방 수 / 욕실 수:</Label>
+          <Label>방 수 / 욕실 수</Label>
           <Value>
             {item.roomCount}개 / {item.bathroom}개
           </Value>
         </InfoRow>
         <InfoRow>
-          <Label>입주 가능일:</Label>
+          <Label>입주 가능일</Label>
           <Value>{item.availableDate}</Value>
         </InfoRow>
       </InfoSection>
       <InfoSection>
         <h3>공인중개인 정보</h3>
-        <p>중개 사무소 정보: {item.memberOffice}</p>
-        <p>중개인: {item.member}</p>
-        <p>중개 등록 번호: {item.memberRegister}</p>
-        <p>대표 번호: {item.memberNumber}</p>
+        <p><span>중개 사무소 정보</span> {item.memberOffice}</p>
+        <p><span>중개인</span> {item.member}</p>
+        <p><span>중개 등록 번호</span> {item.memberRegister}</p>
+        <p><span>대표 번호</span> {item.memberNumber}</p>
       </InfoSection>
       <Footer>
         <Button
@@ -142,6 +142,12 @@ const InfoSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  color: #121212;
+
+  span {
+    font-weight: bold;
+    margin-right: 5px;
+  }
 `;
 
 const Title = styled.h2`
@@ -162,12 +168,13 @@ const Footer = styled.div`
 `;
 
 const Button = styled.button`
-  padding: 10px 20px;
+  padding: 15px 25px;
   font-size: 16px;
+  font-weight: bold;
   border: none;
-  background-color: #000;
+  background-color: #6e7d9c;
   color: #fff;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
 `;
 
@@ -175,17 +182,21 @@ const InfoRow = styled.div`
   display: flex;
   justify-content: space-between; /* 분류와 데이터 값 사이를 간격으로 정렬 */
   align-items: center; /* 수직 정렬 */
-  color: #767676; /* 분류 텍스트 색상 */
   padding: 4px 0; /* 위아래 패딩 추가 */
 `;
 
-const Label = styled.span`
+const Label = styled.div`
   font-weight: bold;
   color: #767676; /* 분류 텍스트 색상 */
+
+  /* span{
+    color: #121212;
+    text-align: left;
+  } */
 `;
 
 const Value = styled.span`
-  color: #000; /* 데이터 값 텍스트 색상 */
+  color: #121212; /* 데이터 값 텍스트 색상 */
   text-align: left; /* 왼쪽 정렬 */
 `;
 

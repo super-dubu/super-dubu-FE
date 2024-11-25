@@ -231,7 +231,7 @@ const FilterBar = styled.div`
   gap: 1rem;
   background-color: #f1f1f1;
   padding: 1rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
 `;
 
 const FilterButton = styled.button`
@@ -239,6 +239,7 @@ const FilterButton = styled.button`
   background-color: ${(props) => (props.isActive ? "#6e7d9c" : "white")};
   color: ${(props) => (props.isActive ? "white" : "#333")};
   border: 1px solid #ccc;
+  font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
   &:hover {
@@ -270,21 +271,25 @@ const CategoryContainer = styled.div`
   width: 90px;
   height: 100px;
   padding: 5px;
+  margin: 5px;
   cursor: pointer;
+  color: #595959;
   ${(props) =>
     props.isSelected &&
     css`
       border: 2px solid blue;
       border-color: #6c76a8;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-      border-radius: 30px;
+      border-radius: 20px;
       color: #6c76a8;
       font-weight: bold;
+      padding: 5px;
+      margin: 5px;
     `}
 `;
 
 const Category = styled.div`
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   margin-top: 3px;
   font-size: 14px;
 `;

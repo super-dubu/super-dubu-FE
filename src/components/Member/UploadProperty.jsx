@@ -463,7 +463,7 @@ const StringInput = styled.input`
   border-color: #848484;
   border-width: 0.8px;
   height: 1.5rem;
-  margin-right: 3px;
+  margin: 5px 3px 5px 0;
 
   ${({ variant }) =>
     variant === "long"
@@ -490,7 +490,8 @@ const AddressButton = styled.button`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  /* height : 2.5rem; */
+  height : auto;
+  /* padding: 5px; */
   border-bottom: 1px solid #000;
   align-items: center;
 `;
@@ -509,7 +510,7 @@ const FullWidth = styled.div`
   align-items: center;
   text-align: left;
   border-style: solid;
-  border-width: 0 1px 0 0;
+  border-width: 0 0 0 0;
   height: 100%;
   width: 100%;
 `;
@@ -549,7 +550,7 @@ const Photo = styled.img`
 `;
 
 const Caution = styled.div`
-  margin-top: -5px;
+  /* margin-top: px; */
   font-size: 12px;
   color: #c75f5f;
 `;
@@ -581,4 +582,8 @@ const DetailContent = styled.div`
   border-width: 0 1px 0 0;
   height: 100%;
   width: 50%;
+
+  &:last-child{
+    border: none;
+  }
 `;

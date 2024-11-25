@@ -64,10 +64,11 @@ const GuestBook = () => {
       <FormContainer>
         <Header>
           <Title>
-            공인중개인 {it.member} ( {it.memberOffice} )
+            <span>공인중개인</span> {it.member} ( {it.memberOffice} )
           </Title>
         </Header>
         <Separator />
+        <Container>
         <Form>
           <FormGroup>
             <Label>예약자 이름</Label>
@@ -143,6 +144,7 @@ const GuestBook = () => {
             예약 신청하기
           </Button>
         </Form>
+        </Container>
       </FormContainer>
 
       {isDateModalOpen && (
@@ -274,7 +276,7 @@ const FormContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
 `;
 
 const Header = styled.div`
@@ -283,35 +285,51 @@ const Header = styled.div`
   width: 100%;
 `;
 
+const Container = styled.div`
+  background-color: #f7f9fc;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+`;
+
 const Title = styled.h1`
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   color: #333;
-  padding-left: 2rem;
+  margin-left: 2rem;
+
+  span{
+    /* font-weight: 500; */
+    color: #737373;
+    margin-right: 5px;
+  }
 `;
 
 const Separator = styled.div`
   width: 100%;
   height: 1px;
   background-color: #ccc;
-  margin-bottom: 2rem;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 40%;
+  /* background-color: #f7f9fc */
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 1rem;
 `;
 
-const Label = styled.label`
+const Label = styled.div`
   font-size: 14px;
+  font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #595959;
 `;
 
 const Input = styled.input`
@@ -348,14 +366,15 @@ const TextArea = styled.textarea`
 `;
 
 const Button = styled.button`
-  padding: 0.8rem;
+  padding: 1rem;
   background-color: ${(props) => (props.disabled ? "#ccc" : "#6e7d9c")};
   color: white;
   font-size: 14px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 100%;
   margin-top: 1rem;
+  font-weight: bold;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 
   &:hover {
@@ -383,7 +402,7 @@ const ModalContent = styled.div`
   width: 400px;
 
   h3 {
-    margin-bottom: 1rem;
+    padding-bottom: 1rem;
   }
 `;
 
@@ -412,11 +431,13 @@ const TimeButtonRow = styled.div`
 
 const TimeButton = styled.button`
   padding: 0.5rem 1rem;
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
+  background-color: white;
+  border: 1px solid #595959;
   border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
+  color: #595959;
+  font-weight: bold;
 
   &:hover {
     background-color: #e0e0e0;

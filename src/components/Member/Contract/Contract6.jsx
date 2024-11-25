@@ -47,26 +47,26 @@ function Contract6() {
         <Title>주요 계약 사항 확인</Title>
         <AgentBox>
           <Column>
-            <Row>매물 번호 : {itemLog.itemInfo.itemID}</Row>
+            <Row><span>매물 번호</span>{itemLog.itemInfo.itemID}</Row>
             <Row>
-              주소 :{" "}
-              {`${itemLog.itemInfo.buildingAddress} ${itemLog.itemInfo.hosu}`}{" "}
+              <span>주소</span> {" "}<Address>
+              {`${itemLog.itemInfo.buildingAddress} ${itemLog.itemInfo.hosu}`}{" "}</Address>
             </Row>
             <Row>
-              계약 종류 :{" "}
-              {itemLog?.itemInfo?.itemType === "0"
+              <span>계약 종류</span> {" "}
+              {itemLog?.itemInfo?.itemType === "1"
                 ? "월세"
-                : itemLog?.itemInfo?.itemType === "1"
+                : itemLog?.itemInfo?.itemType === "0"
                   ? "전세"
                   : "정보 없음"}{" "}
             </Row>
-            <Row>특약 : {itemLog.itemInfo.body}</Row>
+            {/* <Row><span>특약</span>  {itemLog.itemInfo.body}</Row> */}
           </Column>
           <Column>
-            <Row>보증금 : {itemLog.itemInfo.priceRental}</Row>
-            <Row>월세 : {itemLog.itemInfo.priceMonthly}</Row>
-            <Row>관리비 : {itemLog.itemInfo.manageFee}</Row>
-            <Row>중개업자명 : {userData.agentName}</Row>
+            <Row><span>보증금</span>  {itemLog.itemInfo.priceRental}</Row>
+            <Row><span>월세</span>  {itemLog.itemInfo.priceMonthly ? itemLog.itemInfo.priceMonthly : "해당 없음"}</Row>
+            <Row><span>관리비</span>  {itemLog.itemInfo.manageFee}</Row>
+            <Row><span>중개업자명</span>  {userData.agentName}</Row>
           </Column>
         </AgentBox>
         <Button onClick={handleComplete}>계약 완료하기</Button>
@@ -105,7 +105,7 @@ const QRBox = styled.div`
 
 const AgentBox = styled.div`
   width: 80%;
-  height: 15rem;
+  min-height: 15rem;
   border: solid 1px;
   display: flex;
   flex-direction: row;
@@ -117,6 +117,8 @@ const AgentBox = styled.div`
 
 const Column = styled.div`
   display: flex;
+  width: 50%;
+  padding-left: 3rem;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -124,7 +126,14 @@ const Column = styled.div`
 `;
 
 const Row = styled.div`
-  font-weight: bold;
+  /* font-weight: bold; */
+
+  span {
+    color: #9b9B9B;
+    display: inline-block;
+    width: 5rem;
+    font-weight: bold;
+  }
 `;
 
 const Button = styled.button`
@@ -138,4 +147,8 @@ const Button = styled.button`
   color: white;
   font-weight: bold;
   cursor: pointer;
+`;
+
+const Address = styled.div`
+  margin-top: 8px;
 `;

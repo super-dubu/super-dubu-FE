@@ -16,6 +16,8 @@ function MemberMypage() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const {data : contract, contractLoading, contractError} = getData("/HLF/getAllContract");
+
   // 예약 정보 가져오기
   const { data: booking, isLoading: bookingLoading } = getData(
     `/reservation/view/${user?.registerID}`
@@ -29,9 +31,20 @@ function MemberMypage() {
   console.log("items", items);
   console.log("booking", booking);
 
+  const completedItemIDs = contract?.data?.result
+    ?.filter((item) => item.itemInfo?.status) // 완료된 계약 필터링
+    ?.map((item) => item.itemInfo?.itemID); // itemID만 추출
+
+  console.log("완료된 계약 itemID:", completedItemIDs);
+
+  // 예약 목록에서 완료된 계약 제거
+  const filteredBookings = booking?.data?.reservation_list?.filter(
+    (book) => !completedItemIDs?.includes(book.itemID)
+  );
+
   // 예약 목록 정렬 함수
   const sortedBookings =
-    booking?.data?.reservation_list?.slice().sort((a, b) => {
+  filteredBookings?.slice().sort((a, b) => {
       const dateTimeA = new Date(a.date);
       const dateTimeB = new Date(b.date);
       console.log("Sorting Dates:", dateTimeA, dateTimeB)

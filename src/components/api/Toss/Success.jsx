@@ -25,7 +25,7 @@ const TransSuccess = () => {
       );
       console.log(res);
       alert("결제가 승인되었습니다.");
-      navigate("/member");
+      navigate("/member/mypage");
     } catch (e) {
       console.error("Error:", e);
     }

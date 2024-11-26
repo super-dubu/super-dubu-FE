@@ -3,6 +3,7 @@ import styled from "styled-components";
 import logo from "../../img/logo.png";
 import cryptoJs from "crypto-js";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function MobileAuth() {
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
@@ -10,6 +11,8 @@ function MobileAuth() {
   const [part2, setPart2] = useState(""); // 주민번호 뒤 7자리
   const [isAuthComplete, setIsAuthComplete] = useState(false); // 인증 여부
   const [name, setName] = useState(""); // 이름
+  const {hashCode} = useParams();
+  console.log("Param", hashCode);
 
   // 주민등록번호 합치기
   const fullNationalID = `${part1}-${part2}`;

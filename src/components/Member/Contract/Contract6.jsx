@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../MemberHeader";
 import styled from "styled-components";
 import { QRCodeCanvas } from "qrcode.react";
@@ -6,6 +6,7 @@ import { AuthContext } from "../../api/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ContractContext } from "../../api/ContractContext";
 import axios from "axios";
+import cryptoJs from "crypto-js";
 
 function Contract6() {
   const { user } = useContext(AuthContext);
@@ -14,8 +15,38 @@ function Contract6() {
   console.log("Processed userData:", userData);
   const navigate = useNavigate();
   const { itemLog, setItemLog } = useContext(ContractContext);
+  const [isVerified, setIsVerified] = useState(false);
+  const [hashCode, setHashCode] = useState("");
+
 
   console.log("Contract6", itemLog);
+
+  useEffect(() => {
+    // 해시코드 생성
+    const generatedHash = cryptoJs
+      .SHA256(itemLog.itemInfo.itemID + Date.now())
+      .toString()
+      .slice(2, 12);
+    setHashCode(generatedHash);
+    console.log(generatedHash);
+
+    // 폴링으로 인증 상태 확인
+    const interval = setInterval(async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACK_URL}/verifyauth/${generatedHash}`
+        );
+        if (response?.status === 200) {
+          setIsVerified(true);
+          clearInterval(interval); // 폴링 중지
+        }
+      } catch (error) {
+        console.error("Error verifying authentication:", error);
+      }
+    }, 3000); // 3초마다 확인
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 폴링 중지
+  }, [itemLog]);
 
   const handleComplete = async () => {
     try {
@@ -39,10 +70,14 @@ function Contract6() {
         <Title>상호 계약 확인 인증</Title>
         <Plz>*휴대폰으로 QR 코드를 스캔하여 인증한 후 계약을 완료하세요.</Plz>
         <QRBox>
-          <QRCodeCanvas
-            value={`${import.meta.env.VITE_FRONT_URL}/mobileauth`}
-            size={300}
-          />
+          {isVerified ? (
+              <VerifiedMessage>인증이 확인되었습니다</VerifiedMessage>
+            ) : (
+              <QRCodeCanvas
+                value={`${import.meta.env.VITE_FRONT_URL}/auth/${hashCode}`}
+                size={300}
+              />
+            )}
         </QRBox>
         <Title>주요 계약 사항 확인</Title>
         <AgentBox>
@@ -69,7 +104,7 @@ function Contract6() {
             <Row><span>중개업자명</span>  {userData.agentName}</Row>
           </Column>
         </AgentBox>
-        <Button onClick={handleComplete}>계약 완료하기</Button>
+        <Button onClick={handleComplete} disabled={!isVerified}>계약 완료하기</Button>
       </Container>
     </div>
   );

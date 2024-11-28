@@ -11,8 +11,7 @@ function MobileAuth() {
   const [part2, setPart2] = useState(""); // 주민번호 뒤 7자리
   const [isAuthComplete, setIsAuthComplete] = useState(false); // 인증 여부
   const [name, setName] = useState(""); // 이름
-  const {hashCode} = useParams();
-  console.log("Param", hashCode);
+  const { hashcode } = useParams();
 
   // 주민등록번호 합치기
   const fullNationalID = `${part1}-${part2}`;
@@ -40,7 +39,7 @@ function MobileAuth() {
       const response = await axios.get(
         `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
         {
-          params: { name: decodeURI(name), code: hashedCode },
+          params: { name: decodeURI(name), code: hashedCode, qrID: hashcode },
         }
       );
 

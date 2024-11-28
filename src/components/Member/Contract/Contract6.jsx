@@ -10,16 +10,11 @@ import cryptoJs from "crypto-js";
 
 function Contract6() {
   const { user } = useContext(AuthContext);
-  console.log("Original user", user);
   const userData = user ? user : { user: "" };
-  console.log("Processed userData:", userData);
   const navigate = useNavigate();
   const { itemLog, setItemLog } = useContext(ContractContext);
   const [isVerified, setIsVerified] = useState(false);
   const [hashCode, setHashCode] = useState("");
-
-
-  console.log("Contract6", itemLog);
 
   useEffect(() => {
     // 해시코드 생성
@@ -28,13 +23,18 @@ function Contract6() {
       .toString()
       .slice(2, 12);
     setHashCode(generatedHash);
-    console.log(generatedHash);
+    console.log(hashCode);
 
     // 폴링으로 인증 상태 확인
     const interval = setInterval(async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACK_URL}/verifyauth/${generatedHash}`
+          `${import.meta.env.VITE_BACK_URL}/hlf/verifyauth`,
+          {
+            params: {
+              qrID: hashCode,
+            },
+          }
         );
         if (response?.status === 200) {
           setIsVerified(true);
@@ -71,24 +71,29 @@ function Contract6() {
         <Plz>*휴대폰으로 QR 코드를 스캔하여 인증한 후 계약을 완료하세요.</Plz>
         <QRBox>
           {isVerified ? (
-              <VerifiedMessage>인증이 확인되었습니다</VerifiedMessage>
-            ) : (
-              <QRCodeCanvas
-                value={`${import.meta.env.VITE_FRONT_URL}/auth/${hashCode}`}
-                size={300}
-              />
-            )}
+            <div>인증이 확인되었습니다</div>
+          ) : (
+            <QRCodeCanvas
+              value={`${import.meta.env.VITE_FRONT_URL}/auth/${hashCode}`}
+              size={300}
+            />
+          )}
         </QRBox>
         <Title>주요 계약 사항 확인</Title>
         <AgentBox>
           <Column>
-            <Row><span>매물 번호</span>{itemLog.itemInfo.itemID}</Row>
             <Row>
-              <span>주소</span> {" "}<Address>
-              {`${itemLog.itemInfo.buildingAddress} ${itemLog.itemInfo.hosu}`}{" "}</Address>
+              <span>매물 번호</span>
+              {itemLog.itemInfo.itemID}
             </Row>
             <Row>
-              <span>계약 종류</span> {" "}
+              <span>주소</span>{" "}
+              <Address>
+                {`${itemLog.itemInfo.buildingAddress} ${itemLog.itemInfo.hosu}`}{" "}
+              </Address>
+            </Row>
+            <Row>
+              <span>계약 종류</span>{" "}
               {itemLog?.itemInfo?.itemType === "1"
                 ? "월세"
                 : itemLog?.itemInfo?.itemType === "0"
@@ -98,13 +103,26 @@ function Contract6() {
             {/* <Row><span>특약</span>  {itemLog.itemInfo.body}</Row> */}
           </Column>
           <Column>
-            <Row><span>보증금</span>  {itemLog.itemInfo.priceRental}</Row>
-            <Row><span>월세</span>  {itemLog.itemInfo.priceMonthly ? itemLog.itemInfo.priceMonthly : "해당 없음"}</Row>
-            <Row><span>관리비</span>  {itemLog.itemInfo.manageFee}</Row>
-            <Row><span>중개업자명</span>  {userData.agentName}</Row>
+            <Row>
+              <span>보증금</span> {itemLog.itemInfo.priceRental}
+            </Row>
+            <Row>
+              <span>월세</span>{" "}
+              {itemLog.itemInfo.priceMonthly
+                ? itemLog.itemInfo.priceMonthly
+                : "해당 없음"}
+            </Row>
+            <Row>
+              <span>관리비</span> {itemLog.itemInfo.manageFee}
+            </Row>
+            <Row>
+              <span>중개업자명</span> {userData.agentName}
+            </Row>
           </Column>
         </AgentBox>
-        <Button onClick={handleComplete} disabled={!isVerified}>계약 완료하기</Button>
+        <Button onClick={handleComplete} disabled={!isVerified}>
+          계약 완료하기
+        </Button>
       </Container>
     </div>
   );
@@ -164,7 +182,7 @@ const Row = styled.div`
   /* font-weight: bold; */
 
   span {
-    color: #9b9B9B;
+    color: #9b9b9b;
     display: inline-block;
     width: 5rem;
     font-weight: bold;
@@ -177,11 +195,12 @@ const Button = styled.button`
   margin: 3rem;
   border-radius: 15px;
   border-style: none;
-  background-color: #6e7d9c;
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#6E7D9C")};
   font-size: 20px;
-  color: white;
+  color: ${(props) => (props.disabled ? "#666" : "white")};
   font-weight: bold;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 
 const Address = styled.div`

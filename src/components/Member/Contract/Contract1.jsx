@@ -5,97 +5,127 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import cryptoJs from "crypto-js";
 import { ContractContext } from "../../api/ContractContext";
+import { QRCodeCanvas } from "qrcode.react";
 
 function Contract1() {
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
 
-  const [nameLessor, setNameLessor] = useState("");
-  const [idLessor, setIdLessor] = useState("");
-  const [isLessorAuthComplete, setIsLessorAuthComplete] = useState(false);
-  const [nameLessee, setNameLessee] = useState("");
-  const [idLessee, setIdLessee] = useState("");
-  const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
+  // const [nameLessor, setNameLessor] = useState("");
+  // const [idLessor, setIdLessor] = useState("");
+  // const [isLessorAuthComplete, setIsLessorAuthComplete] = useState(false);
+  // const [nameLessee, setNameLessee] = useState("");
+  // const [idLessee, setIdLessee] = useState("");
+  // const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = useState("");
-  const [lessorPhone, setLessorPhone] = useState("");
-  const [lesseePhone, setLesseePhone] = useState("");
+  const [hashCode, setHashCode] = useState("");
 
   const location = useLocation();
   const { itemInfo } = location.state || {};
 
   const { itemLog, setItemLog } = useContext(ContractContext);
-  {
-    itemLog ? console.log("initial itemLog", itemLog) : "";
-  }
-
   const navigate = useNavigate();
 
-  const handleNameChange = (type, value) => {
-    setItemLog((prev) => ({
-      ...prev,
-      [type === "lessor" ? "lessorName" : "lesseeName"]: value,
-    }));
-  };
+  // const handleNameChange = (type, value) => {
+  //   setItemLog((prev) => ({
+  //     ...prev,
+  //     [type === "lessor" ? "lessorName" : "lesseeName"]: value,
+  //   }));
+  // };
 
-  const handlePhoneChange = (type, value) => {
-    setItemLog((prev) => ({
-      ...prev,
-      [type === "lessor" ? "lessorPhone" : "lesseePhone"]: value,
-    }));
-  };
-
-  console.log("lesseePhone", lesseePhone);
-  console.log("lessorPhone", lessorPhone);
+  // const handlePhoneChange = (type, value) => {
+  //   setItemLog((prev) => ({
+  //     ...prev,
+  //     [type === "lessor" ? "lessorPhone" : "lesseePhone"]: value,
+  //   }));
+  // };
 
   //디버깅용
   useEffect(() => {
     // itemLog가 변경될 때마다 출력
-    console.log("Contract 1 Updated itemLog:", itemLog);
+    const generatedHash = cryptoJs
+      .SHA256(Date.now() + ENC_KEY)
+      .toString()
+      .slice(2, 12);
+    setHashCode(generatedHash);
+    console.log(hashCode);
+
+    // 폴링으로 인증 상태 확인
+    const interval = setInterval(async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACK_URL}/hlf/verifyauth`,
+          {
+            params: {
+              qrID: hashCode,
+            },
+          }
+        );
+        if (response?.status === 200) {
+          setIsVerified(true);
+          clearInterval(interval); // 폴링 중지
+        }
+      } catch (error) {
+        console.error("Error verifying authentication:", error);
+      }
+    }, 3000); // 3초마다 확인
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 폴링 중지
   }, [itemLog]);
 
-  const handleAuth = async (type) => {
-    try {
-      const name = type === "lessor" ? nameLessor : nameLessee;
-      const id = type === "lessor" ? idLessor : idLessee;
+  // const handleAuth = async (type) => {
+  //   try {
+  //     const name = type === "lessor" ? nameLessor : nameLessee;
+  //     const id = type === "lessor" ? idLessor : idLessee;
 
-      const hashedCode = cryptoJs.SHA256(name + id + ENC_KEY).toString();
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
-        {
-          params: { name: decodeURI(name), code: hashedCode },
-        }
-      );
-      console.log(response);
-      alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 성공`);
+  //     const hashedCode = cryptoJs.SHA256(name + id + ENC_KEY).toString();
+  //     const response = await axios.get(
+  //       `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
+  //       {
+  //         params: { name: decodeURI(name), code: hashedCode },
+  //       }
+  //     );
+  //     console.log(response);
+  //     alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 성공`);
 
-      // Update itemLog with authenticated name
-      handleNameChange(type, name);
+  //     // Update itemLog with authenticated name
+  //     handleNameChange(type, name);
 
-      if (type === "lessor") {
-        setIsLessorAuthComplete(true);
-      } else {
-        setIsLesseeAuthComplete(true);
-      }
-    } catch (error) {
-      alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 실패`);
-      console.error(error);
-    }
-  };
+  //     if (type === "lessor") {
+  //       setIsLessorAuthComplete(true);
+  //     } else {
+  //       setIsLesseeAuthComplete(true);
+  //     }
+  //   } catch (error) {
+  //     alert(`${type === "lessor" ? "임대인" : "임차인"} 신원 인증 실패`);
+  //     console.error(error);
+  //   }
+  // };
 
   const handleCheckboxChange = (value) => {
     setSelectedCheckbox(value);
   };
 
-  const isButtonEnabled =
-    isLessorAuthComplete &&
-    isLesseeAuthComplete &&
-    selectedCheckbox === "동의함";
+  const isButtonEnabled = isVerified && selectedCheckbox === "동의함";
 
   return (
     <div>
       <Header />
       <Container>
         <Title>주택 임대차 표준 계약</Title>
-        <CertContainer>
+        <Plz>*휴대폰으로 QR 코드를 스캔하여 인증한 후 계약을 시작하세요.</Plz>
+        <QRBox>
+          {isVerified ? (
+            <div>인증이 확인되었습니다</div>
+          ) : (
+            <QRCodeCanvas
+              value={`${import.meta.env.VITE_FRONT_URL}/auth/${hashCode}`}
+              size={300}
+            />
+          )}
+        </QRBox>
+
+        {/* <CertContainer>
           <CertBox>
             <InputContainer>
               <BoldText>임대인</BoldText>
@@ -154,8 +184,8 @@ function Contract1() {
             >
               {isLessorAuthComplete ? "인증완료" : "인증하기"}
             </AuthButton>
-          </CertBox>
-          <CertBox>
+          </CertBox> */}
+        {/* <CertBox>
             <InputContainer>
               <BoldText>임차인</BoldText>
               <Row>
@@ -164,7 +194,7 @@ function Contract1() {
                   value={nameLessee}
                   onChange={(e) => {
                     setNameLessee(e.target.value);
-                    // handleNameChange("lessee", value);
+                    handleNameChange("lessee", value);
                   }}
                 />
               </Row>
@@ -213,7 +243,7 @@ function Contract1() {
               {isLesseeAuthComplete ? "인증완료" : "인증하기"}
             </AuthButton>
           </CertBox>
-        </CertContainer>
+        </CertContainer> */}
         <Divider />
         <AgreeContainer>
           <AgreeTitle>개인정보 수집 및 이용 동의</AgreeTitle>
@@ -271,6 +301,19 @@ function Contract1() {
 }
 
 export default Contract1;
+
+const Plz = styled.p`
+  color: #c75f5f;
+`;
+
+const QRBox = styled.div`
+  width: 80%;
+  height: 25rem;
+  border: solid 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.div`
   display: flex;

@@ -3,7 +3,6 @@ import MemberLogin from "./components/Member/MemberLogin.jsx";
 import MemberMain from "./components/Member/MemberMain.jsx";
 import MemberMypage from "./components/Member/MemberMypage.jsx";
 import MemberJoin from "./components/Member/MemberJoin.jsx";
-import QRPage from "./components/api/QR.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
 import BookAdmin from "./components/Member/BookAdmin.jsx";
 import ContractCheck from "./components/Member/ContractCheck.jsx";
@@ -38,7 +37,6 @@ function App() {
             <Route path="/" element={<GuestMain />} />
             <Route path="sell" element={<GuestSell />} />
             <Route path="book" element={<GuestBook />} />
-            <Route path="QR" element={<QRPage />} />
           </Route>
           <Route path="auth/:hashcode" element={<MobileAuth />} />
           <Route path="sandbox" element={<TossPayment />} />
@@ -75,7 +73,6 @@ function App() {
               <Route path="4" element={<Contract4 />} />
               <Route path="5" element={<Contract5 />} />
               <Route path="6" element={<Contract6 />} />
-
             </Route>
           </Route>
         </Routes>

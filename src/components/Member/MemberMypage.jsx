@@ -32,7 +32,7 @@ function MemberMypage() {
   console.log("booking", booking);
 
   const completedItemIDs = contract?.data?.result
-    ?.filter((item) => item.itemInfo?.status) // 완료된 계약 필터링
+    ?.filter((item) => item.itemInfo?.status === "COMITTED") // 완료된 계약 필터링
     ?.map((item) => item.itemInfo?.itemID); // itemID만 추출
 
   console.log("완료된 계약 itemID:", completedItemIDs);

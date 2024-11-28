@@ -40,7 +40,7 @@ function App() {
             <Route path="book" element={<GuestBook />} />
             <Route path="QR" element={<QRPage />} />
           </Route>
-          <Route path="auth" element={<MobileAuth />} />
+          <Route path="auth/:hashcode" element={<MobileAuth />} />
           <Route path="sandbox" element={<TossPayment />} />
           <Route path="sandbox/fail" element={<FailPage />} />
           <Route path="sandbox/success" element={<SuccessPage />} />
@@ -76,7 +76,6 @@ function App() {
               <Route path="5" element={<Contract5 />} />
               <Route path="6" element={<Contract6 />} />
 
-              <Route path="mobileauth" element={<MobileAuth />} />
             </Route>
           </Route>
         </Routes>

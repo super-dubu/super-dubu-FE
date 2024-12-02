@@ -14,17 +14,13 @@ function Contract6() {
   const navigate = useNavigate();
   const { itemLog, setItemLog } = useContext(ContractContext);
   const [isVerified, setIsVerified] = useState(false);
-  const [hashCode, setHashCode] = useState("");
+
+  const generatedHash = cryptoJs
+    .SHA256(itemLog.itemInfo.itemID + Date.now())
+    .toString()
+    .slice(2, 12);
 
   useEffect(() => {
-    // 해시코드 생성
-    const generatedHash = cryptoJs
-      .SHA256(itemLog.itemInfo.itemID + Date.now())
-      .toString()
-      .slice(2, 12);
-    setHashCode(generatedHash);
-    console.log(hashCode);
-
     // 폴링으로 인증 상태 확인
     const interval = setInterval(async () => {
       try {
@@ -32,7 +28,7 @@ function Contract6() {
           `${import.meta.env.VITE_BACK_URL}/hlf/verifyauth`,
           {
             params: {
-              qrID: hashCode,
+              qrID: generatedHash,
             },
           }
         );
@@ -74,7 +70,7 @@ function Contract6() {
             <div>인증이 확인되었습니다</div>
           ) : (
             <QRCodeCanvas
-              value={`${import.meta.env.VITE_FRONT_URL}/auth/${hashCode}`}
+              value={`${import.meta.env.VITE_FRONT_URL}/auth/${generatedHash}`}
               size={300}
             />
           )}

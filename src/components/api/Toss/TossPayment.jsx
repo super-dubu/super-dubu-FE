@@ -7,17 +7,19 @@ const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_KEY;
 const customerKey = import.meta.env.VITE_CUSTOM_KEY;
 
-const location = useLocation();
-const { itemLog } = location.state || {};
-
-console.log(itemLog);
 const TossPayment = () => {
+  const location = useLocation();
+  console.log(location.state);
+  const { itemLog } = location.state || {};
+  
+  console.log(itemLog);
+  console.log(itemLog.itemInfo.priceRental);
 
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [amount, setAmount] = useState({
     currency: "KRW",
-    value: itemLog.itemInfo.priceRental,
+    value: Number(itemLog.itemInfo.priceRental)*10000,
   });
   useEffect(() => {
     async function fetchPaymentWidgets() {

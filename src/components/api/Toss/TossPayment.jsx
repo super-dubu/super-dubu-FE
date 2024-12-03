@@ -1,39 +1,29 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import styled from "styled-components";
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_KEY;
 const customerKey = import.meta.env.VITE_CUSTOM_KEY;
-
 const TossPayment = () => {
-  const location = useLocation();
-  const { it: itemLog } = location.state || {};
-
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [amount, setAmount] = useState({
     currency: "KRW",
-    value: it.itemInfo.priceRental,
+    value: 50000,
   });
-
   useEffect(() => {
     async function fetchPaymentWidgets() {
       const tossPayments = await loadTossPayments(clientKey);
       const widgets = tossPayments.widgets({ customerKey });
       setWidgets(widgets);
     }
-
     fetchPaymentWidgets();
   }, []);
-
   useEffect(() => {
     async function renderPaymentWidgets() {
       if (!widgets) return;
-
       await widgets.setAmount(amount);
-
       await Promise.all([
         widgets.renderPaymentMethods({
           selector: "#payment-method",
@@ -44,10 +34,8 @@ const TossPayment = () => {
           variantKey: "AGREEMENT",
         }),
       ]);
-
       setReady(true);
     }
-
     renderPaymentWidgets();
   }, [widgets]);
 
@@ -64,9 +52,9 @@ const TossPayment = () => {
                 try {
                   await widgets?.requestPayment({
                     orderId: generateRandomString(),
-                    orderName: "거래하세요",
+                    orderName: "안녕하세요",
                     customerName: "김덕환",
-                    customerEmail: "glico@naver.com",
+                    customerEmail: "customer123@gmail.com",
                     successUrl:
                       window.location.origin +
                       "/sandbox/success" +
@@ -138,7 +126,6 @@ const PaymentButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
     background-color: #212222;
   }

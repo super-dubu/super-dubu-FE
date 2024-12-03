@@ -32,8 +32,6 @@ function MemberMypage() {
     `/forsale/view?memberRegister=${user?.registerID}`
   );
 
-  console.log("items", items);
-  console.log("booking", booking);
 
   const completedItemIDs = contract?.data?.result
     ?.filter((item) => item.itemInfo?.status === "COMITTED") // 완료된 계약 필터링
@@ -270,7 +268,7 @@ const Time = styled.div`
   font-weight: bold;
   font-size: 18px;
 `;
-const Cancle = styled.div`
+const Cancle = styled.span`
   display: flex;
   justify-content: flex-start;
   align-items: center;

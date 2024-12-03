@@ -22,7 +22,6 @@ function MemberLogin() {
   const handleLogin = async () => {
     try {
       const hashedPassword = CryptoJS.SHA256(password + ENC_KEY).toString();
-      console.log(id, hashedPassword);
 
       const response = await axios.get(
         `${import.meta.env.VITE_BACK_URL}/memberLogin/isValid`,
@@ -49,9 +48,7 @@ function MemberLogin() {
           }
         );
 
-        console.log(userInfoResponse.data);
         login(userInfoResponse.data.user);
-        console.log(user);
         navigate("/member");
       } else {
         alert("유효하지 않은 아이디 또는 비밀번호입니다.");

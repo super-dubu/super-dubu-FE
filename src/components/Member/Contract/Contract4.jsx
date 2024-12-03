@@ -213,6 +213,7 @@ const Bold = styled.span`
 
 const Container = styled.div`
   display: grid;
+  /* place-items: center; */
   grid-template-areas:
     "section-title"
     "repair-options"

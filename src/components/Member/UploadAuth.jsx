@@ -21,6 +21,20 @@ const UploadAuth = () => {
     setSelectedCheckbox(value);
   };
 
+  const handleUpload = async () => {
+    try {
+      const propertyResponse = await axios.post(
+        `${import.meta.env.VITE_BACK_URL}/forsale/add`,
+        Property
+      );
+      alert("매물 등록이 완료되었습니다.");
+      navigate("/member/mypage");
+    } catch (error) {
+      console.error("Error uploading property:", error);
+      alert("매물 등록 중 오류가 발생했습니다.");
+    }
+  };
+
   useEffect(() => {
     // 폴링으로 인증 상태 확인
     const interval = setInterval(async () => {
@@ -41,20 +55,6 @@ const UploadAuth = () => {
         console.error("Error verifying authentication:", error);
       }
     }, 3000); // 3초마다 확인
-
-    const handleUpload = async () => {
-      try {
-        const propertyResponse = await axios.post(
-          `${import.meta.env.VITE_BACK_URL}/forsale/add`,
-          Property
-        );
-        alert("매물 등록이 완료되었습니다.");
-        navigate("/member/mypage");
-      } catch (error) {
-        console.error("Error uploading property:", error);
-        alert("매물 등록 중 오류가 발생했습니다.");
-      }
-    };
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 폴링 중지
   }, []);

@@ -20,6 +20,8 @@ function Contract6() {
     .toString()
     .slice(2, 12);
 
+    // console.log(generatedHash);
+
   useEffect(() => {
     // 폴링으로 인증 상태 확인
     const interval = setInterval(async () => {

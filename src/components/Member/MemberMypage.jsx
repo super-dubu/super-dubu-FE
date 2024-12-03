@@ -14,6 +14,8 @@ function MemberMypage() {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
+  const [imageList, setImageList] = useState([]); // 이미지 리스트 상태 추가
 
   const {
     data: contract,
@@ -76,15 +78,31 @@ function MemberMypage() {
   //   return <p>로딩 중...</p>;
   // }
 
-  const openModal = (image) => {
-    setSelectedImage(image);
+  const openModal = (images, index) => {
+    setImageList(images); // 이미지 리스트 설정
+    setCurrentImageIndex(index); // 클릭한 이미지의 인덱스 설정
     setModalOpen(true);
   };
 
+  // 모달 닫기
   const closeModal = () => {
     setModalOpen(false);
     setSelectedImage(null);
   };
+
+  // 페이지네이션 기능
+  const goToNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      (prevIndex + 1) % imageList.length
+    );
+  };
+
+  const goToPrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + imageList.length) % imageList.length
+    );
+  };
+
 
   const handleCancelBooking = (bookingID) => {
     const confirmCancel = window.confirm(
@@ -172,18 +190,12 @@ function MemberMypage() {
             {items?.data?.properties?.map((it, index) => (
               <Item key={index}>
                 <ImageArea>
-                {it.image?.map((img, i) => {
-                  // 'uploads' 이후 부분만 추출
-                  const imgPath = img.split('uploads')[1].substring(1);
-
-                  return (
-                    <Image
-                      key={i}
-                      src={`${import.meta.env.VITE_IMAGE_URL}/${imgPath}`}
-                      onClick={() => openModal(img)}
-                    />
-                  );
-                })}
+                {it.image?.length > 0 && (
+                  <Image
+                    src={`${import.meta.env.VITE_IMAGE_URL}/${it.image[0].split('uploads')[1].substring(1)}`} // 경로 잘라서 첫 번째 이미지 표시
+                    onClick={() => openModal(it.image, 0)} // 첫 번째 이미지 클릭 시 모달 열기
+                  />
+                )}
               </ImageArea>
                 <TextArea>
                   <TextContainer>
@@ -215,6 +227,24 @@ function MemberMypage() {
           </ItemContainer>
         </Content>
       </Container>
+      {isModalOpen && (
+        <Modal onClick={closeModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={`${import.meta.env.VITE_IMAGE_URL}/${imageList[currentImageIndex].split('uploads')[1].substring(1)}`}
+              alt={`Image ${currentImageIndex + 1}`}
+            />
+            <Pagination>
+              <Button onClick={goToPrevImage}>{"<"}</Button>
+              <PageNumber>
+                {currentImageIndex + 1} / {imageList.length}
+              </PageNumber>
+              <Button onClick={goToNextImage}>{">"}</Button>
+            </Pagination>
+            {/* <CloseButton onClick={closeModal}>X</CloseButton> */}
+          </ModalContent>
+        </Modal>
+      )}
     </div>
   );
 }
@@ -304,17 +334,6 @@ const TextContainer = styled.div`
   color: #121212;
 `;
 
-const Button = styled.button`
-  height: 2rem;
-  /* margin-top: 0.5rem; */
-  position: absolute;
-  right: 1rem;
-  top: 0.5rem;
-  background-color: white;
-  border: solid 1px #595959;
-  border-radius: 10px;
-  cursor: pointer;
-`;
 
 const Row = styled.div`
   display: flex;
@@ -362,23 +381,103 @@ const TextArea = styled.div`
 
 const Info = styled.div``;
 
-const Image = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-`;
+// const Image = styled.img`
+//   width: 100%;
+//   height: auto;
+//   object-fit: cover;
+// `;
 
-const ImageArea = styled.div`
-  flex: 4;
-  height: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* overflow: hidden; 이미지를 컨테이너 안에 숨김 처리 */
-  padding: 1rem;
-`;
+// const ImageArea = styled.div`
+//   flex: 4;
+//   height: 90%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   /* overflow: hidden; 이미지를 컨테이너 안에 숨김 처리 */
+//   padding: 1rem;
+// `;
 
 const Price = styled.div`
   font-size: 18px;
   font-weight: bold;
+`;
+
+const ImageArea = styled.div`
+  /* flex: 4;
+  height: 90%; */
+  width: 15rem;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 1rem;
+`;
+
+const Image = styled.img`
+  width: 80%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer; /* 클릭할 수 있음을 나타내기 위해 포인터 추가 */
+`;
+
+const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30rem;
+  height: auto;
+  transform: translate(-50%, -50%);
+  /* background-color: white; */
+  padding: 20px;
+  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #929292;
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const Button = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #929292;
+`;
+
+const PageNumber = styled.span`
+  margin: 0 15px;
+  font-size: 18px;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background:none;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* 배경을 어둡게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 `;

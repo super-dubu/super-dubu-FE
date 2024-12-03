@@ -4,7 +4,7 @@ import MemberMain from "./components/Member/MemberMain.jsx";
 import MemberMypage from "./components/Member/MemberMypage.jsx";
 import MemberJoin from "./components/Member/MemberJoin.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
-import BookAdmin from "./components/Member/BookAdmin.jsx";
+// import BookAdmin from "./components/Member/BookAdmin.jsx";
 import ContractCheck from "./components/Member/ContractCheck.jsx";
 import UploadAuth from "./components/Member/UploadAuth.jsx";
 import PropAuth from "./components/api/PropAuth.jsx";
@@ -62,7 +62,6 @@ function App() {
 
             <Route path="mypage" element={<MemberMypage />} />
             <Route path="" element={<MemberMain />} />
-            <Route path="bookadmin" element={<BookAdmin />} />
             <Route path="check" element={<ContractCheck />} />
 
             <Route

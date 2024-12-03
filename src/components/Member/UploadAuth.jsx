@@ -20,7 +20,6 @@ const UploadAuth = () => {
   const handleCheckboxChange = (value) => {
     setSelectedCheckbox(value);
   };
-
   const handleUpload = async () => {
     try {
       const propertyResponse = await axios.post(
@@ -37,6 +36,7 @@ const UploadAuth = () => {
 
   useEffect(() => {
     // 폴링으로 인증 상태 확인
+    console.log(generatedHash);
     const interval = setInterval(async () => {
       try {
         const response = await axios.get(

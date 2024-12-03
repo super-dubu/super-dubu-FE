@@ -177,9 +177,9 @@ const GuestSell = () => {
             <>
               {itemsToDisplay.length > 0 ? (
                 <ItemList>
-                  {itemsToDisplay.map((it) => (
-                    <Item key={it.tokenID} onClick={() => handleItemClick(it)}>
-                      <ItemImg src={it.image[0]} alt="item" />
+                  {itemsToDisplay?.map((it) => (
+                    <Item key={it.itemID} onClick={() => handleItemClick(it)}>
+                      <ItemImg src={it.img} alt="item" />
                       {it.itemType === "0" ? (
                         <ItemDetails>
                           <ItemInfo>

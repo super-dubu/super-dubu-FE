@@ -490,7 +490,7 @@ const AddressButton = styled.button`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  height : auto;
+  height: auto;
   /* padding: 5px; */
   border-bottom: 1px solid #000;
   align-items: center;
@@ -583,7 +583,7 @@ const DetailContent = styled.div`
   height: 100%;
   width: 50%;
 
-  &:last-child{
+  &:last-child {
     border: none;
   }
 `;

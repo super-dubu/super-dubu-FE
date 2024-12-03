@@ -18,13 +18,17 @@ function Contract1() {
   // const [isLesseeAuthComplete, setIsLesseeAuthComplete] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = useState("");
-  const [hashCode, setHashCode] = useState("");
 
   const location = useLocation();
   const { itemInfo } = location.state || {};
 
   const { itemLog, setItemLog } = useContext(ContractContext);
   const navigate = useNavigate();
+
+  const generatedHash = cryptoJs
+    .SHA256(Date.now() + ENC_KEY)
+    .toString()
+    .slice(2, 12);
 
   // const handleNameChange = (type, value) => {
   //   setItemLog((prev) => ({
@@ -42,14 +46,6 @@ function Contract1() {
 
   //디버깅용
   useEffect(() => {
-    // itemLog가 변경될 때마다 출력
-    const generatedHash = cryptoJs
-      .SHA256(Date.now() + ENC_KEY)
-      .toString()
-      .slice(2, 12);
-    setHashCode(generatedHash);
-    console.log(hashCode);
-
     // 폴링으로 인증 상태 확인
     const interval = setInterval(async () => {
       try {
@@ -57,7 +53,7 @@ function Contract1() {
           `${import.meta.env.VITE_BACK_URL}/hlf/verifyauth`,
           {
             params: {
-              qrID: hashCode,
+              qrID: generatedHash,
             },
           }
         );
@@ -119,7 +115,7 @@ function Contract1() {
             <div>인증이 확인되었습니다</div>
           ) : (
             <QRCodeCanvas
-              value={`${import.meta.env.VITE_FRONT_URL}/auth/${hashCode}`}
+              value={`${import.meta.env.VITE_FRONT_URL}/auth/${generatedHash}`}
               size={300}
             />
           )}

@@ -135,7 +135,7 @@ function UploadProperty() {
         //   Property
         // );
         // alert("매물 등록이 완료되었습니다.");
-        navigate("/member/uploadAuth", { state: Property });
+        navigate("/member/uploadAuth", { state: {Property} });
       } else {
         throw new Error("이미지 업로드 실패");
       }

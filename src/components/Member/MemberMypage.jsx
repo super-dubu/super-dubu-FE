@@ -31,7 +31,7 @@ function MemberMypage() {
   const { data: items, isLoading: itemsLoading } = getData(
     `/forsale/view?memberRegister=${user?.registerID}`
   );
-  console.log(items);
+  console.log("itmes",items);
  
   // items.data.properties[0].image.forEach((img, i) => {
   //   console.log(`Image ${i}:`, img);  // 각 이미지의 경로를 출력
@@ -40,8 +40,6 @@ function MemberMypage() {
   const completedItemIDs = contract?.data?.result
     ?.filter((item) => item.itemInfo?.status === "COMITTED") // 완료된 계약 필터링
     ?.map((item) => item.itemInfo?.itemID); // itemID만 추출
-
-  console.log("완료된 계약 itemID:", completedItemIDs);
 
   // 예약 목록에서 완료된 계약 제거
   const filteredBookings = booking?.data?.reservation_list?.filter(
@@ -175,16 +173,19 @@ function MemberMypage() {
             {items?.data?.properties?.map((it, index) => (
               <Item key={index}>
                 <ImageArea>
-                  {it.image?.map((img, i) => (
+                {it.image?.map((img, i) => {
+                  // 'uploads' 이후 부분만 추출
+                  const imgPath = img.split('uploads')[1].substring(1);
+
+                  return (
                     <Image
                       key={i}
-                      // src={`${import.meta.env.BASIC_URL}${img}`}
-                      src={img}
-                      // alt={`image-${i}`}
+                      src={`${import.meta.env.VITE_IMAGE_URL}/${imgPath}`}
                       onClick={() => openModal(img)}
                     />
-                  ))}
-                </ImageArea>
+                  );
+                })}
+              </ImageArea>
                 <TextArea>
                   <TextContainer>
                     <Price>

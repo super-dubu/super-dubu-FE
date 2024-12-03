@@ -31,7 +31,11 @@ function MemberMypage() {
   const { data: items, isLoading: itemsLoading } = getData(
     `/forsale/view?memberRegister=${user?.registerID}`
   );
-
+  console.log(items);
+ 
+  // items.data.properties[0].image.forEach((img, i) => {
+  //   console.log(`Image ${i}:`, img);  // 각 이미지의 경로를 출력
+  // });
 
   const completedItemIDs = contract?.data?.result
     ?.filter((item) => item.itemInfo?.status === "COMITTED") // 완료된 계약 필터링
@@ -71,7 +75,6 @@ function MemberMypage() {
       },
     });
   };
-
   // if (bookingLoading || itemsLoading) {
   //   return <p>로딩 중...</p>;
   // }
@@ -175,8 +178,9 @@ function MemberMypage() {
                   {it.image?.map((img, i) => (
                     <Image
                       key={i}
+                      // src={`${import.meta.env.BASIC_URL}${img}`}
                       src={img}
-                      alt={`image-${i}`}
+                      // alt={`image-${i}`}
                       onClick={() => openModal(img)}
                     />
                   ))}

@@ -38,14 +38,12 @@ const GuestBook = () => {
       memberRegister: it.memberRegister,
       itemID: it.itemID,
     };
-    console.log("예약 정보:", reservationData);
 
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/reservation/add`,
         reservationData
       );
-      console.log(response.data);
       alert("예약 등록이 완료되었습니다.");
       navigate("/sell");
     } catch (error) {
@@ -69,81 +67,81 @@ const GuestBook = () => {
         </Header>
         <Separator />
         <Container>
-        <Form>
-          <FormGroup>
-            <Label>예약자 이름</Label>
-            <Input
-              type="text"
-              placeholder="이름을 입력하세요"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label>연락처</Label>
-            <Input
-              type="tel"
-              placeholder="010 - xxxx - xxxx"
-              pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-              maxLength="17"
-              value={contact}
-              onChange={(e) => {
-                let value = e.target.value.replace(/[^0-9]/g, "");
-                if (value.length > 3 && value.length <= 7) {
-                  value = `${value.slice(0, 3)} - ${value.slice(3)}`;
-                } else if (value.length > 7) {
-                  value = `${value.slice(0, 3)} - ${value.slice(
-                    3,
-                    7
-                  )} - ${value.slice(7)}`;
-                }
-                setContact(value);
-              }}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label>예약 날짜</Label>
-            <InputWrapper>
+          <Form>
+            <FormGroup>
+              <Label>예약자 이름</Label>
               <Input
                 type="text"
-                value={selectedDate ? selectedDate.toLocaleDateString() : ""}
-                placeholder="YY. MM. DD"
-                readOnly
+                placeholder="이름을 입력하세요"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-              <IconWrapper onClick={() => setDateModalOpen(true)}>
-                📅
-              </IconWrapper>
-            </InputWrapper>
-          </FormGroup>
+            </FormGroup>
 
-          <FormGroup>
-            <Label>예약 시간</Label>
-            <InputWrapper>
+            <FormGroup>
+              <Label>연락처</Label>
               <Input
-                type="text"
-                value={selectedTime}
-                placeholder="00 : 00"
-                readOnly
-                onClick={() => setTimeModalOpen(true)}
+                type="tel"
+                placeholder="010 - xxxx - xxxx"
+                pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                maxLength="17"
+                value={contact}
+                onChange={(e) => {
+                  let value = e.target.value.replace(/[^0-9]/g, "");
+                  if (value.length > 3 && value.length <= 7) {
+                    value = `${value.slice(0, 3)} - ${value.slice(3)}`;
+                  } else if (value.length > 7) {
+                    value = `${value.slice(0, 3)} - ${value.slice(
+                      3,
+                      7
+                    )} - ${value.slice(7)}`;
+                  }
+                  setContact(value);
+                }}
               />
-            </InputWrapper>
-          </FormGroup>
+            </FormGroup>
 
-          <FormGroup>
-            <Label>요청 사항</Label>
-            <TextArea
-              placeholder="원하는 매물의 조건 등을 남겨주세요!"
-              value={requests}
-              onChange={(e) => setRequests(e.target.value)}
-            />
-          </FormGroup>
+            <FormGroup>
+              <Label>예약 날짜</Label>
+              <InputWrapper>
+                <Input
+                  type="text"
+                  value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+                  placeholder="YY. MM. DD"
+                  readOnly
+                />
+                <IconWrapper onClick={() => setDateModalOpen(true)}>
+                  📅
+                </IconWrapper>
+              </InputWrapper>
+            </FormGroup>
 
-          <Button onClick={handleReservationClick} disabled={!isFormValid}>
-            예약 신청하기
-          </Button>
-        </Form>
+            <FormGroup>
+              <Label>예약 시간</Label>
+              <InputWrapper>
+                <Input
+                  type="text"
+                  value={selectedTime}
+                  placeholder="00 : 00"
+                  readOnly
+                  onClick={() => setTimeModalOpen(true)}
+                />
+              </InputWrapper>
+            </FormGroup>
+
+            <FormGroup>
+              <Label>요청 사항</Label>
+              <TextArea
+                placeholder="원하는 매물의 조건 등을 남겨주세요!"
+                value={requests}
+                onChange={(e) => setRequests(e.target.value)}
+              />
+            </FormGroup>
+
+            <Button onClick={handleReservationClick} disabled={!isFormValid}>
+              예약 신청하기
+            </Button>
+          </Form>
         </Container>
       </FormContainer>
 
@@ -301,7 +299,7 @@ const Title = styled.h1`
   color: #333;
   margin-left: 2rem;
 
-  span{
+  span {
     /* font-weight: 500; */
     color: #737373;
     margin-right: 5px;

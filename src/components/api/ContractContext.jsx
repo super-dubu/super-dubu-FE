@@ -9,10 +9,6 @@ export const ContractProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const { itemInfo } = location.state || {};
-
-  console.log("Incontext user", user);
-  console.log("Incontext asdfe", itemInfo);
-
   const [itemLog, setItemLog] = useState({});
 
   useEffect(() => {
@@ -48,7 +44,6 @@ export const ContractProvider = ({ children }) => {
       };
 
       const initialItemLog = createInitialItemLog(agentInfo, item);
-      console.log("Generated initialItemLog:", initialItemLog);
       setItemLog(initialItemLog);
     }
   }, [user]);

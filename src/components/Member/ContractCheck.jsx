@@ -9,8 +9,6 @@ const ContractCheck = () => {
   const { data: contract, isLoading, isError } = GetData("/HLF/getAllContract");
   const [selectedStatus, setSelectedStatus] = useState("PENDING");
 
-  console.log(contract);
-
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
   };
@@ -57,12 +55,24 @@ const ContractCheck = () => {
           ) : (
             filteredContracts.map((item, index) => (
               <ContractItem key={index}>
-                <p><span>건물명</span>  {item.itemInfo.buildingName || "정보 없음"}</p>
-                <p><span>주소</span>  {item.itemInfo.buildingAddress || "정보 없음"}</p>
+                <p>
+                  <span>건물명</span>{" "}
+                  {item.itemInfo.buildingName || "정보 없음"}
+                </p>
+                <p>
+                  <span>주소</span>{" "}
+                  {item.itemInfo.buildingAddress || "정보 없음"}
+                </p>
                 {/* <p><span>상태</span>  {item.itemInfo.status || "정보 없음"}</p> */}
-                <p><span>임차인</span>  {item.lesseeName || "정보 없음"}</p>
-                <p><span>임대인</span>  {item.lessorName || "정보 없음"}</p>
-                <p><span>계약일</span>   {item.tradeDate || "정보 없음"}</p>
+                <p>
+                  <span>임차인</span> {item.lesseeName || "정보 없음"}
+                </p>
+                <p>
+                  <span>임대인</span> {item.lessorName || "정보 없음"}
+                </p>
+                <p>
+                  <span>계약일</span> {item.tradeDate || "정보 없음"}
+                </p>
               </ContractItem>
             ))
           )}
@@ -117,12 +127,12 @@ const ContractItem = styled.div`
     font-size: 0.9rem;
   }
 
-  span{
+  span {
     color: #595959;
     margin-right: 5px;
     width: 4rem;
     display: inline-block;
-    text-align: center
+    text-align: center;
   }
 `;
 

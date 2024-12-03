@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Header from '../MemberHeader';
-import getData from '../../../hooks/GetData'
-import { ContractContext } from '../../api/ContractContext';
+import React, { useContext, useEffect, useState } from "react";
+import styled, { css } from "styled-components";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "../MemberHeader";
+import getData from "../../../hooks/GetData";
+import { ContractContext } from "../../api/ContractContext";
 
 function Contract2() {
   // const [address, setAddress] = useState("");
@@ -18,10 +18,8 @@ function Contract2() {
   const navigate = useNavigate();
   const location = useLocation();
   const { PNU, itemInfo } = location.state || {};
-  console.log(itemInfo);
 
-  const {itemLog, setItemLog} = useContext(ContractContext);
-    console.log("Contract2", itemLog);
+  const { itemLog, setItemLog } = useContext(ContractContext);
 
   // 데이터 로딩
   // const { data: building, isLoading, isError } = getData(
@@ -81,21 +79,29 @@ function Contract2() {
             <Can>
               <Row>
                 <BoldText>토지</BoldText>
-                지목 &nbsp;<StringInput variant="small" disabled/>
+                지목 &nbsp;
+                <StringInput variant="small" disabled />
               </Row>
               <Row>
                 <BoldText></BoldText>
-                면적 &nbsp;<StringInput variant="small" disabled/> ㎡
+                면적 &nbsp;
+                <StringInput variant="small" disabled /> ㎡
               </Row>
             </Can>
             <Can>
               <Row>
                 <BoldText>건물</BoldText>
-                지목 &nbsp;<StringInput variant="small" defaultValue="대지"></StringInput>
+                지목 &nbsp;
+                <StringInput variant="small" defaultValue="대지"></StringInput>
               </Row>
               <Row>
                 <BoldText />
-                면적 &nbsp; <StringInput variant="small" defaultValue={itemInfo?.area / 100}></StringInput> ㎡
+                면적 &nbsp;{" "}
+                <StringInput
+                  variant="small"
+                  defaultValue={itemInfo?.area / 100}
+                ></StringInput>{" "}
+                ㎡
               </Row>
             </Can>
           </Area>
@@ -105,7 +111,9 @@ function Contract2() {
               <CheckBox
                 type="checkbox"
                 checked={selectedCheckbox.contractType === "신규 계약"}
-                onChange={() => handleCheckboxChange("contractType","신규 계약")}
+                onChange={() =>
+                  handleCheckboxChange("contractType", "신규 계약")
+                }
               />
               신규 계약
             </Label>
@@ -113,7 +121,7 @@ function Contract2() {
               <CheckBox
                 type="checkbox"
                 checked={selectedCheckbox.contractType === "재계약"}
-                onChange={() => handleCheckboxChange("contractType","재계약")}
+                onChange={() => handleCheckboxChange("contractType", "재계약")}
               />
               합의에 의한 재계약
             </Label>
@@ -121,57 +129,64 @@ function Contract2() {
               <CheckBox
                 type="checkbox"
                 checked={selectedCheckbox.contractType === "갱신 계약"}
-                onChange={() => handleCheckboxChange("contractType","갱신 계약")}
+                onChange={() =>
+                  handleCheckboxChange("contractType", "갱신 계약")
+                }
               />
-              [주택임대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신 계약
+              [주택임대차보호법] 제 6조의 3의 계약갱신요구권 행사에 의한 갱신
+              계약
             </Label>
           </Address>
         </InputContainer>
         <CheckContainer>
           <Box>
             <BoldText>미납 국세･지방세</BoldText>
-                <br />
-                <Label>
-                    <CheckBox
-                        type="checkbox"
-                        checked={selectedCheckbox.unpaidTax === '해당 없음'}
-                        onChange={() => handleCheckboxChange('unpaidTax','해당 없음')}
-                    />
-                    해당 없음
-                </Label>
-                <br />
-                <Label>
-                    <CheckBox
-                        type="checkbox"
-                        checked={selectedCheckbox.unpaidTax === '해당 있음'}
-                        onChange={() => handleCheckboxChange('unpaidTax','해당 있음')}
-                    />
-                    해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부 확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
-              </Label>
-            </Box>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox.unpaidTax === "해당 없음"}
+                onChange={() => handleCheckboxChange("unpaidTax", "해당 없음")}
+              />
+              해당 없음
+            </Label>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox.unpaidTax === "해당 있음"}
+                onChange={() => handleCheckboxChange("unpaidTax", "해당 있음")}
+              />
+              해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부
+              확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에
+              기재)
+            </Label>
+          </Box>
         </CheckContainer>
         <CheckContainer>
           <Box>
             <BoldText>선순위 확정일자 현황</BoldText>
-                <br />
-                <Label>
-                    <CheckBox
-                        type="checkbox"
-                        checked={selectedCheckbox.date === '해당 없음'}
-                        onChange={() => handleCheckboxChange('date','해당 없음')}
-                    />
-                    해당 없음
-                </Label>
-                <br />
-                <Label>
-                    <CheckBox
-                        type="checkbox"
-                        checked={selectedCheckbox.date === '해당 있음'}
-                        onChange={() => handleCheckboxChange('date','해당 있음')}
-                    />
-                    해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부 확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에 기재)
-              </Label>
-            </Box>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox.date === "해당 없음"}
+                onChange={() => handleCheckboxChange("date", "해당 없음")}
+              />
+              해당 없음
+            </Label>
+            <br />
+            <Label>
+              <CheckBox
+                type="checkbox"
+                checked={selectedCheckbox.date === "해당 있음"}
+                onChange={() => handleCheckboxChange("date", "해당 있음")}
+              />
+              해당 있음(중개대상물 확인‧설명서 제2쪽 Ⅱ.개업공인중개사 세부
+              확인사항 ‘⑨ 실제 권리관계 또는 공시되지 않은 물건의 권리사항’에
+              기재)
+            </Label>
+          </Box>
         </CheckContainer>
         <Button onClick={() => navigate("/member/contract/3")}>다음</Button>
       </Container>
@@ -251,17 +266,17 @@ const String = styled.div`
   align-items: center;
 
   ${({ variant }) =>
-    variant === 'long'
+    variant === "long"
       ? css`
           min-width: 400px;
         `
-      : variant === 'medium'
-      ? css`
-          min-width: 320px;
-        `
-      : css`
-          min-width: 150px;
-        `}
+      : variant === "medium"
+        ? css`
+            min-width: 320px;
+          `
+        : css`
+            min-width: 150px;
+          `}
 `;
 
 const StringInput = styled.input`
@@ -281,13 +296,13 @@ const StringInput = styled.input`
       ? css`
           min-width: 400px;
         `
-      : variant === 'medium'
-      ? css`
-          min-width: 320px;
-        `
-      : css`
-          min-width: 30%;
-        `}
+      : variant === "medium"
+        ? css`
+            min-width: 320px;
+          `
+        : css`
+            min-width: 30%;
+          `}
 `;
 
 const Area = styled.div`

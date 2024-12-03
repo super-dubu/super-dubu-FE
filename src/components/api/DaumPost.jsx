@@ -9,7 +9,6 @@ function DaumPostModal({ onComplete, onClose }) {
       <Modal>
         <DaumPostCode
           onComplete={(data) => {
-            console.log(data); // 주소 데이터를 로그에 출력
             onComplete(data);
             onClose(); // 주소 선택 후 모달 닫기
           }}

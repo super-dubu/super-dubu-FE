@@ -1,27 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Header from '../MemberHeader';
-import styled from 'styled-components';
-import { AuthContext } from '../../api/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { ContractContext } from '../../api/ContractContext';
+import React, { useContext, useEffect, useState } from "react";
+import Header from "../MemberHeader";
+import styled from "styled-components";
+import { AuthContext } from "../../api/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { ContractContext } from "../../api/ContractContext";
 
 function Contract4() {
-    const [selectedCheckbox, setSelectedCheckbox] = useState('');
-    const {itemLog, setItemLog} = useContext(ContractContext);
-    console.log("Contract4", itemLog);
-  
-    const navigate = useNavigate();
+  const [selectedCheckbox, setSelectedCheckbox] = useState("");
+  const { itemLog, setItemLog } = useContext(ContractContext);
 
-    useEffect(() => {
-      // 오늘 날짜를 가져오기
-      const today = new Date();
-      const formattedDate = today.toISOString().split("T")[0]; // YYYY-MM-DD 형식으로 변환
+  const navigate = useNavigate();
 
-      // tradeDate에 오늘 날짜 저장
-      setItemLog((prev) => ({
-          ...prev,
-          tradeDate: formattedDate,
-      }));
+  useEffect(() => {
+    // 오늘 날짜를 가져오기
+    const today = new Date();
+    const formattedDate = today.toISOString().split("T")[0]; // YYYY-MM-DD 형식으로 변환
+
+    // tradeDate에 오늘 날짜 저장
+    setItemLog((prev) => ({
+      ...prev,
+      tradeDate: formattedDate,
+    }));
   }, [setItemLog]);
 
   const handleCheckboxChange = (value) => {
@@ -169,11 +168,10 @@ function Contract4() {
           <br />
           <br />
           <Bold>제10조(비용의 정산)</Bold> ① 임차인은 계약종료 시 공과금과
-          관리비를 정산하여야 한다. <br />
-          ② 임차인은 이미 납부한 관리비 중 장기수선충당금을 임대인(소유자인
-          경우)에게 반환 청구할 수 있다. 다만, 관리사무소 등 관리주체가
-          장기수선충당금을 정산하는 경우에는 그 관리주체에게 청구할 수 있다.{" "}
-          <br />
+          관리비를 정산하여야 한다. <br />② 임차인은 이미 납부한 관리비 중
+          장기수선충당금을 임대인(소유자인 경우)에게 반환 청구할 수 있다. 다만,
+          관리사무소 등 관리주체가 장기수선충당금을 정산하는 경우에는 그
+          관리주체에게 청구할 수 있다. <br />
           <br />
           <Bold>제11조(분쟁의 해결)</Bold> 임대인과 임차인은 본 임대차계약과
           관련한 분쟁이 발생하는 경우, 당사자 간의 협의 또는

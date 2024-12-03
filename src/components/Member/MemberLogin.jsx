@@ -31,8 +31,6 @@ function MemberLogin() {
         }
       );
 
-      console.log(response);
-
       if (response.data.valid) {
         alert("로그인 성공!");
 

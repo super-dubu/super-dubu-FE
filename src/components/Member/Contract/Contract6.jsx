@@ -50,7 +50,6 @@ function Contract6() {
         `${import.meta.env.VITE_BACK_URL}/HLF/contract`,
         itemLog
       );
-      console.log(response.data);
       alert("계약이 완료되었습니다.");
       navigate("/sandbox", { state: { it: itemLog } });
     } catch (error) {

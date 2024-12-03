@@ -23,7 +23,6 @@ const TransSuccess = () => {
         `${import.meta.env.VITE_BACK_URL}/HLF/bank`,
         postData
       );
-      console.log(res);
       alert("결제가 승인되었습니다.");
       navigate("/member/mypage");
     } catch (e) {

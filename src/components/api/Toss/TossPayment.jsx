@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
 const clientKey = import.meta.env.VITE_CLIENT_KEY;
 const customerKey = import.meta.env.VITE_CUSTOM_KEY;
+
+const location = useLocation();
+const { itemLog } = location.state || {};
+
+console.log(itemLog);
 const TossPayment = () => {
+
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [amount, setAmount] = useState({
     currency: "KRW",
-    value: 50000,
+    value: itemLog.itemInfo.priceRental,
   });
   useEffect(() => {
     async function fetchPaymentWidgets() {
@@ -52,8 +59,8 @@ const TossPayment = () => {
                 try {
                   await widgets?.requestPayment({
                     orderId: generateRandomString(),
-                    orderName: "안녕하세요",
-                    customerName: "김덕환",
+                    orderName: itemLog.itemInfo.tokenID,
+                    customerName: itemLog.itemInfo.owner,
                     customerEmail: "customer123@gmail.com",
                     successUrl:
                       window.location.origin +

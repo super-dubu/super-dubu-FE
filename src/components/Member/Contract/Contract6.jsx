@@ -53,7 +53,7 @@ function Contract6() {
         itemLog
       );
       alert("계약이 완료되었습니다.");
-      navigate("/sandbox", { state: { it: itemLog } });
+      navigate("/sandbox", { state: { itemLog } });
     } catch (error) {
       console.error("Error uploading property:", error);
       alert("예약 등록 중 오류가 발생했습니다.");

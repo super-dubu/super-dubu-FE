@@ -23,7 +23,6 @@ function Contract1() {
   const { itemInfo } = location.state || {};
 
   const { itemLog, setItemLog } = useContext(ContractContext);
-  console.log(itemLog);
   const navigate = useNavigate();
 
   const generatedHash = cryptoJs
@@ -48,7 +47,6 @@ function Contract1() {
   //디버깅용
   useEffect(() => {
     // 폴링으로 인증 상태 확인
-    console.log(generatedHash);
     const interval = setInterval(async () => {
       try {
         const response = await axios.get(

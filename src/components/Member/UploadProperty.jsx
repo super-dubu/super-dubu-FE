@@ -120,7 +120,6 @@ function UploadProperty() {
 
   const handleUploadProperty = async () => {
     try {
-      console.log(Property);
       // 1. 이미지를 서버에 저장
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/forsale/upload`,
@@ -154,7 +153,7 @@ function UploadProperty() {
 
   useEffect(() => {
     if (debouncedDetailAddress) {
-      console.log("Debounced Detail Address:", debouncedDetailAddress);
+      // console.log("Debounced Detail Address:", debouncedDetailAddress);
     }
   }, [debouncedDetailAddress]);
 

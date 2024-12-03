@@ -20,8 +20,11 @@ function Contract6() {
     .toString()
     .slice(2, 12);
 
+    // console.log(generatedHash);
+
   useEffect(() => {
     // 폴링으로 인증 상태 확인
+    console.log(generatedHash);
     const interval = setInterval(async () => {
       try {
         const response = await axios.get(
@@ -45,6 +48,7 @@ function Contract6() {
   }, [itemLog]);
 
   const handleComplete = async () => {
+    console.log("itemLog", itemLog);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/HLF/contract`,

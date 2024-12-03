@@ -270,7 +270,7 @@ const Time = styled.div`
   font-weight: bold;
   font-size: 18px;
 `;
-const Cancle = styled.div`
+const Cancle = styled.span`
   display: flex;
   justify-content: flex-start;
   align-items: center;

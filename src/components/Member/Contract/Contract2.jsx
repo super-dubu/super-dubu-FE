@@ -17,7 +17,7 @@ function Contract2() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { PNU, itemInfo } = location.state || {};
+  const { itemInfo } = location.state || {};
 
   const { itemLog, setItemLog } = useContext(ContractContext);
 
@@ -52,9 +52,9 @@ function Contract2() {
   // 데이터가 로드된 후 렌더링
   // const contractItem = building?.data?.result;
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
   return (
     <div>
       <Header />

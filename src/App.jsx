@@ -6,6 +6,7 @@ import MemberJoin from "./components/Member/MemberJoin.jsx";
 import UploadProperty from "./components/Member/UploadProperty.jsx";
 import BookAdmin from "./components/Member/BookAdmin.jsx";
 import ContractCheck from "./components/Member/ContractCheck.jsx";
+import UploadAuth from "./components/Member/UploadAuth.jsx";
 
 import TossPayment from "./components/api/Toss/TossPayment.jsx";
 import SuccessPage from "./components/api/Toss/Success.jsx";
@@ -54,6 +55,7 @@ function App() {
             <Route path="join" element={<MemberJoin />} />
             <Route path="login" element={<MemberLogin />} />
             <Route path="property" element={<UploadProperty />} />
+            <Route path="uploadAuth" element={<UploadAuth />} />
             <Route path="mypage" element={<MemberMypage />} />
             <Route path="" element={<MemberMain />} />
             <Route path="bookadmin" element={<BookAdmin />} />

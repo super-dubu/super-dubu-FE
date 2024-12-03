@@ -120,6 +120,7 @@ function UploadProperty() {
 
   const handleUploadProperty = async () => {
     try {
+      console.log(Property);
       // 1. 이미지를 서버에 저장
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/forsale/upload`,
@@ -129,14 +130,13 @@ function UploadProperty() {
 
       if (response.data.length > 0) {
         Property.image = response.data;
-
-        // 2. 이미지를 포함한 Property 데이터를 서버에 전달
-        const propertyResponse = await axios.post(
-          `${import.meta.env.VITE_BACK_URL}/forsale/add`,
-          Property
-        );
-        alert("매물 등록이 완료되었습니다.");
-        navigate("/member/mypage");
+        // // 2. 이미지를 포함한 Property 데이터를 서버에 전달
+        // const propertyResponse = await axios.post(
+        //   `${import.meta.env.VITE_BACK_URL}/forsale/add`,
+        //   Property
+        // );
+        // alert("매물 등록이 완료되었습니다.");
+        navigate("/member/uploadAuth", { state: Property });
       } else {
         throw new Error("이미지 업로드 실패");
       }

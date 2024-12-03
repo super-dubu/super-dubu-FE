@@ -382,7 +382,7 @@ function UploadProperty() {
               handleUploadProperty();
             }}
           >
-            매물 등록하기
+            신원 인증하기
           </Button>
         </Wrapper>
       </Container>

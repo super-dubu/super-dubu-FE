@@ -10,13 +10,12 @@ const customerKey = import.meta.env.VITE_CUSTOM_KEY;
 const TossPayment = () => {
   const location = useLocation();
   const { it: itemLog } = location.state || {};
-  console.log(itemLog);
 
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [amount, setAmount] = useState({
     currency: "KRW",
-    value: 50000,
+    value: it.itemInfo.priceRental,
   });
 
   useEffect(() => {

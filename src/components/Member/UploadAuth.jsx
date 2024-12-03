@@ -72,7 +72,7 @@ const UploadAuth = () => {
             <div>인증이 확인되었습니다</div>
           ) : (
             <QRCodeCanvas
-              value={`${import.meta.env.VITE_FRONT_URL}/auth/${generatedHash}`}
+              value={`${import.meta.env.VITE_FRONT_URL}/member/propAuth/${generatedHash}`}
               size={300}
             />
           )}
@@ -121,10 +121,10 @@ const UploadAuth = () => {
           </AgreeText>
         </AgreeContainer>
         <Button
-          onClick={() => navigate("/member/mypage")}
+          onClick={() => handleUpload()}
           disabled={!isButtonEnabled} // 조건을 기반으로 비활성화
         >
-          계속 진행하기
+          매물 등록하기
         </Button>
       </Container>
     </>

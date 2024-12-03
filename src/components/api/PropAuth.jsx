@@ -5,7 +5,7 @@ import cryptoJs from "crypto-js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function MobileAuth() {
+const PropAuth = () => {
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
   const [part1, setPart1] = useState(""); // 주민번호 앞 6자리
   const [part2, setPart2] = useState(""); // 주민번호 뒤 7자리
@@ -35,14 +35,25 @@ function MobileAuth() {
       const hashedCode = cryptoJs
         .SHA256(name + fullNationalID + ENC_KEY)
         .toString();
-      const response = await axios.get(
+      const response1 = await axios.get(
+        `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
+        {
+          params: { name: decodeURI(name), code: hashedCode, qrID: hashcode },
+        }
+      );
+      const response2 = await axios.get(
         `${import.meta.env.VITE_BACK_URL}/HLF/auth`,
         {
           params: { name: decodeURI(name), code: hashedCode, qrID: hashcode },
         }
       );
 
-      if (response.data && response.data.message === "Success") {
+      if (
+        response1.data &&
+        response1.data.message === "Success" &&
+        response2.data &&
+        response2.data.message === "Success"
+      ) {
         alert("신원 인증 성공");
         setIsAuthComplete(true);
       } else {
@@ -92,9 +103,9 @@ function MobileAuth() {
       </Container>
     </div>
   );
-}
+};
 
-export default MobileAuth;
+export default PropAuth;
 
 const Container = styled.div`
   display: flex;

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const GuestInfo = ({ item, onClose }) => {
   const navigate = useNavigate();
   const formatPrice = (value) => {
-    console.log(item);
     if (!value) return "0원";
     const num = Number(value);
     if (num >= 10000) {
@@ -25,7 +24,7 @@ const GuestInfo = ({ item, onClose }) => {
         <ExitButton onClick={onClose}>✕</ExitButton>
       </Header>
       <ImageContainer>
-        <Image src={item.image} alt="Room" />
+        <Image src={item.image[0]} alt="Room" />
       </ImageContainer>
 
       {item.itemType == "0" ? (
@@ -80,10 +79,18 @@ const GuestInfo = ({ item, onClose }) => {
       </InfoSection>
       <InfoSection>
         <h3>공인중개인 정보</h3>
-        <p><span>중개 사무소 정보</span> {item.memberOffice}</p>
-        <p><span>중개인</span> {item.member}</p>
-        <p><span>중개 등록 번호</span> {item.memberRegister}</p>
-        <p><span>대표 번호</span> {item.memberNumber}</p>
+        <p>
+          <span>중개 사무소 정보</span> {item.memberOffice}
+        </p>
+        <p>
+          <span>중개인</span> {item.member}
+        </p>
+        <p>
+          <span>중개 등록 번호</span> {item.memberRegister}
+        </p>
+        <p>
+          <span>대표 번호</span> {item.memberNumber}
+        </p>
       </InfoSection>
       <Footer>
         <Button

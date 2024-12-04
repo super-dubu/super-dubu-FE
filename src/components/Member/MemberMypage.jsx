@@ -168,9 +168,9 @@ function MemberMypage() {
                     <Time>
                       {book.date.slice(0, 10)} {book.time}
                     </Time>
-                    <Button onClick={() => goToContract(book.itemID)}>
+                    <GoButton onClick={() => goToContract(book.itemID)}>
                       계약 진행하기
-                    </Button>
+                    </GoButton>
                   </Row>
                   <TextContainer>
                     <Text>
@@ -296,6 +296,18 @@ const BookContainer = styled.div`
   align-items: center;
   gap: 2rem;
   overflow-y: auto;
+`;
+
+const GoButton = styled.button`
+  height: 2rem;
+  /* margin-top: 0.5rem; */
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+  background-color: white;
+  border: solid 1px #595959;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 const BookContent = styled.div`

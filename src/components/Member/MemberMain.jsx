@@ -9,7 +9,7 @@ import MemberInfo from "./MemberInfo.jsx";
 function MemberMain() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState(null);
-  const itemsPerPage = 8;
+  const itemsPerPage = 9;
   const { user } = useContext(AuthContext);
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");
@@ -159,13 +159,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 100vh;
 
 `;
 
@@ -175,7 +175,7 @@ const SideBar = styled.div`
   border-color: #9b9b9b;
   /* width: 35rem; */
   flex: 3.5;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -216,7 +216,7 @@ const Options = styled.div`
 
 const ItemContainer = styled.div`
   width: 100%;
-  max-height: 35rem;
+  max-height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -284,7 +284,7 @@ const PageButton = styled.button`
 
 const PageNumber = styled.div`
   font-size: 18px;
-  /* font-weight: bold; */
+  font-weight: bold;
   color: #545454;
   margin: 0 10px;
 

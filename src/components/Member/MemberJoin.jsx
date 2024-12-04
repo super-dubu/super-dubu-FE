@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import Swal from "sweetalert2"
 
 // 얘네가 schema, 어떤 식으로 데이터를 받아와야 하는지 입력 받을 때 바로바로 유효성 검사 해줄겨
 // 하고 id, pw, verify, name, phoneNumber, email, registerNumber.. 여기에 다 들어가
@@ -51,6 +52,15 @@ function MemberJoin() {
   const { data: agents, isLoading, isError } = GetData("/HLF/getAgents");
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
 
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
+
   const {
     register,
     handleSubmit,
@@ -64,12 +74,12 @@ function MemberJoin() {
   // 그리고 그 데이터들이랑 잘 스까가지고 묶어서 post를 보냄 => 회원가입
   const onSubmit = async (formData) => {
     if (isLoading) {
-      alert("데이터를 불러오는 중입니다...");
+      showAlert("로딩 중", "데이터를 불러오는 중입니다...", "info");
       return;
     }
 
     if (isError) {
-      alert("데이터를 불러오는 데 오류가 발생했습니다.");
+      showAlert("오류 발생", "데이터를 불러오는 데 오류가 발생했습니다.", "error");
       return;
     }
 
@@ -105,15 +115,14 @@ function MemberJoin() {
             },
           }
         );
-        alert(
-          "회원가입이 완료되었습니다. 로그인 후 서비스를 이용하실 수 있습니다."
+        showAlert( "회원가입 성공!", "회원가입이 완료되었습니다. 로그인 후 서비스를 이용하실 수 있습니다.", "success"
         );
         navigate("/member/login");
       } catch (error) {
-        alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        showAlert("회원가입 실패", "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.", "error");
       }
     } else {
-      alert("입력한 등록번호와 일치하는 데이터가 없습니다.");
+      showAlert("일치 오류","입력한 등록번호와 일치하는 데이터가 없습니다.", "error");
     }
   };
 

@@ -1,11 +1,21 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
 export const AuthContext = createContext();
+import Swal from "sweetalert2";
 
 // AuthContext.jsx
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -50,7 +60,7 @@ export const AuthProvider = ({ children }) => {
           setUser(parsedUser);
         }
       } catch (error) {
-        console.error("JSON parsing error:", error);
+        showAlert("데이터 파싱 실패", "데이터를 파싱하는데 실패하였습니다.", "error");
       }
     }
   }

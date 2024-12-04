@@ -8,6 +8,7 @@ import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
 import test from "../../img/image.png";
 import ContractCheck from "./ContractCheck";
+import Swal from "sweetalert2"
 
 function MemberMypage() {
   const navigate = useNavigate();
@@ -16,6 +17,15 @@ function MemberMypage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
   const [imageList, setImageList] = useState([]); // 이미지 리스트 상태 추가
+
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
 
   const {
     data: contract,
@@ -33,33 +43,23 @@ function MemberMypage() {
     user?.registerID ? `/reservation/view/${user?.registerID}` : null
   );
 
-  console.log("booking", booking);
-
-  console.log("user", user);
-  console.log(user.registerID);
-
   // 매물 정보 가져오기
   const { data: items, isLoading: itemsLoading } = getData(
     `/forsale/view?memberRegister=${user?.registerID}`
   );
-  console.log("itmes",items);
 
   if (userLoading && contractLoading && itemsLoading && bookingLoading) {
     return <h3>사용자 정보 로딩 중...</h3>;
   }
-  console.log("contract", contract);
+  
   const completedItemIDs = contract?.data?.result
     ?.filter((item) => item.itemInfo?.status === "COMMITTED" && item.agentInfo?.registerID === user.registerID) // 완료된 계약 필터링
     ?.map((item) => item.itemInfo?.itemID); // itemID만 추출
-
-    console.log("completed", completedItemIDs);
 
   // 예약 목록에서 완료된 계약 제거
   const filteredBookings = booking?.data?.reservation_list?.filter(
     (book) => !completedItemIDs?.includes(book.itemID)
   );
-
-  console.log("filteredBookings",filteredBookings);
 
   // 예약 목록 정렬 함수
   const sortedBookings =
@@ -78,7 +78,7 @@ function MemberMypage() {
     );
 
     if (!matchedItem) {
-      alert("해당 itemID에 대한 매물 정보를 찾을 수 없습니다.");
+      showAlert("매물 찾기 실패", "해당 itemID에 대한 매물 정보를 찾을 수 없습니다.", "error");
       return;
     }
 
@@ -121,13 +121,18 @@ function MemberMypage() {
     );
   };
 
-
-  const handleCancelBooking = (bookingID) => {
-    const confirmCancel = window.confirm(
-      "예약 취소 알림이 예약자에게 따로 가지 않습니다. \n정말 예약을 취소하시겠습니까?"
-    );
-    if (confirmCancel) {
-      // 예약 취소 API 요청 또는 상태 업데이트
+const handleCancelBooking = (bookingID) => {
+  Swal.fire({
+    title: "예약 취소 확인",
+    text: "예약 취소 알림이 예약자에게 따로 가지 않습니다. \n정말 예약을 취소하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "네, 취소합니다",
+    cancelButtonText: "아니요",
+    reverseButtons: true, // 버튼 순서를 뒤집음
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // 예약 취소 API 요청
       fetch(
         `${import.meta.env.VITE_BACK_URL}/reservation/delete/${bookingID}`,
         {
@@ -142,15 +147,17 @@ function MemberMypage() {
             throw new Error("예약 취소에 실패했습니다.");
           }
           // 성공적으로 삭제 후 예약 목록 갱신
-          alert("예약이 성공적으로 취소되었습니다.");
+          Swal.fire("취소 성공", "예약이 성공적으로 취소되었습니다.", "success");
           window.location.reload(); // 삭제 후 페이지 새로고침 (또는 상태 갱신)
         })
         .catch((error) => {
-          console.error("예약 취소 중 오류 발생:", error);
-          alert("예약 취소 중 문제가 발생했습니다.");
+          Swal.fire("취소 실패", "예약 취소 중 문제가 발생했습니다.", "error");
         });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire("취소되지 않았습니다", "예약 취소를 취소하셨습니다.", "info");
     }
-  };
+  });
+};
 
   return (
     <div>

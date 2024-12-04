@@ -9,12 +9,7 @@ const customerKey = import.meta.env.VITE_CUSTOM_KEY;
 
 const TossPayment = () => {
   const location = useLocation();
-  console.log(location.state);
   const { itemLog } = location.state || {};
-  
-  console.log(itemLog);
-  console.log(itemLog.itemInfo.priceRental);
-
   const [ready, setReady] = useState(false);
   const [widgets, setWidgets] = useState(null);
   const [amount, setAmount] = useState({

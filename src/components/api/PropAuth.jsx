@@ -4,6 +4,7 @@ import logo from "../../img/logo.png";
 import cryptoJs from "crypto-js";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const PropAuth = () => {
   const ENC_KEY = import.meta.env.VITE_ENC_KEY;
@@ -23,11 +24,20 @@ const PropAuth = () => {
       setter(filteredValue);
     }
   };
+  
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
 
   // 인증 처리 함수
   const handleAuth = async () => {
     if (!name || part1.length !== 6 || part2.length !== 7) {
-      alert("이름과 주민등록번호를 올바르게 입력해주세요.");
+      showAlert("입력 오류", "이름과 주민등록번호를 올바르게 입력해주세요.", "error");
       return;
     }
 
@@ -54,14 +64,17 @@ const PropAuth = () => {
         response2.data &&
         response2.data.message === "Success"
       ) {
-        alert("신원 인증 성공");
+        showAlert("인증 성공", "신원 인증이 완료되었습니다.", "success");
         setIsAuthComplete(true);
       } else {
-        alert("신원 인증 실패. 다시 시도해주세요.");
+        showAlert("인증 실패", "신원 인증에 실패했습니다. 다시 시도해주세요.", "error");
       }
     } catch (error) {
-      console.error("인증 오류:", error);
-      alert("서버와의 통신 중 오류가 발생했습니다. 다시 시도해주세요.");
+      showAlert(
+        "서버 오류",
+        "서버와의 통신 중 문제가 발생했습니다. 다시 시도해주세요.",
+        "error"
+      );
     }
   };
 

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../MemberHeader";
 import styled from "styled-components";
-import { AuthContext } from "../../api/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ContractContext } from "../../api/ContractContext";
 

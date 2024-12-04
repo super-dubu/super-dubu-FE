@@ -153,10 +153,10 @@ function Contract3() {
                       handleInputChange("manageFee", e.target.value)
                     }
                   />
-                  천 &nbsp; 원정 (\
+                  만 &nbsp; 원정 (\
                   <Input
                     $large
-                    placeholder={`₩ ${itemLog.itemInfo?.priceRental ? itemLog.itemInfo.manageFee * 1000 : ""}`}
+                    placeholder={`₩ ${itemLog.itemInfo?.priceRental ? itemLog.itemInfo.manageFee * 10000 : ""}`}
                   />
                   ) <GrayText>월 10만원 이상인 경우 세부금액 기재</GrayText>
                 </Text>

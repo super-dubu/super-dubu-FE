@@ -5,11 +5,21 @@ import cryptoJs from "crypto-js";
 import styled from "styled-components";
 import Header from "../Member/MemberHeader";
 import { QRCodeCanvas } from "qrcode.react";
+import Swal from "sweetalert2";
 
 const UploadAuth = () => {
   const location = useLocation();
   const { Property } = location.state || {};
   const navigate = useNavigate();
+
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
 
   const [isVerified, setIsVerified] = useState(false);
   const [selectedCheckbox, setSelectedCheckbox] = useState("");
@@ -26,17 +36,15 @@ const UploadAuth = () => {
         `${import.meta.env.VITE_BACK_URL}/forsale/add`,
         Property
       );
-      alert("매물 등록이 완료되었습니다.");
+      showAlert("등록 완료!", "매물 등록이 완료되었습니다.", "success");
       navigate("/member/mypage");
     } catch (error) {
-      console.error("Error uploading property:", error);
-      alert("매물 등록 중 오류가 발생했습니다.");
+      showAlert("오류 발생","매물 등록 중 오류가 발생했습니다.", "error");
     }
   };
 
   useEffect(() => {
     // 폴링으로 인증 상태 확인
-    console.log(generatedHash);
     const interval = setInterval(async () => {
       try {
         const response = await axios.get(
@@ -51,9 +59,7 @@ const UploadAuth = () => {
           setIsVerified(true);
           clearInterval(interval); // 폴링 중지
         }
-      } catch (error) {
-        console.error("Error verifying authentication:", error);
-      }
+      } catch (error) {}
     }, 3000); // 3초마다 확인
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 폴링 중지

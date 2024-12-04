@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { confirmPayment } from "../Toss/confirmPayments";
 import axios from "axios";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 const TransSuccess = () => {
   const navigate = useNavigate();
@@ -16,6 +17,15 @@ const TransSuccess = () => {
     paymentKey: query.get("paymentKey"),
   };
 
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
+
   const uploadData = async () => {
     try {
       const postData = JSON.parse(JSON.stringify(jsonData));
@@ -23,11 +33,10 @@ const TransSuccess = () => {
         `${import.meta.env.VITE_BACK_URL}/HLF/bank`,
         postData
       );
-      alert("결제가 승인되었습니다.");
-
+      showAlert("결제 완료", "결제가 승인되었습니다.", "success");
       navigate("/member");
     } catch (e) {
-      console.error("Error:", e);
+      showAlert("결제 실패", "결제가 취소되었습니다.", "error");
     }
   };
 
@@ -38,7 +47,7 @@ const TransSuccess = () => {
         const updatedJson = { ...json, TokenID: "1159010100102840001" };
         setJsonData(updatedJson);
       } catch (e) {
-        console.error("Error during confirmation: ", e);
+        showAlert("데이터 로딩 실패", "데이터를 가져오지 못했습니다.", "error");
       }
     };
     confirm();

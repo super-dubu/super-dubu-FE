@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ContractContext } from "../../api/ContractContext";
 import axios from "axios";
 import cryptoJs from "crypto-js";
+import Swal from "sweetalert2";
 
 function Contract6() {
   const { user } = useContext(AuthContext);
@@ -15,12 +16,19 @@ function Contract6() {
   const { itemLog, setItemLog } = useContext(ContractContext);
   const [isVerified, setIsVerified] = useState(false);
 
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
+
   const generatedHash = cryptoJs
     .SHA256(itemLog.itemInfo.itemID + Date.now())
     .toString()
     .slice(2, 12);
-
-    // console.log(generatedHash);
 
   useEffect(() => {
     // 폴링으로 인증 상태 확인
@@ -38,9 +46,7 @@ function Contract6() {
           setIsVerified(true);
           clearInterval(interval); // 폴링 중지
         }
-      } catch (error) {
-        console.error("Error verifying authentication:", error);
-      }
+      } catch (error) {}
     }, 3000); // 3초마다 확인
 
     return () => clearInterval(interval); // 컴포넌트 언마운트 시 폴링 중지
@@ -52,11 +58,10 @@ function Contract6() {
         `${import.meta.env.VITE_BACK_URL}/HLF/contract`,
         itemLog
       );
-      alert("계약이 완료되었습니다.");
+      showAlert("계약 완료", "계약이 완료되었습니다.", "success");
       navigate("/sandbox", { state: { itemLog } });
     } catch (error) {
-      console.error("Error uploading property:", error);
-      alert("예약 등록 중 오류가 발생했습니다.");
+      showAlert("오류 발생", "계약 등록 중 오류가 발생했습니다.", "error");
     }
   };
 

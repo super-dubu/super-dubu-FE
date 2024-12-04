@@ -14,14 +14,12 @@ import deunggi5 from '../../img/deunggi/5.jpeg'
 import toji1 from '../../img/toji/1.jpeg'
 import toji2 from '../../img/toji/2.jpeg'
 
-
 const MemberInfo = ({ item, onBack }) => {
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageList, setImageList] = useState([]);
   const images = [deunggi1, deunggi2, deunggi3, deunggi4, deunggi5, daejang1, daejang2, daejang3, toji1, toji2];
-
 
   const openModal = () => {
     setImageList(images); // 이미지 배열 설정

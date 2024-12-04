@@ -2,12 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../MemberHeader";
-import getData from "../../../hooks/GetData";
 import { ContractContext } from "../../api/ContractContext";
 
 function Contract2() {
-  // const [address, setAddress] = useState("");
-  // const [detailAddress, setDetailAddress] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCheckbox, setSelectedCheckbox] = useState({
     contractType: "",
@@ -20,11 +17,6 @@ function Contract2() {
   const { itemInfo } = location.state || {};
 
   const { itemLog, setItemLog } = useContext(ContractContext);
-
-  // 데이터 로딩
-  // const { data: building, isLoading, isError } = getData(
-  //   `HLF/getBuilding?tokenID=${PNU}`
-  // );
 
   useEffect(() => {
     if (itemLog && itemInfo) {
@@ -39,22 +31,6 @@ function Contract2() {
     }));
   };
 
-  // // 로딩 상태 처리
-  // if (!itemLog) {
-  //   return <p>로딩 중...</p>;
-  // }
-
-  // // 에러 상태 처리
-  // if (isError) {
-  //   return <p>데이터를 불러오는 중 오류가 발생했습니다.</p>;
-  // }
-
-  // 데이터가 로드된 후 렌더링
-  // const contractItem = building?.data?.result;
-
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
   return (
     <div>
       <Header />

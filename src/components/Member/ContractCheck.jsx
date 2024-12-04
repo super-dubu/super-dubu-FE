@@ -8,8 +8,6 @@ const ContractCheck = () => {
   const { user } = useContext(AuthContext);
   const { data: contract, isLoading, isError } = GetData("/HLF/getAllContract");
   const [selectedStatus, setSelectedStatus] = useState("PENDING");
-  console.log(user);
-  console.log(contract)
 
   const handleStatusChange = (status) => {
     setSelectedStatus(status);

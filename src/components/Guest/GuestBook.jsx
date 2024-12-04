@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { useNavigate, useLocation } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const GuestBook = () => {
   const [isDateModalOpen, setDateModalOpen] = useState(false);
@@ -17,6 +18,15 @@ const GuestBook = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { item: it } = location.state;
+
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
 
   // 모든 필드가 유효한지 확인
   const isFormValid =
@@ -44,11 +54,10 @@ const GuestBook = () => {
         `${import.meta.env.VITE_BACK_URL}/reservation/add`,
         reservationData
       );
-      alert("예약 등록이 완료되었습니다.");
+      showAlert("예약 완료", "예약 등록이 완료되었습니다.", "success");
       navigate("/sell");
     } catch (error) {
-      console.error("Error uploading property:", error);
-      alert("예약 등록 중 오류가 발생했습니다.");
+      showAlert("오류 발생", "예약 등록 중 오류가 발생했습니다.", "error");
     }
     setSuccessModalOpen(true);
   };

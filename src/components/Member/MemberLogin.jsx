@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../api/AuthContext";
 import CryptoJS from "crypto-js";
+import Swal from "sweetalert2"
 
 function MemberLogin() {
   const navigate = useNavigate();
@@ -19,6 +20,15 @@ function MemberLogin() {
     }
   };
 
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
+
   const handleLogin = async () => {
     try {
       const hashedPassword = CryptoJS.SHA256(password + ENC_KEY).toString();
@@ -31,8 +41,6 @@ function MemberLogin() {
       );
 
       if (response.data.valid) {
-        alert("로그인 성공!");
-
         const token = response.data.token;
         localStorage.setItem("token", response);
         
@@ -47,15 +55,14 @@ function MemberLogin() {
             },
           }
         );
-
+        showAlert("로그인 성공!", `${userInfoResponse.data.user.agentName} 공인중개사님, 반갑습니다!`, "success");
         login(userInfoResponse.data.user);
         navigate("/member");
       } else {
-        alert("유효하지 않은 아이디 또는 비밀번호입니다.");
+        showAlert("로그인 실패", "유효하지 않은 아이디 또는 비밀번호입니다.", "error");
       }
     } catch (error) {
-      console.error("로그인 요청 중 오류 발생:", error);
-      alert("로그인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      showAlert("오류 발생", "로그인 중 오류가 발생했습니다. 다시 시도해 주세요.", "error");
     }
   };
 

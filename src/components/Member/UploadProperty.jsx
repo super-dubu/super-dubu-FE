@@ -7,6 +7,7 @@ import DaumPostModal from "../api/DaumPost";
 import { AuthContext } from "../api/AuthContext";
 import GetData from "../../hooks/GetData";
 import axios from "axios";
+import Swal from "sweetalert2"
 
 function UploadProperty() {
   const [selectedCheckbox, setSelectedCheckbox] = useState("");
@@ -108,6 +109,15 @@ function UploadProperty() {
     }
   };
 
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: "확인",
+    });
+  };
+
   const handleFileUpload = async (e) => {
     e.preventDefault();
     const files = e.target.files;
@@ -120,7 +130,6 @@ function UploadProperty() {
 
   const handleUploadProperty = async () => {
     try {
-      // 1. 이미지를 서버에 저장
       const response = await axios.post(
         `${import.meta.env.VITE_BACK_URL}/forsale/upload`,
         formData
@@ -129,19 +138,12 @@ function UploadProperty() {
 
       if (response.data.length > 0) {
         Property.image = response.data;
-        // // 2. 이미지를 포함한 Property 데이터를 서버에 전달
-        // const propertyResponse = await axios.post(
-        //   `${import.meta.env.VITE_BACK_URL}/forsale/add`,
-        //   Property
-        // );
-        // alert("매물 등록이 완료되었습니다.");
         navigate("/member/uploadAuth", { state: {Property} });
       } else {
-        throw new Error("이미지 업로드 실패");
+        showAlert("오류 발생", "이미지 등록을 실패했습니다.", "error");
       }
     } catch (error) {
-      console.error("Error uploading property:", error);
-      alert("매물 등록 중 오류가 발생했습니다.");
+      showAlert("오류 발생", "매물 등록 중 오류가 발생했습니다.", "error");
     }
   };
 
@@ -153,7 +155,6 @@ function UploadProperty() {
 
   useEffect(() => {
     if (debouncedDetailAddress) {
-      // console.log("Debounced Detail Address:", debouncedDetailAddress);
     }
   }, [debouncedDetailAddress]);
 

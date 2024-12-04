@@ -9,7 +9,7 @@ import MemberInfo from "./MemberInfo.jsx";
 function MemberMain() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState(null);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
   const { user } = useContext(AuthContext);
 
   const { data: items, isLoading, isError } = getData("/HLF/getBuildings");

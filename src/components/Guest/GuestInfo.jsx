@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 const GuestInfo = ({ item, onClose }) => {
   const navigate = useNavigate();
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % item.image.length); 
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? item.image.length - 1 : prevIndex - 1 
+    );
+  };
+
   const formatPrice = (value) => {
     if (!value) return "0원";
     const num = Number(value);
@@ -14,7 +28,8 @@ const GuestInfo = ({ item, onClose }) => {
   };
 
   return (
-    <ItemContainer>
+    <>
+    <ItemContainer >
       <Header>
         {item.buildingName ? (
           <span>{item.buildingName}</span>
@@ -24,7 +39,16 @@ const GuestInfo = ({ item, onClose }) => {
         <ExitButton onClick={onClose}>✕</ExitButton>
       </Header>
       <ImageContainer>
-        <Image src={item.image[0]} alt="Room" />
+        <NavButton onClick={handlePrev} position="left">{"<"}</NavButton>
+        <Image
+          src={`${import.meta.env.VITE_IMAGE_URL}/${item.image[currentIndex].split('uploads')[1].substring(1)}`}
+          alt="Room"
+          onClick={() => setIsModalOpen(true)}
+        />
+        <NavButton onClick={handleNext} position="right">{">"}</NavButton>
+        <ImageCounter>
+          {currentIndex + 1} / {item.image.length}
+        </ImageCounter>
       </ImageContainer>
 
       {item.itemType == "0" ? (
@@ -100,6 +124,26 @@ const GuestInfo = ({ item, onClose }) => {
         </Button>
       </Footer>
     </ItemContainer>
+    {isModalOpen && (
+  <Modal>
+    <ModalContent>
+      <NavButton onClick={handlePrev} position="left">{"<"}</NavButton>
+      <ModalImage
+        src={`${import.meta.env.VITE_IMAGE_URL}/${item.image[currentIndex].split(
+          "uploads"
+        )[1].substring(1)}`}
+        alt="Room"
+      />
+      <ImageCounter>
+        {currentIndex + 1} / {item.image.length}
+      </ImageCounter>
+      <NavButton onClick={handleNext} position="right">{">"}</NavButton>
+      <CloseButton onClick={() => setIsModalOpen(false)}>✕</CloseButton>
+    </ModalContent>
+  </Modal>
+)}
+
+    </>
   );
 };
 
@@ -131,16 +175,47 @@ const Header = styled.div`
 `;
 
 const ImageContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 250px;
   background-color: #f5f5f5;
 `;
 
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
+`;
+
+const NavButton = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${({ position }) => (position === "left" ? "left: 10px;" : "right: 10px;")}
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+`;
+
+const ImageCounter = styled.div`
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 10px;
 `;
 
 const InfoSection = styled.div`
@@ -187,24 +262,68 @@ const Button = styled.button`
 
 const InfoRow = styled.div`
   display: flex;
-  justify-content: space-between; /* 분류와 데이터 값 사이를 간격으로 정렬 */
-  align-items: center; /* 수직 정렬 */
-  padding: 4px 0; /* 위아래 패딩 추가 */
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
 `;
 
 const Label = styled.div`
   font-weight: bold;
-  color: #767676; /* 분류 텍스트 색상 */
-
-  /* span{
-    color: #121212;
-    text-align: left;
-  } */
+  color: #767676;
 `;
 
 const Value = styled.span`
-  color: #121212; /* 데이터 값 텍스트 색상 */
-  text-align: left; /* 왼쪽 정렬 */
+  color: #121212;
+  text-align: left;
+`;
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30rem;
+  height: auto;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #929292;
+`;
+
+const ModalImage = styled.img`
+  max-width: 80%;
+  max-height: 80%;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+
+  &:hover {
+    color: #ff6961;
+  }
 `;
 
 export default GuestInfo;

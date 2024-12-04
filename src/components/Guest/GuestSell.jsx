@@ -179,7 +179,7 @@ const GuestSell = () => {
                 <ItemList>
                   {itemsToDisplay?.map((it) => (
                     <Item key={it.itemID} onClick={() => handleItemClick(it)}>
-                      <ItemImg src={it.img} alt="item" />
+                      <ItemImg src={`${import.meta.env.VITE_IMAGE_URL}/${it.image[0].split('uploads')[1].substring(1)}`} alt="item" />
                       {it.itemType === "0" ? (
                         <ItemDetails>
                           <ItemInfo>

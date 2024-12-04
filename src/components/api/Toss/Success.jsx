@@ -24,6 +24,7 @@ const TransSuccess = () => {
         postData
       );
       alert("결제가 승인되었습니다.");
+
       navigate("/member");
     } catch (e) {
       console.error("Error:", e);

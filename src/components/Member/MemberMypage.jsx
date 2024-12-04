@@ -301,7 +301,7 @@ const BookContainer = styled.div`
   margin-top: 2rem;
   align-items: center;
   gap: 2rem;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 `;
 
 const GoButton = styled.button`
@@ -323,10 +323,9 @@ const BookContent = styled.div`
   border-style: solid;
   border-color: #595959;
   border-width: 0 0 0 4px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
   position: relative;
   margin-left: -3rem;
-  /* padding: 1rem; */
 `;
 
 const Time = styled.div`
@@ -391,47 +390,38 @@ const ItemContainer = styled.div`
   /* border-style: solid;
   border-width: 1px 0 0 0;
   border-color: #b9b9b9; */
+  padding: 1rem;
+  gap: 2rem;
 `;
 
 const Item = styled.div`
-  width: 100%;
-  height: 20rem; /* 고정 높이 설정 */
+  width: 90%;
+  height: auto; /* 고정 높이 설정 */
   display: flex;
   flex-direction: row;
-  border-style: solid;
-  border-width: 0 0 1px 0;
-  border-color: #b9b9b9;
+  /* border-style: solid; */
+  /* border-width: 0.8px; */
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+  /* border-width: 1px; */
+  border-color: #9a9a9a;
+  border-radius: 10px;
+  padding: 1rem;
 `;
 
 const TextArea = styled.div`
   flex: 6;
   display: flex;
   flex-direction: column;
-  padding: 2rem 1rem 2rem 0;
+  padding: 2rem 1rem 4rem 0;
   justify-content: center;
 `;
 
 const Info = styled.div``;
 
-// const Image = styled.img`
-//   width: 100%;
-//   height: auto;
-//   object-fit: cover;
-// `;
-
-// const ImageArea = styled.div`
-//   flex: 4;
-//   height: 90%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   /* overflow: hidden; 이미지를 컨테이너 안에 숨김 처리 */
-//   padding: 1rem;
-// `;
-
 const Price = styled.div`
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
+  margin-bottom: 1rem;
 `;
 
 const ImageArea = styled.div`
@@ -447,8 +437,9 @@ const ImageArea = styled.div`
 `;
 
 const Image = styled.img`
-  width: 80%;
+  width: 70%;
   height: auto;
+  border-radius: 10px;
   object-fit: cover;
   cursor: pointer; /* 클릭할 수 있음을 나타내기 위해 포인터 추가 */
 `;
@@ -482,6 +473,7 @@ const Button = styled.button`
   background: transparent;
   border: none;
   font-size: 24px;
+  font-weight: bold;
   cursor: pointer;
   color: #929292;
 `;
@@ -489,6 +481,7 @@ const Button = styled.button`
 const PageNumber = styled.span`
   margin: 0 15px;
   font-size: 18px;
+  font-weight: bold;
 `;
 
 const CloseButton = styled.button`

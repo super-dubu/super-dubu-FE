@@ -10,7 +10,7 @@ import test from "../../img/image.png";
 import ContractCheck from "./ContractCheck";
 
 function MemberMypage() {
-  const { user } = useContext(AuthContext);
+  const { user , isLoading:userLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -28,15 +28,23 @@ function MemberMypage() {
     `/reservation/view/${user?.registerID}`
   );
 
+  console.log("user", user);
+  console.log(user.registerID);
+
   // 매물 정보 가져오기
   const { data: items, isLoading: itemsLoading } = getData(
     `/forsale/view?memberRegister=${user?.registerID}`
   );
   console.log("itmes",items);
- 
-  // items.data.properties[0].image.forEach((img, i) => {
-  //   console.log(`Image ${i}:`, img);  // 각 이미지의 경로를 출력
-  // });
+
+  if (userLoading && itemLoading) {
+    return <h3>사용자 정보 로딩 중...</h3>;
+  }
+
+  // user 정보가 없다면 오류 메시지 표시
+  if (!user) {
+    return <h3>로그인 정보가 없습니다.</h3>;
+  }
 
   const completedItemIDs = contract?.data?.result
     ?.filter((item) => item.itemInfo?.status === "COMITTED") // 완료된 계약 필터링
@@ -89,6 +97,10 @@ function MemberMypage() {
     setModalOpen(false);
     setSelectedImage(null);
   };
+
+  if (!items || items.data?.properties?.length === 0) {
+    return <h3>매물 정보가 없습니다.</h3>; // 매물 정보가 없을 때 표시
+  }
 
   // 페이지네이션 기능
   const goToNextImage = () => {
@@ -187,44 +199,46 @@ function MemberMypage() {
         <Content>
           <Title>나의 매물</Title>
           <ItemContainer>
-            {items?.data?.properties?.map((it, index) => (
-              <Item key={index}>
-                <ImageArea>
-                {it.image?.length > 0 && (
-                  <Image
-                    src={`${import.meta.env.VITE_IMAGE_URL}/${it.image[0].split('uploads')[1].substring(1)}`} // 경로 잘라서 첫 번째 이미지 표시
-                    onClick={() => openModal(it.image, 0)} // 첫 번째 이미지 클릭 시 모달 열기
-                  />
-                )}
-              </ImageArea>
-                <TextArea>
-                  <TextContainer>
-                    <Price>
-                      {it.itemType === "1"
-                        ? "월세 "
-                        : it.itemType === "0"
-                          ? "전세 "
-                          : "정보 없음"}
-                      {it.priceRental}
-                      {it.priceMonthly ? ` / ${it.priceMonthly}` : ""}
-                    </Price>
-                    <Info>
-                      {it.buildingAddress || "정보 없음"}{" "}
-                      {it.buildingName || ""} {it.hosu || ""}
-                    </Info>
-                    <Info>
-                      {it.area
-                        ? `${(it.area / 100).toFixed(2)} ㎡`
-                        : "정보 없음"}{" "}
-                      {it.floorInfo ? `, ${it.floorInfo}층` : ""}{" "}
-                      {it.manageFee ? `, 관리비 ${it.manageFee}만원` : ""}
-                    </Info>
-                    <Info>{it.body || ""}</Info>
-                  </TextContainer>
-                </TextArea>
-              </Item>
-            ))}
-          </ItemContainer>
+  {items?.data?.properties
+    ?.filter((it) => it.memberRegister === user?.registerID) // memberRegister가 일치하는 항목만 필터링
+    ?.map((it, index) => (
+      <Item key={index}>
+        <ImageArea>
+          {it.image?.length > 0 && (
+            <Image
+              src={`${import.meta.env.VITE_IMAGE_URL}/${it.image[0].split('uploads')[1].substring(1)}`} // 경로 잘라서 첫 번째 이미지 표시
+              onClick={() => openModal(it.image, 0)} // 첫 번째 이미지 클릭 시 모달 열기
+            />
+          )}
+        </ImageArea>
+        <TextArea>
+          <TextContainer>
+            <Price>
+              {it.itemType === "1"
+                ? "월세 "
+                : it.itemType === "0"
+                ? "전세 "
+                : "정보 없음"}
+              {it.priceRental}
+              {it.priceMonthly ? ` / ${it.priceMonthly}` : ""}
+            </Price>
+            <Info>
+              {it.buildingAddress || "정보 없음"}{" "}
+              {it.buildingName || ""} {it.hosu || ""}
+            </Info>
+            <Info>
+              {it.area
+                ? `${(it.area / 100).toFixed(2)} ㎡`
+                : "정보 없음"}{" "}
+              {it.floorInfo ? `, ${it.floorInfo}층` : ""}{" "}
+              {it.manageFee ? `, 관리비 ${it.manageFee}만원` : ""}
+            </Info>
+            <Info>{it.body || ""}</Info>
+          </TextContainer>
+        </TextArea>
+      </Item>
+    ))}
+</ItemContainer>
         </Content>
       </Container>
       {isModalOpen && (

@@ -10,8 +10,8 @@ import test from "../../img/image.png";
 import ContractCheck from "./ContractCheck";
 
 function MemberMypage() {
-  const { user , isLoading:userLoading } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { user , isLoading:userLoading, getUser } = useContext(AuthContext);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 이미지 인덱스
@@ -23,10 +23,17 @@ function MemberMypage() {
     contractError,
   } = getData("/HLF/getAllContract");
 
+    // user 정보가 없다면 오류 메시지 표시
+  if (!user) {
+    return <h3>로그인 정보가 없습니다.</h3>;
+  }
+
   // 예약 정보 가져오기
   const { data: booking, isLoading: bookingLoading } = getData(
-    `/reservation/view/${user?.registerID}`
+    user?.registerID ? `/reservation/view/${user?.registerID}` : null
   );
+
+  console.log("booking", booking);
 
   console.log("user", user);
   console.log(user.registerID);
@@ -40,20 +47,19 @@ function MemberMypage() {
   if (userLoading && contractLoading && itemsLoading && bookingLoading) {
     return <h3>사용자 정보 로딩 중...</h3>;
   }
-
-  // user 정보가 없다면 오류 메시지 표시
-  if (!user) {
-    return <h3>로그인 정보가 없습니다.</h3>;
-  }
-
+  console.log("contract", contract);
   const completedItemIDs = contract?.data?.result
-    ?.filter((item) => item.itemInfo?.status === "COMITTED") // 완료된 계약 필터링
+    ?.filter((item) => item.itemInfo?.status === "COMMITTED" && item.agentInfo?.registerID === user.registerID) // 완료된 계약 필터링
     ?.map((item) => item.itemInfo?.itemID); // itemID만 추출
+
+    console.log("completed", completedItemIDs);
 
   // 예약 목록에서 완료된 계약 제거
   const filteredBookings = booking?.data?.reservation_list?.filter(
     (book) => !completedItemIDs?.includes(book.itemID)
   );
+
+  console.log("filteredBookings",filteredBookings);
 
   // 예약 목록 정렬 함수
   const sortedBookings =

@@ -24,8 +24,7 @@ const TransSuccess = () => {
         postData
       );
       alert("결제가 승인되었습니다.");
-      
-      window.location.href = '/member/mypage';
+      navigate("/member");
     } catch (e) {
       console.error("Error:", e);
     }
@@ -41,7 +40,6 @@ const TransSuccess = () => {
         console.error("Error during confirmation: ", e);
       }
     };
-
     confirm();
   }, []);
 

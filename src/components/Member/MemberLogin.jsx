@@ -34,8 +34,8 @@ function MemberLogin() {
         alert("로그인 성공!");
 
         const token = response.data.token;
-        localStorage.setItem("token", token);
-
+        localStorage.setItem("token", response);
+        
         const userInfoResponse = await axios.get(
           `${import.meta.env.VITE_BACK_URL}/memberLogin/memberInfo`,
           {

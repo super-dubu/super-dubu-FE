@@ -39,8 +39,24 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("isLoggedIn", "false");
   };
 
+  const getUser = () => {
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedUser = localStorage.getItem("user");
+    if (storedIsLoggedIn && storedUser) {
+      try {
+        const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+        if (parsedUser) {
+          setIsLoggedIn(true);
+          setUser(parsedUser);
+        }
+      } catch (error) {
+        console.error("JSON parsing error:", error);
+      }
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, user, setUser }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, user, setUser, getUser }}>
       {children}
     </AuthContext.Provider>
   );

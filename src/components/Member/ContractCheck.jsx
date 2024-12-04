@@ -8,6 +8,8 @@ const ContractCheck = () => {
   const { user } = useContext(AuthContext);
   const { data: contract, isLoading, isError } = GetData("/HLF/getAllContract");
   const [selectedStatus, setSelectedStatus] = useState("PENDING");
+  console.log(user);
+  console.log(contract)
 
   const handleStatusChange = (status) => {
     setSelectedStatus(status);
@@ -22,7 +24,7 @@ const ContractCheck = () => {
   }
 
   const filteredContracts = contract.data.result.filter(
-    (item) => item.itemInfo.status === selectedStatus
+    (item) => item.itemInfo.status === selectedStatus && item.agentInfo.agentName === user.agentName
   );
 
   return (
@@ -62,13 +64,6 @@ const ContractCheck = () => {
                 <p>
                   <span>주소</span>{" "}
                   {item.itemInfo.buildingAddress || "정보 없음"}
-                </p>
-                {/* <p><span>상태</span>  {item.itemInfo.status || "정보 없음"}</p> */}
-                <p>
-                  <span>임차인</span> {item.lesseeName || "정보 없음"}
-                </p>
-                <p>
-                  <span>임대인</span> {item.lessorName || "정보 없음"}
                 </p>
                 <p>
                   <span>계약일</span> {item.tradeDate || "정보 없음"}

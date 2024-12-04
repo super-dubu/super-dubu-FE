@@ -33,7 +33,7 @@ const PropAuth = () => {
 
     try {
       const hashedCode = cryptoJs
-        .SHA256(name + fullNationalID + ENC_KEY)
+        .SHA256(name + fullNationalID + ENC_KEY + Date.now())
         .toString();
       const response1 = await axios.get(
         `${import.meta.env.VITE_BACK_URL}/HLF/auth`,

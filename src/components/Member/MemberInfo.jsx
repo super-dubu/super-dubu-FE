@@ -1,8 +1,51 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
+
+import daejang1 from "../../img/daejang/1.jpeg"
+import daejang2 from "../../img/daejang/2.jpeg"
+import daejang3 from "../../img/daejang/3.jpeg"
+
+import deunggi1 from '../../img/deunggi/1.jpeg'
+import deunggi2 from '../../img/deunggi/2.jpeg'
+import deunggi3 from '../../img/deunggi/3.jpeg'
+import deunggi4 from '../../img/deunggi/4.jpeg'
+import deunggi5 from '../../img/deunggi/5.jpeg'
+
+import toji1 from '../../img/toji/1.jpeg'
+import toji2 from '../../img/toji/2.jpeg'
+
 
 const MemberInfo = ({ item, onBack }) => {
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageList, setImageList] = useState([]);
+  const images = [deunggi1, deunggi2, deunggi3, deunggi4, deunggi5, daejang1, daejang2, daejang3, toji1, toji2];
+
+
+  const openModal = () => {
+    setImageList(images); // 이미지 배열 설정
+    setCurrentImageIndex(0); // 첫 번째 이미지로 설정
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const goToNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageList.length);
+  };
+
+  // 이전 이미지로 이동
+  const goToPrevImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + imageList.length) % imageList.length
+    );
+  };
+
   return (
+    <div>
     <CenteredContainer>
       <InfoContainer>
         <BackButton onClick={onBack}>← 목록으로</BackButton>
@@ -37,8 +80,24 @@ const MemberInfo = ({ item, onBack }) => {
             <Key>방 개수</Key> <Value>{item.roomCount}</Value>
           </Row>
         </InfoContent>
+        <Image src={images[0]} onClick={openModal}></Image>
       </InfoContainer>
     </CenteredContainer>
+    {isModalOpen && (
+        <Modal onClick={closeModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalImage src={imageList[currentImageIndex]} alt="모달 이미지" />
+            <Pagination>
+              <Button onClick={goToPrevImage}>{"<"}</Button>
+              <PageNumber>
+                {currentImageIndex + 1} / {imageList.length}
+              </PageNumber>
+              <Button onClick={goToNextImage}>{">"}</Button>
+            </Pagination>
+          </ModalContent>
+        </Modal>
+      )}
+    </div>
   );
 };
 
@@ -46,13 +105,13 @@ const CenteredContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: start;
-  height: 90%;
+  /* height: 90%; */
   background-color: #f7f9fc;
 `;
 
 const InfoContainer = styled.div`
   width: 35%;
-  height: 100%;
+  height: auto;
   padding: 2rem;
   background-color: white;
   /* border-radius: 15px; */
@@ -93,6 +152,7 @@ const InfoContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 1rem;
 `;
 
 const Row = styled.div`
@@ -113,6 +173,73 @@ const Key = styled.span`
 const Value = styled.span`
   flex-basis: 60%;
   color: #555;
+`;
+
+const Image = styled.img`
+  width: 60%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer; /* 클릭할 수 있음을 나타내기 위해 포인터 추가 */
+`;
+
+const ModalImage = styled.img`
+  width: 150%;
+  height: auto;
+  object-fit: cover;
+  /* cursor: pointer;  */
+`;
+
+const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30rem;
+  height: auto;
+  transform: translate(-50%, -50%);
+  /* background-color: white; */
+  padding: 20px;
+  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #929292;
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+`;
+
+const Button = styled.button`
+  background: transparent;
+  border: none;
+  font-weight: 900;
+  font-size: 24px;
+  cursor: pointer;
+  color: #929292;
+`;
+
+const PageNumber = styled.span`
+  margin: 0 15px;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* 배경을 어둡게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 `;
 
 export default MemberInfo;

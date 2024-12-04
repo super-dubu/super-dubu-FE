@@ -13,6 +13,54 @@ const ContractCheck = () => {
     setSelectedStatus(status);
   };
 
+  const getRentType = (itemType) => {
+    if (itemType === "0") {
+      return "전세";
+    } else if (itemType === "1") {
+      return "월세";
+    } else {
+      return "알 수 없음";
+    }
+  };
+  
+  const getBuilding = (type) => {
+    switch (type) {
+      case "0":
+        return "원/투룸";
+      case "1":
+        return "오피스텔";
+      case "2":
+        return "아파트/빌라";
+      case "3":
+        return "주택";
+      case "4":
+        return "상가/사무실";
+      default:
+        return "카테고리";
+    }
+  };  
+
+  const formatPrice = (value) => {
+    if (!value) return "0원";
+    const num = Number(value);
+    if (num >= 10000) {
+      return `${Math.floor(num / 10000)}억 ${
+        num % 10000 > 0 ? `${num % 10000}만원` : ""
+      }`;
+    }
+    return `${num}만`;
+  };
+
+  const renderPrice = (item) => {
+    if (item.itemInfo.itemType === "0") {
+      return `${formatPrice(item.itemInfo.priceRental) || "정보 없음"}`;
+    } else if (item.itemInfo.itemType === "1") {
+      return `${formatPrice(item.itemInfo.priceRental) || "정보 없음"} / ${formatPrice(item.itemInfo.priceMonthly) || "정보 없음"}`;
+    } else {
+      return "알 수 없음";
+    }
+  };
+
   if (isLoading) {
     return <Message>데이터 로딩 중...</Message>;
   }
@@ -64,7 +112,16 @@ const ContractCheck = () => {
                   {item.itemInfo.buildingAddress || "정보 없음"}
                 </p>
                 <p>
+                  <span>종류</span> {getBuilding(item.itemInfo.buildingType)}
+                </p>
+                <p>
                   <span>계약일</span> {item.tradeDate || "정보 없음"}
+                </p>
+                <p>
+                  <span>계약금</span> {renderPrice(item)}
+                </p>
+                <p>
+                  <span>계약 형태</span> {getRentType(item.itemInfo.itemType)}
                 </p>
               </ContractItem>
             ))

@@ -2,12 +2,9 @@ import React, { useContext, useState } from "react";
 import Header from "../Member/MemberHeader";
 import styled from "styled-components";
 import SideBar from "./MemberSide";
-import Photo from "../../img/image.png";
 import { AuthContext } from "../api/AuthContext";
 import getData from "../../hooks/GetData";
 import { useNavigate } from "react-router-dom";
-import test from "../../img/image.png";
-import ContractCheck from "./ContractCheck";
 import Swal from "sweetalert2"
 
 function MemberMypage() {
@@ -25,6 +22,17 @@ function MemberMypage() {
       icon,
       confirmButtonText: "확인",
     });
+  };
+
+  const formatPrice = (value) => {
+    if (!value) return "0원";
+    const num = Number(value);
+    if (num >= 10000) {
+      return `${Math.floor(num / 10000)}억 ${
+        num % 10000 > 0 ? `${num % 10000}만원` : ""
+      }`;
+    }
+    return `${num}만원`;
   };
 
   const {
@@ -69,8 +77,6 @@ function MemberMypage() {
       return dateTimeA - dateTimeB; // 가까운 날짜/시간 순으로 정렬
     }) || [];
 
-  // {sortedBookings ? console.log("Sorting Dates:", dateTimeA, dateTimeB) : ""};
-
   // Contract1으로 이동
   const goToContract = (bookItemID) => {
     const matchedItem = items?.data?.properties.find(
@@ -88,9 +94,6 @@ function MemberMypage() {
       },
     });
   };
-  // if (bookingLoading || itemsLoading) {
-  //   return <p>로딩 중...</p>;
-  // }
 
   const openModal = (images, index) => {
     setImageList(images); // 이미지 리스트 설정
@@ -98,7 +101,6 @@ function MemberMypage() {
     setModalOpen(true);
   };
 
-  // 모달 닫기
   const closeModal = () => {
     setModalOpen(false);
     setSelectedImage(null);
@@ -232,8 +234,8 @@ const handleCancelBooking = (bookingID) => {
                 : it.itemType === "0"
                 ? "전세 "
                 : "정보 없음"}
-              {it.priceRental}
-              {it.priceMonthly ? ` / ${it.priceMonthly}` : ""}
+              {formatPrice(it.priceRental)}
+              {it.priceMonthly ? ` /  ${formatPrice(it.priceMonthly)}` : ""}
             </Price>
             <Info>
               {it.buildingAddress || "정보 없음"}{" "}

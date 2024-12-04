@@ -37,7 +37,7 @@ function MemberMypage() {
   );
   console.log("itmes",items);
 
-  if (userLoading && itemLoading) {
+  if (userLoading && contractLoading && itemsLoading && bookingLoading) {
     return <h3>사용자 정보 로딩 중...</h3>;
   }
 
